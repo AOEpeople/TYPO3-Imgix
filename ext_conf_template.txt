@@ -8,7 +8,7 @@ host=meinesubdomain.imgix.net
 enableHostReplacement=1
 
 # cat=imgix; type=string; label=fluidClass:Option for http://github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
-imgix.fluid.fluidClass=
+imgix.fluid.fluidClass=imgix-fluid
 
 # cat=imgix; type=options[default=,on=1,off=0]; label=updateOnResize:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
 imgix.fluid.updateOnResize=
