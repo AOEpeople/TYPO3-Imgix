@@ -1,6 +1,8 @@
 <?php
 namespace Aoe\Imgix\TYPO3;
 
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     public function tearDown()
@@ -13,9 +15,21 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldGetHost()
     {
+        $configurationManager = $this->getMockedConfigurationManager([]);
         $this->fakeConfiguration(['host' => 'mysubdomain.imgix.net']);
-        $configuration = new Configuration();
+        $configuration = new Configuration($configurationManager);
         $this->assertSame('mysubdomain.imgix.net', $configuration->getHost());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetOverwrittenHostBySettings()
+    {
+        $configurationManager = $this->getMockedConfigurationManager(['host' => 'mysubdomain2.imgix.net']);
+        $this->fakeConfiguration(['host' => 'mysubdomain.imgix.net']);
+        $configuration = new Configuration($configurationManager);
+        $this->assertSame('mysubdomain2.imgix.net', $configuration->getHost());
     }
 
     /**
@@ -23,9 +37,21 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldGetEnabled()
     {
+        $configurationManager = $this->getMockedConfigurationManager([]);
         $this->fakeConfiguration(['enabled' => '1']);
-        $configuration = new Configuration();
+        $configuration = new Configuration($configurationManager);
         $this->assertTrue($configuration->isEnabled());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetEnabledOverwrittenBySettings()
+    {
+        $configurationManager = $this->getMockedConfigurationManager(['enabled' => '0']);
+        $this->fakeConfiguration(['enabled' => '1']);
+        $configuration = new Configuration($configurationManager);
+        $this->assertFalse($configuration->isEnabled());
     }
 
     /**
@@ -33,9 +59,21 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldGetEnableHostReplacement()
     {
+        $configurationManager = $this->getMockedConfigurationManager([]);
         $this->fakeConfiguration(['enableHostReplacement' => '0']);
-        $configuration = new Configuration();
+        $configuration = new Configuration($configurationManager);
         $this->assertFalse($configuration->isHostReplacementEnabled());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetEnableHostReplacementOverwrittenBySettings()
+    {
+        $configurationManager = $this->getMockedConfigurationManager(['enableHostReplacement' => '1']);
+        $this->fakeConfiguration(['enableHostReplacement' => '0']);
+        $configuration = new Configuration($configurationManager);
+        $this->assertTrue($configuration->isHostReplacementEnabled());
     }
 
     /**
@@ -43,8 +81,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldGetEmptyImgixFluidOptions()
     {
+        $configurationManager = $this->getMockedConfigurationManager([]);
         $this->fakeConfiguration([]);
-        $configuration = new Configuration();
+        $configuration = new Configuration($configurationManager);
         $this->assertSame([], $configuration->getImgixFluidOptions());
     }
 
@@ -53,6 +92,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldGetImgixFluidOptions()
     {
+        $configurationManager = $this->getMockedConfigurationManager([]);
         $this->fakeConfiguration(['imgix.' => ['fluid.' => [
             'fluidClass' => 'my-class',
             'updateOnResize' => '1',
@@ -72,7 +112,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             'maxWidth' => '111',
             'maxHeight' => '222',
         ]]]);
-        $configuration = new Configuration();
+        $configuration = new Configuration($configurationManager);
         $this->assertSame(
             [
                 'fluidClass' => 'my-class',
@@ -100,5 +140,28 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     private function fakeConfiguration(array $configuration)
     {
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['imgix'] = serialize($configuration);
+    }
+
+    /**
+     * @param array $configuration
+     * @return \PHPUnit_Framework_MockObject_MockObject|ConfigurationManagerInterface
+     */
+    private function getMockedConfigurationManager(array $configuration)
+    {
+        /** @var ConfigurationManagerInterface|\PHPUnit_Framework_MockObject_MockObject $configurationManager */
+        $configurationManager = $this->getMockBuilder(ConfigurationManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->setMethods([
+                'setContentObject',
+                'getContentObject',
+                'getConfiguration',
+                'setConfiguration',
+                'isFeatureEnabled'
+            ])
+            ->getMock();
+        $configurationManager->expects($this->once())->method('getConfiguration')->will(
+            $this->returnValue($configuration)
+        );
+        return $configurationManager;
     }
 }

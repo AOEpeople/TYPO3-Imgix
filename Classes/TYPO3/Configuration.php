@@ -3,6 +3,7 @@ namespace Aoe\Imgix\TYPO3;
 
 use Aoe\Imgix\Utils\ArrayUtils;
 use Aoe\Imgix\Utils\TypeUtils;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 class Configuration
 {
@@ -38,9 +39,18 @@ class Configuration
     private $configuration = array();
 
     /**
+     * @var array
      */
-    public function __construct()
+    private $settings;
+
+    /**
+     * @param ConfigurationManagerInterface $configurationManager
+     */
+    public function __construct(ConfigurationManagerInterface $configurationManager)
     {
+        $this->settings = $configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+        );
         $this->configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['imgix']);
     }
 
@@ -49,6 +59,9 @@ class Configuration
      */
     public function isEnabled()
     {
+        if (isset($this->settings['enabled']) && '' !== $this->settings['enabled']) {
+            return (boolean)$this->settings['enabled'];
+        }
         return (boolean)$this->configuration['enabled'];
     }
 
@@ -57,6 +70,9 @@ class Configuration
      */
     public function isHostReplacementEnabled()
     {
+        if (isset($this->settings['enableHostReplacement']) && '' !== $this->settings['enableHostReplacement']) {
+            return (boolean)$this->settings['enableHostReplacement'];
+        }
         return (boolean)$this->configuration['enableHostReplacement'];
     }
 
@@ -65,6 +81,9 @@ class Configuration
      */
     public function getHost()
     {
+        if (isset($this->settings['host']) && '' !== $this->settings['host']) {
+            return (string)$this->settings['host'];
+        }
         return (string)$this->configuration['host'];
     }
 
