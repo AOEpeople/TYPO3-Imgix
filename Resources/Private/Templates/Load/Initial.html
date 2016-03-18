@@ -1,0 +1,11 @@
+<f:if condition="{enabled}">
+    <script type="text/javascript"><![CDATA[
+    $(document).ready(function () {
+        $(".imgix-fluid").imgixify({
+            host: "]]>{host}<![CDATA[",
+            enableHostReplacement: ]]>{enableHostReplacement}<![CDATA[,
+            imgix: JSON.parse(']]><f:format.raw>{imgix-fluid-options}</f:format.raw><![CDATA[')
+        });
+    });
+    ]]></script>
+</f:if>

@@ -1,0 +1,13 @@
+const.tx_imgix_loader {
+    view {
+        templateRootPath = EXT:imgix/Resources/Private/Templates/
+        partialRootPath = EXT:imgix/Resources/Private/Partials/
+        layoutRootPath = EXT:imgix/Resources/Private/Layouts/
+    }
+
+    settings {
+        enabled =
+        host =
+        enableHostReplacement =
+    }
+}

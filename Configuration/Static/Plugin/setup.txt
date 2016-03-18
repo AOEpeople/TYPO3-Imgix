@@ -1,0 +1,26 @@
+lib.tx_imgix_loader = USER
+lib.tx_imgix_loader {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    vendorName = Aoe
+    extensionName = Imgix
+    pluginName = Loader
+    controller = Load
+    action = initial
+    switchableControllerActions {
+        Load {
+            1 = initial
+        }
+    }
+
+    view {
+        templateRootPath = {$const.tx_imgix_loader.view.templateRootPath}
+        partialRootPath = {$const.tx_imgix_loader.view.partialRootPath}
+        layoutRootPath = {$const.tx_imgix_loader.view.layoutRootPath}
+    }
+
+    settings {
+        enabled = {$const.tx_imgix_loader.settings.enabled}
+        host = {$const.tx_imgix_loader.settings.host}
+        enableHostReplacement = {$const.tx_imgix_loader.settings.enableHostReplacement}
+    }
+}
