@@ -7,7 +7,8 @@
         var defaults = {
             host: null,
             enableHostReplacement: true,
-            imgix: {}
+            imgix: {},
+            parent: null
         };
 
         var settings = $.extend({}, defaults, options);
@@ -28,10 +29,47 @@
             $(this).attr('data-src', url.toString());
         });
 
-        imgix.fluid(settings.imgix);
+        if (settings.parent && settings.parent.nodeType) {
+            imgix.fluid(settings.parent, settings.imgix);
+        } else {
+            imgix.fluid(settings.imgix);
+        }
+
+        observe(settings);
 
         return chain;
     };
+
+    /**
+     * @param settings
+     */
+    function observe(settings) {
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                var newNodes = mutation.addedNodes;
+                if (newNodes !== null) {
+                    var $nodes = $(newNodes);
+                    $nodes.each(function () {
+                        var $node = $(this);
+                        if ($node.hasClass(settings.imgix.fluidClass)) {
+                            $node.imgixify({
+                                host: settings.host,
+                                enableHostReplacement: settings.enableHostReplacement,
+                                imgix: settings.imgix,
+                                parent: $node.parent().get(0)
+                            });
+                        }
+                    });
+                }
+            });
+        });
+        observer.observe(document.body, {
+            attributes: true,
+            childList: true,
+            subtree: true,
+            characterData: true
+        });
+    }
 
     /**
      * @param msg
