@@ -15,7 +15,6 @@ class Configuration
         'updateOnResize' => TypeUtils::TYPE_BOOLEAN,
         'updateOnResizeDown' => TypeUtils::TYPE_BOOLEAN,
         'updateOnPinchZoom' => TypeUtils::TYPE_BOOLEAN,
-        //'onChangeParamOverride' => TypeUtils::TYPE_STRING,
         'highDPRAutoScaleQuality' => TypeUtils::TYPE_BOOLEAN,
         'autoInsertCSSBestPractices' => TypeUtils::TYPE_BOOLEAN,
         'fitImgTagToContainerWidth' => TypeUtils::TYPE_BOOLEAN,
@@ -26,11 +25,9 @@ class Configuration
         'lazyLoad' => TypeUtils::TYPE_BOOLEAN,
         'lazyLoadOffsetVertical' => TypeUtils::TYPE_INTEGER,
         'lazyLoadOffsetHorizontal' => TypeUtils::TYPE_INTEGER,
-        //'lazyLoadColor' => TypeUtils::TYPE_STRING,
         'throttle' => TypeUtils::TYPE_INTEGER,
         'maxWidth' => TypeUtils::TYPE_INTEGER,
         'maxHeight' => TypeUtils::TYPE_INTEGER,
-        //'onLoad' => TypeUtils::TYPE_STRING,
     ];
 
     /**

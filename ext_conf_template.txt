@@ -19,9 +19,6 @@ imgix.fluid.updateOnResizeDown=
 # cat=imgix; type=options[default=,on=1,off=0]; label=updateOnPinchZoom:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
 imgix.fluid.updateOnPinchZoom=
 
-# cat=imgix; type=string; label=onChangeParamOverride:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
-#imgix.fluid.onChangeParamOverride=
-
 # cat=imgix; type=options[default=,on=1,off=0]; label=highDPRAutoScaleQuality:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
 imgix.fluid.highDPRAutoScaleQuality=
 
@@ -52,9 +49,6 @@ imgix.fluid.lazyLoadOffsetVertical=
 # cat=imgix; type=integer; label=lazyLoadOffsetHorizontal:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
 imgix.fluid.lazyLoadOffsetHorizontal=
 
-# cat=imgix; type=string; label=lazyLoadColor:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
-#imgix.fluid.lazyLoadColor=
-
 # cat=imgix; type=integer; label=throttle:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
 imgix.fluid.throttle=
 
@@ -63,6 +57,3 @@ imgix.fluid.maxWidth=
 
 # cat=imgix; type=integer; label=maxHeight:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
 imgix.fluid.maxHeight=
-
-# cat=imgix; type=string; label=onLoad:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
-#imgix.fluid.onLoad=
