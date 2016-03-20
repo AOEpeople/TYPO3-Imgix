@@ -6,8 +6,9 @@ const.tx_imgix_loader {
     }
 
     settings {
-        enabled =
         host =
-        enableHostReplacement =
+        enabled =
+        enableFluid =
+        enableObservation =
     }
 }

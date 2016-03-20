@@ -19,8 +19,9 @@ lib.tx_imgix_loader {
     }
 
     settings {
-        enabled = {$const.tx_imgix_loader.settings.enabled}
         host = {$const.tx_imgix_loader.settings.host}
-        enableHostReplacement = {$const.tx_imgix_loader.settings.enableHostReplacement}
+        enabled = {$const.tx_imgix_loader.settings.enabled}
+        enableFluid = {$const.tx_imgix_loader.settings.enableFluid}
+        enableObservation = {$const.tx_imgix_loader.settings.enableObservation}
     }
 }

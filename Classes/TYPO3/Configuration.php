@@ -65,12 +65,23 @@ class Configuration
     /**
      * @return bool
      */
-    public function isHostReplacementEnabled()
+    public function isFluidEnabled()
     {
-        if (isset($this->settings['enableHostReplacement']) && '' !== $this->settings['enableHostReplacement']) {
-            return (boolean)$this->settings['enableHostReplacement'];
+        if (isset($this->settings['enableFluid']) && '' !== $this->settings['enableFluid']) {
+            return (boolean)$this->settings['enableFluid'];
         }
-        return (boolean)$this->configuration['enableHostReplacement'];
+        return (boolean)$this->configuration['enableFluid'];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isObservationEnabled()
+    {
+        if (isset($this->settings['enableObservation']) && '' !== $this->settings['enableObservation']) {
+            return (boolean)$this->settings['enableObservation'];
+        }
+        return (boolean)$this->configuration['enableObservation'];
     }
 
     /**

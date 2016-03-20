@@ -1,11 +1,14 @@
-# cat=basic/enable; type=boolean; label=imgix integration globally activated?:If set, the JS will be added to the output.
-enabled=1
-
 # cat=basic/enable; type=string; label=Host configured in imgix
 host=meinesubdomain.imgix.net
 
-# cat=basic/enable; type=boolean; label=Enable host replacement:If set, data-src attributes will be replaced by configured host. Otherwise the host from data-src is used.
-enableHostReplacement=1
+# cat=basic/enable; type=boolean; label=imgix integration globally activated?:If set, the JS will be added to the output.
+enabled=1
+
+# cat=basic/enable; type=boolean; label=Enable fluid images:If set, fluid images will be rendered by imgix. Otherwise local images will be used.
+enableFluid=1
+
+# cat=basic/enable; type=boolean; label=Enable observation of future images:If your JS will images dynamically enable this feature to also imgixify images in future DOM manipulations.
+enableObservation=1
 
 # cat=imgix; type=string; label=fluidClass:Option for http://github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
 imgix.fluid.fluidClass=imgix-fluid

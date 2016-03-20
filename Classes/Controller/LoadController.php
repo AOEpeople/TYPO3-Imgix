@@ -22,9 +22,10 @@ class LoadController extends ActionController
 
     public function initialAction()
     {
-        $this->view->assign('enabled', $this->configuration->isEnabled());
         $this->view->assign('host', $this->configuration->getHost());
-        $this->view->assign('enableHostReplacement', $this->configuration->isHostReplacementEnabled());
+        $this->view->assign('enabled', $this->configuration->isEnabled());
+        $this->view->assign('enableFluid', $this->configuration->isFluidEnabled());
+        $this->view->assign('enableObservation', $this->configuration->isObservationEnabled());
         $this->view->assign(
             'imgix-fluid-options',
             json_encode($this->configuration->getImgixFluidOptions(), JSON_FORCE_OBJECT)

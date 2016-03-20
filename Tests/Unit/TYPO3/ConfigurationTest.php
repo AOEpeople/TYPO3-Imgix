@@ -57,23 +57,45 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldGetEnableHostReplacement()
+    public function shouldGetEnableFluid()
     {
         $configurationManager = $this->getMockedConfigurationManager([]);
-        $this->fakeConfiguration(['enableHostReplacement' => '0']);
+        $this->fakeConfiguration(['enableFluid' => '0']);
         $configuration = new Configuration($configurationManager);
-        $this->assertFalse($configuration->isHostReplacementEnabled());
+        $this->assertFalse($configuration->isFluidEnabled());
     }
 
     /**
      * @test
      */
-    public function shouldGetEnableHostReplacementOverwrittenBySettings()
+    public function shouldGetEnableFluidOverwrittenBySettings()
     {
-        $configurationManager = $this->getMockedConfigurationManager(['enableHostReplacement' => '1']);
-        $this->fakeConfiguration(['enableHostReplacement' => '0']);
+        $configurationManager = $this->getMockedConfigurationManager(['enableFluid' => '1']);
+        $this->fakeConfiguration(['enableFluid' => '0']);
         $configuration = new Configuration($configurationManager);
-        $this->assertTrue($configuration->isHostReplacementEnabled());
+        $this->assertTrue($configuration->isFluidEnabled());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetEnableObservation()
+    {
+        $configurationManager = $this->getMockedConfigurationManager([]);
+        $this->fakeConfiguration(['enableObservation' => '0']);
+        $configuration = new Configuration($configurationManager);
+        $this->assertFalse($configuration->isObservationEnabled());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetEnableObservationOverwrittenBySettings()
+    {
+        $configurationManager = $this->getMockedConfigurationManager(['enableObservation' => '1']);
+        $this->fakeConfiguration(['enableObservation' => '0']);
+        $configuration = new Configuration($configurationManager);
+        $this->assertTrue($configuration->isObservationEnabled());
     }
 
     /**
