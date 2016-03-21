@@ -28,7 +28,7 @@ before_script:
   - git clone --single-branch --branch $TYPO3_BRANCH --depth 1 https://github.com/TYPO3/TYPO3.CMS.git typo3_core
   - mv typo3_core/* .
   - mkdir -p typo3conf/ext/imgix
-  - mv TYPO3-Imgix typo3conf/ext/imgix/
+  - mv TYPO3-Imgix/* typo3conf/ext/imgix/
   - composer install
 
 script:
@@ -49,6 +49,6 @@ script:
       echo;
       echo "Uploading code coverage results";
       wget https://scrutinizer-ci.com/ocular.phar
-      cp -R typo3conf/ext/imgix/.git .
+      cp -R TYPO3-Imgix/.git .
       php ocular.phar code-coverage:upload --format=php-clover unittest-coverage.clover
     fi
