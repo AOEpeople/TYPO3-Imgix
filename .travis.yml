@@ -49,6 +49,6 @@ script:
       echo;
       echo "Uploading code coverage results";
       wget https://scrutinizer-ci.com/ocular.phar
-      cp -R typo3conf/ext/felogin_bruteforce_protection/.git .
+      cp -R typo3conf/ext/imgix/.git .
       php ocular.phar code-coverage:upload --format=php-clover unittest-coverage.clover
     fi
