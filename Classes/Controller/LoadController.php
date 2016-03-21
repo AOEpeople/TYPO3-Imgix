@@ -22,13 +22,13 @@ class LoadController extends ActionController
 
     public function initialAction()
     {
-        $this->view->assign('host', $this->configuration->getHost());
+        $options = [
+            'host' => $this->configuration->getHost(),
+            'enableFluid' => $this->configuration->isFluidEnabled(),
+            'enableObservation' => $this->configuration->isObservationEnabled(),
+            'imgix' => $this->configuration->getImgixFluidOptions(),
+        ];
         $this->view->assign('enabled', $this->configuration->isEnabled());
-        $this->view->assign('enableFluid', $this->configuration->isFluidEnabled());
-        $this->view->assign('enableObservation', $this->configuration->isObservationEnabled());
-        $this->view->assign(
-            'imgix-fluid-options',
-            json_encode($this->configuration->getImgixFluidOptions(), JSON_FORCE_OBJECT)
-        );
+        $this->view->assign('options', json_encode($options, JSON_FORCE_OBJECT));
     }
 }

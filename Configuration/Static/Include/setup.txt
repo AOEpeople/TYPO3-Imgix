@@ -1,7 +1,6 @@
 page = PAGE
 page.1458142194 < lib.tx_imgix_loader
 page.includeJSlibs {
-    imgix = //www.imgix.com/libraries/imgix.js
-    imgix.external = 1
+    imgix = EXT:imgix/Resources/Public/JavaScript/imgix.js
     imgixify = EXT:imgix/Resources/Public/JavaScript/imgixify.js
 }

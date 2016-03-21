@@ -1,13 +1,7 @@
 <f:if condition="{enabled}">
     <script type="text/javascript"><![CDATA[
     $(document).ready(function () {
-        var imgixFluidOptions = JSON.parse(']]><f:format.raw>{imgix-fluid-options}</f:format.raw><![CDATA[');
-        $(document.body).imgixify({
-            host: "]]>{host}<![CDATA[",
-            enableFluid: "]]>{enableFluid}<![CDATA[",
-            enableObservation: "]]>{enableObservation}<![CDATA[",
-            imgix: imgixFluidOptions
-        });
+        $(document.body).imgixify(JSON.parse(']]><f:format.raw>{options}</f:format.raw><![CDATA['));
     });
     ]]></script>
 </f:if>

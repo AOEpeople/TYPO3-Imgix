@@ -8,7 +8,9 @@
             host: null,
             enableFluid: true,
             enableObservation: false,
-            imgix: {}
+            imgix: {
+                fluidClass: "imgix-fluid"
+            }
         };
         var settings = $.extend({}, defaults, options);
         var images = $(this).find("." + settings.imgix.fluidClass);
