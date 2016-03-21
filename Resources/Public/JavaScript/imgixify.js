@@ -12,34 +12,18 @@
                 fluidClass: "imgix-fluid"
             }
         };
+
         var settings = $.extend({}, defaults, options);
-        var images = $(this).find("." + settings.imgix.fluidClass);
-
-        if (!images.length) {
-            return this;
-        }
-
-        images.each(function () {
-            var src = $(this).attr("data-src");
-            if (!src) {
-                log("element does not have a data-src attribute: " + this);
-                return true;
-            }
-
-            if (!settings.enableFluid) {
-                fallback(this, settings);
-            } else {
-                var url = document.createElement("a");
-                url.href = src;
-                if (settings.host) {
-                    url.host = settings.host;
-                }
-                $(this).attr("data-src", url.toString());
-            }
-        });
 
         if (settings.enableFluid) {
-            imgix.fluid($(this).get(0), settings.imgix);
+            imgix.fluid($(this).get(0), $.extend({}, settings.imgix, {
+                onChangeParamOverride: function (elemWidth, elemHeight, params, elem) {
+                    elem.url.urlParts.protocol = window.location.href.protocol || 'https';
+                    elem.url.urlParts.host = settings.host;
+                }
+            }));
+        } else {
+            fallback(this, settings);
         }
 
         if (settings.enableObservation) {
@@ -50,15 +34,18 @@
     };
 
     /**
-     * @param image
+     * @param node
      * @param settings
      */
-    function fallback(image, settings) {
-        if ($(image).hasClass(settings.imgix.fluidClass + "-bg")) {
-            $(image).css("background-image", 'url("' + $(image).data("src") + '")');
-        } else {
-            $(image).attr("src", $(image).data("src"));
-        }
+    function fallback(node, settings) {
+        $(node).find("." + settings.imgix.fluidClass).each(function () {
+            var _this = $(this);
+            if (_this.hasClass(settings.imgix.fluidClass + "-bg")) {
+                _this.css("background-image", 'url("' + _this.data("src") + '")');
+            } else {
+                _this.attr("src", _this.data("src"));
+            }
+        });
     }
 
     /**
@@ -81,12 +68,14 @@
                     if (newNodes !== null) {
                         var $nodes = $(newNodes);
                         $nodes.each(function () {
-                            $(this).imgixify({
-                                host: settings.host,
-                                enableFluid: settings.enableFluid,
-                                enableObservation: false,
-                                imgix: settings.imgix
-                            });
+                            if (this.tagName) {
+                                $(this).imgixify({
+                                    host: settings.host,
+                                    enableFluid: settings.enableFluid,
+                                    enableObservation: false,
+                                    imgix: settings.imgix
+                                });
+                            }
                         });
                     }
                 });
