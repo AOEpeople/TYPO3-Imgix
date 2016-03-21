@@ -33,8 +33,8 @@ before_script:
   - cd ..
   - git clone --single-branch --branch $TYPO3_BRANCH --depth 1 https://github.com/TYPO3/TYPO3.CMS.git typo3_core
   - mv typo3_core/* .
-  - mkdir -p typo3conf/ext
-  - mv imgix typo3conf/ext/
+  - mkdir -p typo3conf/ext/imgix
+  - mv TYPO3-Imgix/* typo3conf/ext/imgix/
   - composer install
 
 script:
