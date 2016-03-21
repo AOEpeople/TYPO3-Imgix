@@ -3,7 +3,17 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/?branch=master)
 
-The "imgix" TYPO3 extensions embeds [imgix][1] into your TYPO3 project. It allows you to use [imgix][1] [Auto Repsonsive Images][4] with some small additional features.
+The "imgix" TYPO3 extensions enables the Auto Responsive Images feature of [imgix][1] called [imgix.fluid()][4].
+This allows you to deliver perferctly sized images depending on the client without using local capaticities. For more details have a look at [imgix][1], [imgix.fluid()][4] and the JS library [imgix.js][5].
+
+In addition this extension provide some additional features like:
+ - fallback scenario if you disable the fluid feature
+ - observation of asynchoniously added images
+
+## Missing/Upcoming features:
+
+Currently this extension is limited on images on which you have access to manipulate the way the image is outputted to the browser. This is because of the fact that img tags must have a specific class set and a data-src attribute in which the image url is stored.
+In future releases we will implement this in TYPO3´s standard rendering.
 
 ## Download / Installation
 
@@ -34,3 +44,4 @@ License: GPLv3 or later. See LICENSE.
 [2]: https://docs.typo3.org/typo3cms/extensions/imgix/
 [3]: https://www.imgix.com/
 [4]: https://www.imgix.com/imgix-js#section-3
+[5]: https://github.com/imgix/imgix.js/
