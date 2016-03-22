@@ -52,7 +52,7 @@ This is helpful if you want to disable the responsive images from imgix using a 
 ##### basic.enableObservation
 If your JS adds images dynamically/asynchroniously, this setting will observe these changes to the DOM
 and will add the responsive image feature to new HTML image tags.
-Be careful by enableing this option. This feature is realized by [Mutation Observers][7] which is not supported by all browsers at the moment.
+Be careful by enabling this option. This feature is realized by [Mutation Observers][7] which is not supported by all browsers at the moment.
 
 #### imgix
 The imigx configurations are [imgix.js][5] related settings.
