@@ -38,12 +38,13 @@
      * @param settings
      */
     function fallback(node, settings) {
-        $(node).find("." + settings.imgix.fluidClass).each(function () {
-            var _this = $(this);
-            if (_this.hasClass(settings.imgix.fluidClass + "-bg")) {
-                _this.css("background-image", 'url("' + _this.data("src") + '")');
+        var nodes = $(node).find("." + settings.imgix.fluidClass);
+        $.each(nodes, function (index, node) {
+            var _node = $(node);
+            if (imgix.isImageElement(node)) {
+                _node.attr("src", _node.data("src"));
             } else {
-                _this.attr("src", _this.data("src"));
+                _node.css("background-image", 'url("' + _node.data("src") + '")');
             }
         });
     }
