@@ -50,7 +50,8 @@ If basic.enabeld is set to false, it will cause a fallback behavior: all image u
 This is helpful if you want to disable the responsive images from imgix using a simple checkbox without having broken or missing images.
 
 ##### basic.enableObservation
-If your JS will add images dynamically/asynchroniously enable this feature observe the DOM for new added nodes and allow responsive images in future DOM manipulations.
+If your JS adds images dynamically/asynchroniously, this setting will observe these changes to the DOM
+and will add the responsive image feature to new HTML image tags.
 Be careful by enableing this option. This feature is realized by [Mutation Observers][7] which is not supported by all browsers at the moment.
 
 #### imgix
@@ -68,6 +69,7 @@ To include the extension just add the two static template files to your template
 To use responsive image you have to add the following class and attribute to you HTML image tag:
 - add the "image-fluid" class defined in [fluidClass][8] 
 - add the the data-src attribute.
+
 For more detailed information of how imgix works take a look at the [documentation][4].
 
 ```html
