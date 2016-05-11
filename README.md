@@ -58,6 +58,9 @@ Be careful by enabling this option. This feature is realized by [Mutation Observ
 The imigx configurations are [imgix.js][5] related settings.
 For a detailed description about the options, take a look at the [documentation][8].
 
+#### imgixUrlParams
+The imgix URL accepts numerous parameters that change the image result. See the [API documentation][9] for details.
+
 ### Include
 To include the extension just add the two static template files to your template record.
 
@@ -97,3 +100,4 @@ License: GPLv3 or later. See LICENSE.
 [6]: https://docs.imgix.com/setup/creating-sources#source-web-folder
 [7]: http://caniuse.com/#feat=mutationobserver
 [8]: http://github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+[9]: https://docs.imgix.com/apis/url
