@@ -10,6 +10,9 @@
             enableObservation: false,
             imgix: {
                 fluidClass: "imgix-fluid"
+            },
+            imgixUrlParams: {
+                fit: 'max'
             }
         };
 
@@ -20,6 +23,7 @@
                 onChangeParamOverride: function (elemWidth, elemHeight, params, elem) {
                     elem.url.urlParts.protocol = window.location.href.protocol || 'https';
                     elem.url.urlParts.host = settings.host;
+                    elem.url.setParams(settings.imgixUrlParams);
                 }
             }));
         } else {
