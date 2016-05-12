@@ -58,9 +58,6 @@ Be careful by enabling this option. This feature is realized by [Mutation Observ
 The imigx configurations are [imgix.js][5] related settings.
 For a detailed description about the options, take a look at the [documentation][8].
 
-#### imgixUrlParams
-The imgix URL accepts numerous parameters that change the image result. See the [API documentation][9] for details.
-
 ### Include
 To include the extension just add the two static template files to your template record.
 
