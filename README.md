@@ -8,6 +8,7 @@ This allows you to deliver perferctly custom sized images for the client without
 For more details have a look at [imgix][1], [imgix.fluid()][4] and the JS library [imgix.js][5].
 
 In addition this extension provides some additional features like:
+ - Supports different integrations  (jquery and angular)
  - fallback scenario if you disable the fluid feature
  - observation of asynchoniously added images
 
@@ -59,10 +60,23 @@ The imigx configurations are [imgix.js][5] related settings.
 For a detailed description about the options, take a look at the [documentation][8].
 
 ### Include
-To include the extension just add the two static template files to your template record.
+To use this extension you have to add a static template file to your template record.
 
- 1. "imgix: Load Plugin for further usage"
- 2. "imgix: Include JS files into page"
+ 1. "imgix: Common Constants (imgix)"
+
+Now you have to take a decision for one of the supported integrations:
+
+#### AngularJS
+For AngularJS you have to add these two static template files to your template record:
+
+ 1. imgix: Load Angular Extbase-Plugin for further usage (imgix)
+ 2. imgix: Include Angular-Module files into page (imgix)
+
+#### jQuery
+For jQuery you have to add these two static template files to your template record:
+
+ 1. imgix: Load Jquery Extbase-Plugin for further usage (imgix)
+ 2. imgix: Include Jquery-Plugin files into page (imgix)
 
 ### Usage
 
