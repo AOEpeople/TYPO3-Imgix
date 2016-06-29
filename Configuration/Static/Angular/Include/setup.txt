@@ -1,6 +1,6 @@
 page = PAGE
 page.1458142194 < lib.tx_imgix_angular_loader
-page.includeJSlibs {
+page.includeJS {
     imgix = EXT:imgix/Resources/Public/JavaScript/imgix.min.js
-    imgixify = EXT:imgix/Resources/Public/JavaScript/angular.js
+    imgixify = EXT:imgix/Resources/Public/JavaScript/AngularJS/imgixify.js
 }
