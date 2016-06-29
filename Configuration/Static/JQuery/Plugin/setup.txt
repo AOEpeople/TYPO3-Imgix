@@ -1,14 +1,14 @@
-lib.tx_imgix_loader = USER
-lib.tx_imgix_loader {
+lib.tx_imgix_jquery_loader = USER
+lib.tx_imgix_jquery_loader {
     userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
     vendorName = Aoe
     extensionName = Imgix
-    pluginName = Loader
+    pluginName = JQueryLoader
     controller = Load
-    action = initial
+    action = jquery
     switchableControllerActions {
         Load {
-            1 = initial
+            1 = jquery
         }
     }
 

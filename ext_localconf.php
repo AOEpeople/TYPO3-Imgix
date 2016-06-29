@@ -2,9 +2,19 @@
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'Aoe.' . $_EXTKEY,
-    'Loader',
+    'AngularLoader',
     array(
-        'Load' => 'initial',
+        'Load' => 'angular',
+    ),
+    array()
+);
+
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'Aoe.' . $_EXTKEY,
+    'JQueryLoader',
+    array(
+        'Load' => 'jquery',
     ),
     array()
 );

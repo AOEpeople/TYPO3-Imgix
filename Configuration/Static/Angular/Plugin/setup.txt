@@ -1,0 +1,27 @@
+lib.tx_imgix_angular_loader = USER
+lib.tx_imgix_angular_loader {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    vendorName = Aoe
+    extensionName = Imgix
+    pluginName = AngularLoader
+    controller = Load
+    action = angular
+    switchableControllerActions {
+        Load {
+            1 = angular
+        }
+    }
+
+    view {
+        templateRootPath = {$const.tx_imgix_loader.view.templateRootPath}
+        partialRootPath = {$const.tx_imgix_loader.view.partialRootPath}
+        layoutRootPath = {$const.tx_imgix_loader.view.layoutRootPath}
+    }
+
+    settings {
+        host = {$const.tx_imgix_loader.settings.host}
+        enabled = {$const.tx_imgix_loader.settings.enabled}
+        enableFluid = {$const.tx_imgix_loader.settings.enableFluid}
+        enableObservation = {$const.tx_imgix_loader.settings.enableObservation}
+    }
+}

@@ -20,7 +20,22 @@ class LoadController extends ActionController
         parent::__construct();
     }
 
-    public function initialAction()
+    public function jqueryAction()
+    {
+        $this->view->assign('enabled', $this->configuration->isEnabled());
+        $this->view->assign('options', $this->getOptionsAsJson());
+    }
+
+    public function angularAction()
+    {
+        $this->view->assign('enabled', $this->configuration->isEnabled());
+        $this->view->assign('options', $this->getOptionsAsJson());
+    }
+
+    /**
+     * @return string
+     */
+    private function getOptionsAsJson()
     {
         $options = [
             'host' => $this->configuration->getHost(),
@@ -28,7 +43,6 @@ class LoadController extends ActionController
             'enableObservation' => $this->configuration->isObservationEnabled(),
             'imgix' => $this->configuration->getImgixFluidOptions(),
         ];
-        $this->view->assign('enabled', $this->configuration->isEnabled());
-        $this->view->assign('options', json_encode($options, JSON_FORCE_OBJECT));
+        return json_encode($options, JSON_FORCE_OBJECT);
     }
 }
