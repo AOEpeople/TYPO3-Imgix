@@ -3,20 +3,22 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/?branch=master)
 
-The "imgix" TYPO3 extension provides the Auto Responsive Images feature of [imgix][1] called [imgix.fluid()][4].
+The "imgix" TYPO3 extension provides the Auto Responsive Images feature of [imgix][3] called [imgix.fluid()][4].
 This allows you to deliver perferctly custom sized images for the client without using local capaticities. 
-For more details have a look at [imgix][1], [imgix.fluid()][4] and the JS library [imgix.js][5].
+For more details have a look at [imgix][3], [imgix.fluid()][4] and the JS library [imgix.js][5].
 
 In addition this extension provides some additional features like:
- - Supports different integrations  (jquery and angular)
- - fallback scenario if you disable the fluid feature
- - observation of asynchoniously added images
+
+ - Supports different integrations  (jQuery and AngularJS)
+ - Fallback scenario if you disable the fluid feature
+ - Observation of asynchronously added images
 
 ## Missing/Upcoming features:
 
-Currently this extension is limited to images on which you have access to manipulate the way the image is outputted to the browser. 
+ - Currently this extension is limited to images on which you have access to manipulate the way the image is outputted to the browser. 
 The reason for that is that img tags must have a specific class set and a data-src attribute in which the image url is stored.
 In future releases we will implement this in TYPO3´s standard rendering.
+ - Version 3 of [imgix.js][5] is not supported yet
 
 ## Download / Installation
 
@@ -80,11 +82,25 @@ For jQuery you have to add these two static template files to your template reco
 
 ### Usage
 
-To use responsive image you have to add the following class and attribute to you HTML image tag:
+#### AngularJS Module
+
+##### Add the module dependency
+
+```html
+angular.module('your-module', ['aoe.imgixify']);
+```
+
+##### Use the "aoe-imgix" directive for images
+
+```html
+<img aoe-imgix class="imgix-fluid" data-src="fileadmin/my-fancy-image.jpg">
+```
+
+#### jQuery Plugin
+
+To use responsive images you have to add the following class and attribute to you HTML image tag:
 - add the "image-fluid" class defined in [fluidClass][8] 
 - add the the data-src attribute.
-
-For more detailed information of how imgix works take a look at the [documentation][4].
 
 ```html
 <img class="imgix-fluid" data-src="fileadmin/my-fancy-image.jpg">
