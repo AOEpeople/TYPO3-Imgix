@@ -66,7 +66,11 @@
                 scope: {},
                 link: function ($scope, element, attr) {
                     if (!imgixifyService.isInitialized()) {
-                        element.attr('src', attr.src);
+                        if (isImageElement()) {
+                            element.attr('src', attr.src);
+                        } else {
+                            element.css("background-image", 'url("' + attr.src + '")');
+                        }
                         return;
                     }
 
@@ -78,6 +82,10 @@
 
                     function isElementImgixified() {
                         return !!element[0].url;
+                    }
+
+                    function isImageElement() {
+                        return (element[0] && element[0].tagName && element[0].tagName.toLowerCase() === 'img');
                     }
                 }
             };
