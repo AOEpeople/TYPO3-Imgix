@@ -67,7 +67,7 @@
                 link: function ($scope, element, attr) {
                     if (!imgixifyService.isInitialized()) {
                         if (isImageElement()) {
-                            element.attr('src', attr.src);
+                            element.attr('src', element.data('src') || attr.src);
                         } else {
                             element.css("background-image", 'url("' + attr.src + '")');
                         }
