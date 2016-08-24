@@ -46,7 +46,8 @@ class Configuration
     public function __construct(ConfigurationManagerInterface $configurationManager)
     {
         $this->settings = $configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
+            'imgix'
         );
         $this->configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['imgix']);
     }
