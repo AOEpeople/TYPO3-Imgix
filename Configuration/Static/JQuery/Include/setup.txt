@@ -1,6 +1,6 @@
 page = PAGE
 page.1458142194 < lib.tx_imgix_jquery_loader
-page.includeJSlibs {
+page.includeJSFooterlibs {
     imgix = EXT:imgix/Resources/Public/JavaScript/imgix.min.js
     imgixify = EXT:imgix/Resources/Public/JavaScript/JQuery/imgixify.js
 }
