@@ -57,6 +57,10 @@
 
                 isInitialized: function () {
                     return isInitialized;
+                },
+
+                refreshImages: function () {
+                    window.dispatchEvent(new Event('resize'));
                 }
             }
         })
