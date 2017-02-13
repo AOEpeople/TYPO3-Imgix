@@ -44,7 +44,6 @@
 
             var imgixFluidSet;
             var isInitialized = false;
-            var event = document.createEvent('Event');
 
             return {
                 initImgixFluid: function () {
@@ -61,7 +60,9 @@
                 },
 
                 refreshImages: function () {
-                    event.initEvent('resize', true, true);
+                    setTimeout(function() {
+                        imgix.fluid(imgixConfig)
+                    }, 50);
                 }
             }
         })
