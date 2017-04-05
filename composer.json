@@ -7,12 +7,15 @@
             "email": "dev@aoe.com"
         }
     ],
+    "config": {
+        "secure-http": false
+    },
     "require": {
         "php": ">=5.5.0",
-        "typo3/cms-core": "*"
+        "typo3/cms-core": ">=6.2.0,<=7.6.99",
     },
     "require-dev": {
-        "typo3/cms": "6.2.*",
+        "typo3/cms": "^6.2",
         "phpunit/phpunit": "4.8.*",
         "phpunit/phpcov": "2.0.*",
         "squizlabs/php_codesniffer": "2.3.*",
