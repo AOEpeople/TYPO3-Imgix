@@ -42,6 +42,7 @@ class ImgixUrlViewHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @dataProvider
      */
     public function shouldRenderImageUrlWithImgixHostWhenImgixIsEnabled()
     {
@@ -51,9 +52,58 @@ class ImgixUrlViewHelperTest extends \PHPUnit_Framework_TestCase
         $this->configuration->expects($this->once())->method('getHost')->will(
             $this->returnValue('aoe.host')
         );
+        $this->configuration->expects($this->any())->method('getImgixDefaultUrlParameters')->will(
+            $this->returnValue([])
+        );
         $this->viewHelper->setArguments([
             imageUrl => 'test-url'
         ]);
         $this->assertSame('//aoe.host/test-url', $this->viewHelper->render());
+    }
+
+    /**
+     * @test
+     * @dataProvider parameterProvider
+     */
+    public function shouldRenderImageUrlWithParameters($defaultParameters, $givenParameters, $expectedParameterString)
+    {
+        $this->configuration->expects($this->once())->method('isEnabled')->will(
+            $this->returnValue(true)
+        );
+        $this->configuration->expects($this->once())->method('getHost')->will(
+            $this->returnValue('aoe.host')
+        );
+        $this->configuration->expects($this->any())->method('getImgixDefaultUrlParameters')->will(
+            $this->returnValue($defaultParameters)
+        );
+        $this->viewHelper->setArguments([
+            imageUrl => 'test-url',
+            urlParameters => $givenParameters
+        ]);
+        $this->assertSame('//aoe.host/test-url' . $expectedParameterString, $this->viewHelper->render());
+    }
+
+    /**
+     * @return array
+     */
+    public function parameterProvider()
+    {
+        return [
+            [
+                [],
+                ['foo' => 'bar', 'bar' => 'baz'],
+                '?foo=bar&bar=baz',
+            ],
+            [
+                ['foo' => 'bar', 'bar' => 'baz'],
+                [],
+                '?foo=bar&bar=baz',
+            ],
+            [
+                ['foo' => 'bar'],
+                ['foo' => 'baz'],
+                '?foo=baz',
+            ]
+        ];
     }
 }

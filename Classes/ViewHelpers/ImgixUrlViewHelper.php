@@ -27,6 +27,7 @@ class ImgixUrlViewHelper extends AbstractViewHelper
     {
         parent::initializeArguments();
         $this->registerArgument('imageUrl', 'string', 'URL to image file', true);
+        $this->registerArgument('urlParameters', 'array', 'API Parameters to be appended to URL', false);
     }
 
     /**
@@ -37,6 +38,33 @@ class ImgixUrlViewHelper extends AbstractViewHelper
         if (false === $this->configuration->isEnabled()) {
             return $this->arguments['imageUrl'];
         }
-        return '//' . $this->configuration->getHost() . '/' . $this->arguments['imageUrl'];
+
+        $url = '//' . $this->configuration->getHost() . '/' . $this->arguments['imageUrl'];
+
+        if ($this->hasUrlParameters()) {
+            $url .= '?' . http_build_query($this->getUrlParameters());
+        }
+
+        return $url;
+    }
+
+    /**
+     * @return array
+     */
+    private function getUrlParameters()
+    {
+        $parameters = $this->configuration->getImgixDefaultUrlParameters();
+        if ($this->hasArgument('urlParameters')) {
+            $parameters = array_merge($parameters, $this->arguments['urlParameters']);
+        }
+        return $parameters;
+    }
+
+    /**
+     * @return boolean
+     */
+    private function hasUrlParameters()
+    {
+        return sizeof($this->getUrlParameters()) > 0;
     }
 }
