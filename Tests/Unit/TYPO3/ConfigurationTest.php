@@ -159,6 +159,34 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetEmptyImgixDefaultUrlParameters()
+    {
+        $configurationManager = $this->getMockedConfigurationManager([]);
+        $this->fakeConfiguration([]);
+        $configuration = new Configuration($configurationManager);
+        $this->assertSame([], $configuration->getImgixDefaultUrlParameters());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetImgixDefaultUrlParameters()
+    {
+        $configurationManager = $this->getMockedConfigurationManager([]);
+        $this->fakeConfiguration(['imgix.' => ['defaultUrlParameters' => 'q=75&auto=format']]);
+        $configuration = new Configuration($configurationManager);
+        $this->assertSame(
+            [
+                'q' => '75',
+                'auto' => 'format'
+            ],
+            $configuration->getImgixDefaultUrlParameters()
+        );
+    }
+
     private function fakeConfiguration(array $configuration)
     {
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['imgix'] = serialize($configuration);

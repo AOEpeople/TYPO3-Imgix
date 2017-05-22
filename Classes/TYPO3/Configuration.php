@@ -108,4 +108,16 @@ class Configuration
         }
         return [];
     }
+
+    /**
+     * @return array
+     */
+    public function getImgixDefaultUrlParameters()
+    {
+        if (isset($this->configuration['imgix.']['defaultUrlParameters'])) {
+            parse_str($this->configuration['imgix.']['defaultUrlParameters'], $defaultUrlParameters);
+            return $defaultUrlParameters;
+        }
+        return [];
+    }
 }

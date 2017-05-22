@@ -42,6 +42,7 @@ class LoadController extends ActionController
             'enableFluid' => $this->configuration->isFluidEnabled(),
             'enableObservation' => $this->configuration->isObservationEnabled(),
             'imgix' => $this->configuration->getImgixFluidOptions(),
+            'imgixUrlParams' => $this->configuration->getImgixDefaultUrlParameters()
         ];
         return json_encode($options, JSON_FORCE_OBJECT);
     }

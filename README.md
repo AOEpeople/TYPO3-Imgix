@@ -61,6 +61,10 @@ Be careful by enabling this option. This feature is realized by [Mutation Observ
 The imigx configurations are [imgix.js][5] related settings.
 For a detailed description about the options, take a look at the [documentation][8].
 
+##### imgix.defaultUrlParameters
+If some of the [URL API Parameters][9] should be set by default, list them here as a GET-Parameter string, e.g. q=75&fit=max
+
+
 ### Include
 To use this extension you have to add a static template file to your template record.
 

@@ -60,3 +60,6 @@ imgix.fluid.maxWidth=
 
 # cat=imgix; type=integer; label=maxHeight:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
 imgix.fluid.maxHeight=
+
+# cat=imgix; type=string; label=Default URL API-Parameters:Example: fit=max&q=75 See https://docs.imgix.com/apis/url
+imgix.defaultUrlParameters=
