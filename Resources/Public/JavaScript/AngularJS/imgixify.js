@@ -36,7 +36,13 @@
                 onChangeParamOverride: function (elemWidth, elemHeight, params, elem) {
                     elem.url.urlParts.protocol = $window.location.href.protocol || 'https';
                     elem.url.urlParts.host = imgixifySettings.host;
-                    elem.url.setParams(imgixifySettings.imgixUrlParams);
+
+                    var commonUrlParams = imgixifySettings.imgixUrlParams;
+                    var imgSpecificUrlParams = {};
+                    try {
+                        imgSpecificUrlParams = JSON.parse(elem.getAttribute('data-aoe-imgix-url-params'));
+                    } catch(e) {}
+                    elem.url.setParams(angular.extend({}, commonUrlParams, imgSpecificUrlParams));
                 }
             });
         })
