@@ -1,21 +1,27 @@
 {
     "name": "aoe/imgix",
     "type": "typo3-cms-extension",
+    "description": "Provides the Auto Responsive Images feature of imgix called imgix.fluid()",
+    "homepage": "https://github.com/AOEpeople/TYPO3-Imgix",
+    "support": {
+        "issues": "https://github.com/AOEpeople/TYPO3-Imgix/issues"
+    },
+    "license": "GPL-3.0",
     "authors": [
         {
             "name": "AOE GmbH",
-            "email": "dev@aoe.com"
+            "email": "dev@aoe.com",
+            "homepage": "https://www.aoe.com/",
+            "role": "Developer"
         }
     ],
-    "config": {
-        "secure-http": false
-    },
     "require": {
         "php": ">=5.5.0",
         "typo3/cms-core": ">=6.2.0,<=7.6.99"
     },
     "require-dev": {
         "typo3/cms": "^7.6",
+        "nimut/testing-framework": "^2.0",
         "phpunit/phpunit": "4.8.*",
         "phpunit/phpcov": "2.0.*",
         "squizlabs/php_codesniffer": "2.3.*",
@@ -27,7 +33,32 @@
             "Aoe\\Imgix\\": "Classes/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Aoe\\Imgix\\Tests\\": "Tests",
+            "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/"
+        }
+    },
     "replace": {
-        "imgix": "*"
+        "imgix": "self.version"
+    },
+    "config": {
+        "vendor-dir": ".Build/vendor",
+        "bin-dir": ".Build/bin"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "mkdir -p .Build/Web/typo3conf/ext/",
+            "[ -L .Build/Web/typo3conf/ext/imgix ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/imgix"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.0-dev"
+        },
+        "typo3/cms": {
+            "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "web-dir": ".Build/Web"
+        }
     }
 }
