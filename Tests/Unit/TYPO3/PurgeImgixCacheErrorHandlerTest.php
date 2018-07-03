@@ -94,18 +94,15 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
                 'PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnFailedRestRequest')
             ->willReturn('Could not purge imgix-cache for "###IMAGE_URL###"');
 
-        $flashMessage = 'Could not purge imgix-cache for "'.$imageUrl.'"';
+        $expectedMessage = 'Could not purge imgix-cache for "'.$imageUrl.'"';
         $flashMessageObj = $this->getMockBuilder(FlashMessage::class)->disableOriginalConstructor()->getMock();
         $this->errorHandler
             ->expects(self::once())
             ->method('createFlashMessage')
-            ->with($flashMessage)
+            ->with($expectedMessage)
             ->willReturn($flashMessageObj);
         $this->flashMessageQueue->expects(self::once())->method('enqueue')->with($flashMessageObj);
-
-        $sysLogMessage = 'Could not purge imgix-cache for "'.$imageUrl.'"';
-        $sysLogMessage .= ' (curlHttpStatusCode: 401, curlErrorMessage: curl-error, curlErrorCode: 28)!';
-        $this->backendUser->expects(self::once())->method('writelog')->with(3, 0, 2, 1530527897, $sysLogMessage, []);
+        $this->backendUser->expects(self::once())->method('writelog')->with(3, 0, 2, 1530527897, $expectedMessage, []);
 
         $this->errorHandler->handleCouldNotPurgeImgixCacheOnFailedRestRequest($imageUrl, $curlMessage, $curlCode, $curlHttpStatusCode);
     }

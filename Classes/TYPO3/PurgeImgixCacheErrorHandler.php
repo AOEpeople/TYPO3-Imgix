@@ -61,18 +61,18 @@ class PurgeImgixCacheErrorHandler
             return;
         }
 
-        $messageKey = 'PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnFailedRestRequest';
-        $message = $this->getLanguageService()->sL('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:'.$messageKey);
-        $message = str_replace('###IMAGE_URL###', $imageUrl, $message);
-        $this->addMessageToFlashMessageQueue($message);
-
         $errorMessageDetails = ['curlHttpStatusCode: ' . $curlHttpStatusCode];
         if (false === empty($curlErrorMessage) && false === empty($curlErrorCode)) {
             $errorMessageDetails[] = ' curlErrorMessage: ' . $curlErrorMessage;
             $errorMessageDetails[] = ' curlErrorCode: ' . $curlErrorCode;
         }
-        $errorMessage = 'Could not purge imgix-cache for "'.$imageUrl.'" ('.implode(',', $errorMessageDetails).')!';
-        $this->logErrorInSysLog($errorMessage, 1530527897);
+        $messageKey = 'PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnFailedRestRequest';
+        $message = $this->getLanguageService()->sL('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:'.$messageKey);
+        $message = str_replace('###IMAGE_URL###', $imageUrl, $message);
+        $message = str_replace('###ERROR_DETAILS###', implode(',', $errorMessageDetails), $message);
+
+        $this->addMessageToFlashMessageQueue($message);
+        $this->logErrorInSysLog($message, 1530527897);
     }
 
     /**

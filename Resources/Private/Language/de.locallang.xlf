@@ -20,8 +20,8 @@
                 <target>Der Purge-Request zum löschen des imgix-Caches für "###IMAGE_URL###" wurde erfolgreich aufgerufen!</target>
             </trans-unit>
             <trans-unit id="PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnFailedRestRequest" approved="yes">
-                <source>Could not purge imgix-cache for "###IMAGE_URL###" (REST-request failed)!</source>
-                <target>Das löschen des imgix-Caches für "###IMAGE_URL###" ist fehlgeschlagen!</target>
+                <source>Could not purge imgix-cache for "###IMAGE_URL###" (REST-request failed - Details: ###ERROR_DETAILS###)!</source>
+                <target>Das löschen des imgix-Caches für "###IMAGE_URL###" ist fehlgeschlagen (REST-Request schlug fehl - Details: ###ERROR_DETAILS###)!</target>
             </trans-unit>
             <trans-unit id="PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnInvalidApiKey" approved="yes">
                 <source>Could not purge imgix-cache for "###IMAGE_URL###" (API-key is not configured in EXT:imgix)!</source>

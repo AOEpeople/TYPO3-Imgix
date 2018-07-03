@@ -16,7 +16,7 @@
                 <source>Purge-Request for "###IMAGE_URL###" was successfully send!</source>
             </trans-unit>
             <trans-unit id="PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnFailedRestRequest">
-                <source>Could not purge imgix-cache for "###IMAGE_URL###" (REST-request failed)!</source>
+                <source>Could not purge imgix-cache for "###IMAGE_URL###" (REST-request failed - Details: ###ERROR_DETAILS###)!</source>
             </trans-unit>
             <trans-unit id="PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnInvalidApiKey">
                 <source>Could not purge imgix-cache for "###IMAGE_URL###" (API-key is not configured in EXT:imgix)!</source>
