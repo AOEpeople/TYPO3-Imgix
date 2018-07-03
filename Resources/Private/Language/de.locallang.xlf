@@ -3,13 +3,29 @@
 	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2018-07-01T18:41:55Z" product-name="imgix">
         <header/>
         <body>
+            <trans-unit id="PurgeImgixCacheController.headline" approved="yes">
+                <source>Purge imgix-Cache for an image</source>
+                <target>Löschen des imgix-Caches für ein Bild</target>
+            </trans-unit>
+            <trans-unit id="PurgeImgixCacheController.imageUrlLabel" approved="yes">
+                <source>Image-URL (e.g. "http://mydomain.imgix.net/fileadmin/myimage.png"):</source>
+                <target>Image-URL (z.B. "http://mydomain.imgix.net/fileadmin/myimage.png"):</target>
+            </trans-unit>
+            <trans-unit id="PurgeImgixCacheController.button" approved="yes">
+                <source>Purge imgix-Cache</source>
+                <target>imgix-Cache löschen</target>
+            </trans-unit>
+            <trans-unit id="PurgeImgixCacheController.purgeImgixCacheWasSuccessful" approved="yes">
+                <source>Purge-Request for "###IMAGE_URL###" was successfully send!</source>
+                <target>Der Purge-Request zum löschen des imgix-Caches für "###IMAGE_URL###" wurde erfolgreich aufgerufen!</target>
+            </trans-unit>
             <trans-unit id="PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnFailedRestRequest" approved="yes">
                 <source>Could not purge imgix-cache for "###IMAGE_URL###" (REST-request failed)!</source>
-                <target>Das leeren des imgix-caches für "###IMAGE_URL###" ist fehlgeschlagen!</target>
+                <target>Das löschen des imgix-Caches für "###IMAGE_URL###" ist fehlgeschlagen!</target>
             </trans-unit>
             <trans-unit id="PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnInvalidApiKey" approved="yes">
                 <source>Could not purge imgix-cache for "###IMAGE_URL###" (API-key is not configured in EXT:imgix)!</source>
-                <target>Imgix-cache für "###IMAGE_URL###" konnte nicht geleert werden (API-key ist in 'imgix'-Extension nicht konfiguriert)!</target>
+                <target>imgix-Cache für "###IMAGE_URL###" konnte nicht gelöscht werden (API-key ist in 'imgix'-Extension nicht konfiguriert)!</target>
             </trans-unit>
         </body>
     </file>

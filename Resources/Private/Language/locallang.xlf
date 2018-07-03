@@ -3,6 +3,18 @@
     <file source-language="en" datatype="plaintext" original="messages" date="2018-07-01T18:41:55Z" product-name="imgix">
         <header/>
         <body>
+            <trans-unit id="PurgeImgixCacheController.headline">
+                <source>Purge imgix-cache for an image</source>
+            </trans-unit>
+            <trans-unit id="PurgeImgixCacheController.imageUrlLabel">
+                <source>Image-URL (e.g. "http://mydomain.imgix.net/fileadmin/myimage.png"):</source>
+            </trans-unit>
+            <trans-unit id="PurgeImgixCacheController.button">
+                <source>Purge imgix-cache</source>
+            </trans-unit>
+            <trans-unit id="PurgeImgixCacheController.purgeImgixCacheWasSuccessful">
+                <source>Purge-Request for "###IMAGE_URL###" was successfully send!</source>
+            </trans-unit>
             <trans-unit id="PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnFailedRestRequest">
                 <source>Could not purge imgix-cache for "###IMAGE_URL###" (REST-request failed)!</source>
             </trans-unit>

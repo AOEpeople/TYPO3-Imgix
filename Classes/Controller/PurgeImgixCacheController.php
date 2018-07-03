@@ -27,6 +27,7 @@ namespace Aoe\Imgix\Controller;
 
 use Aoe\Imgix\Rest\RestClient;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Lang\LanguageService;
 
 class PurgeImgixCacheController extends ActionController
 {
@@ -63,9 +64,22 @@ class PurgeImgixCacheController extends ActionController
         $this->restClient->getErrorHandler()->overrideFlashMessageQueue($this->getControllerContext()->getFlashMessageQueue());
 
         if (true === $this->restClient->purgeImgixCache($imageUrl)) {
-            $this->addFlashMessage('Purge-Request for "'.$imageUrl.'" was successfully send!');
+            $messageKey = 'PurgeImgixCacheController.purgeImgixCacheWasSuccessful';
+            $message = $this->getLanguageService()->sL('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:'.$messageKey);
+            $message = str_replace('###IMAGE_URL###', $imageUrl, $message);
+            $this->addFlashMessage($message);
         }
 
         $this->redirect('index');
+    }
+
+    /**
+     * Returns LanguageService
+     *
+     * @return LanguageService
+     */
+    protected function getLanguageService()
+    {
+        return $GLOBALS['LANG'];
     }
 }

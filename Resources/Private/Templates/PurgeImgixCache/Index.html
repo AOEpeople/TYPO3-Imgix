@@ -14,16 +14,31 @@
         <!-- Header: end -->
 
         <div class="module-body t3js-module-body">
+            <script type="text/javascript">
+                function controlButtonBehaviour() {
+                    if(document.getElementById("imageUrl").value === "") {
+                        document.getElementById('purge-button').disabled = true;
+                    } else {
+                        document.getElementById('purge-button').disabled = false;
+                    }
+                }
+            </script>
             <f:flashMessages renderMode="div"/>
 
-            <h2>Purge imgix-Cache for an image</h2>
+            <h2><f:translate id="PurgeImgixCacheController.headline" extensionName="imgix" /></h2>
             <f:form method="post" action="purgeImgixCache">
                 <div class="form-group" style="max-width: 800px;">
-                    <label for="imageUrl">Image-URL (e.g. http://mydomain.imgix.net/fileadmin/myimage.png)</label>
-                    <f:form.textfield id="imageUrl" name="imageUrl" additionalAttributes="{class: 'form-control'}"/>
+                    <label for="imageUrl"><f:translate id="PurgeImgixCacheController.imageUrlLabel" extensionName="imgix" /></label>
+                    <f:form.textfield
+                            id="imageUrl"
+                            name="imageUrl"
+                            additionalAttributes="{class: 'form-control', onchange: 'controlButtonBehaviour()', onkeyup: 'controlButtonBehaviour()'}"/>
                 </div>
                 <div class="help-block">
-                    <f:form.submit id="purge-imgix-cache" value="Purge imgix-Cache" additionalAttributes="{class: 'btn btn-default'}"/>
+                    <f:form.submit
+                            id="purge-button"
+                            value="{f:translate(id:'PurgeImgixCacheController.button',extensionName:'imgix')}"
+                            additionalAttributes="{class: 'btn btn-default', disabled: 'disabled'}"/>
                 </div>
             </f:form>
         </div>
