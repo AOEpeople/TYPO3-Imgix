@@ -6,6 +6,7 @@ const.tx_imgix_loader {
     }
 
     settings {
+        apiKey =
         host =
         enabled =
         enableFluid =

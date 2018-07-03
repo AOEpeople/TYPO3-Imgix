@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2018-07-01T18:41:55Z" product-name="imgix">
+        <header/>
+        <body>
+            <trans-unit id="PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnFailedRestRequest">
+                <source>Could not purge imgix-cache for "###IMAGE_URL###" (REST-request failed)!</source>
+            </trans-unit>
+            <trans-unit id="PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnInvalidApiKey">
+                <source>Could not purge imgix-cache for "###IMAGE_URL###" (API-key is not configured in EXT:imgix)!</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

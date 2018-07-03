@@ -79,6 +79,15 @@ class Configuration
     /**
      * @return bool
      */
+    public function isApiKeyConfigured()
+    {
+        $apiKey = $this->getApiKey();
+        return (empty($apiKey) === false);
+    }
+
+    /**
+     * @return bool
+     */
     public function isEnabled()
     {
         if (isset($this->settings['enabled']) && '' !== $this->settings['enabled']) {
@@ -110,7 +119,18 @@ class Configuration
     }
 
     /**
-     * @return bool
+     * @return string
+     */
+    public function getApiKey()
+    {
+        if (isset($this->settings['apiKey']) && '' !== $this->settings['apiKey']) {
+            return (string)$this->settings['apiKey'];
+        }
+        return (string)$this->configuration['apiKey'];
+    }
+
+    /**
+     * @return string
      */
     public function getHost()
     {

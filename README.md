@@ -40,6 +40,10 @@ The configuration is seperated in two parts: "basic" and "imgix"
 #### basic
 The basic configuration includes specific settings of the extension which you need to set up for your project.
 
+##### basic.apiKey
+This is the apiKey you have specified in the imgix webapp. The API-key must be configured when you want to purge images in imgix.
+For further information have a look at the [imigx doumentation][10].
+
 ##### basic.host
 This is the host you have specified in the imgix webapp as source for your project. Be aware that you have to use the "Web Folder" source in imgix.
 For further information have a look at the [imigx doumentation][6].
@@ -132,3 +136,4 @@ License: GPLv3 or later. See LICENSE.
 [7]: http://caniuse.com/#feat=mutationobserver
 [8]: http://github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
 [9]: https://docs.imgix.com/apis/url
+[10]: https://docs.imgix.com/setup/purging-images

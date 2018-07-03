@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=5.5.0",
-        "typo3/cms-core": ">=6.2.0,<=7.6.99"
+        "typo3/cms-core": ">=7.6.0,<=7.6.99"
     },
     "require-dev": {
         "typo3/cms": "^7.6",
@@ -56,7 +56,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.0-dev"
+            "dev-master": "2.0.0-dev"
         },
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",

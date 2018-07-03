@@ -6,6 +6,7 @@ plugin.tx_imgix {
     }
 
     settings {
+        apiKey = {$const.tx_imgix_loader.settings.apiKey}
         host = {$const.tx_imgix_loader.settings.host}
         enabled = {$const.tx_imgix_loader.settings.enabled}
         enableFluid = {$const.tx_imgix_loader.settings.enableFluid}

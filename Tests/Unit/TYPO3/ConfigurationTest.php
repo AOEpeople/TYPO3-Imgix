@@ -39,6 +39,49 @@ class ConfigurationTest extends UnitTestCase
     /**
      * @test
      */
+    public function shouldCheckThatApiKeyIsNotConfigured()
+    {
+        $configurationManager = $this->getMockedConfigurationManager([]);
+        $configuration = new Configuration($configurationManager);
+        $this->assertFalse($configuration->isApiKeyConfigured());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCheckThatApiKeyIsConfigured()
+    {
+        $configurationManager = $this->getMockedConfigurationManager([]);
+        $this->fakeConfiguration(['apiKey' => 'myApiKey']);
+        $configuration = new Configuration($configurationManager);
+        $this->assertTrue($configuration->isApiKeyConfigured());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetApiKey()
+    {
+        $configurationManager = $this->getMockedConfigurationManager([]);
+        $this->fakeConfiguration(['apiKey' => 'myApiKey']);
+        $configuration = new Configuration($configurationManager);
+        $this->assertSame('myApiKey', $configuration->getApiKey());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetOverwrittenApiKeyBySettings()
+    {
+        $configurationManager = $this->getMockedConfigurationManager(['apiKey' => 'myApiKey2']);
+        $this->fakeConfiguration(['apiKey' => 'myApiKey']);
+        $configuration = new Configuration($configurationManager);
+        $this->assertSame('myApiKey2', $configuration->getApiKey());
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetHost()
     {
         $configurationManager = $this->getMockedConfigurationManager([]);
