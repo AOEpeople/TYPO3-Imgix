@@ -1,4 +1,4 @@
-# cat=basic/enable; type=string; label=API-key configured in imgix (which can be used to purge images in imgix)
+# cat=basic/enable; type=string; label=API-key configured in imgix (which will be used to purge images in imgix)
 apiKey=
 
 # cat=basic/enable; type=string; label=Host configured in imgix
