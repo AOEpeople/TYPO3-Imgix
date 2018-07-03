@@ -27,12 +27,26 @@ namespace Aoe\Imgix\TYPO3;
 
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Lang\LanguageService;
 
 class PurgeImgixCacheErrorHandler
 {
+    /**
+     * @var FlashMessageQueue
+     */
+    private $flashMessageQueue;
+
+    /**
+     * @param FlashMessageService $flashMessageService
+     */
+    public function __construct(FlashMessageService $flashMessageService)
+    {
+        $this->flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
+    }
+
     /**
      * @param string $imageUrl
      * @param string $curlErrorMessage
@@ -48,8 +62,9 @@ class PurgeImgixCacheErrorHandler
         }
 
         $messageKey = 'PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnFailedRestRequest';
-        $message = $this->createErrorMessage($messageKey, $imageUrl);
-        $this->addCouldNotPurgeImgixCacheMessageInFlashMessageQueue($message);
+        $message = $this->getLanguageService()->sL('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:'.$messageKey);
+        $message = str_replace('###IMAGE_URL###', $imageUrl, $message);
+        $this->addMessageToFlashMessageQueue($message);
 
         $errorMessageDetails = ['curlHttpStatusCode: ' . $curlHttpStatusCode];
         if (false === empty($curlErrorMessage) && false === empty($curlErrorCode)) {
@@ -57,7 +72,7 @@ class PurgeImgixCacheErrorHandler
             $errorMessageDetails[] = ' curlErrorCode: ' . $curlErrorCode;
         }
         $errorMessage = 'Could not purge imgix-cache for "'.$imageUrl.'" ('.implode(',', $errorMessageDetails).')!';
-        $this->logCouldNotPurgeImgixCacheErrorInSysLog($errorMessage, 1530527897);
+        $this->logErrorInSysLog($errorMessage, 1530527897);
     }
 
     /**
@@ -71,10 +86,20 @@ class PurgeImgixCacheErrorHandler
         }
 
         $messageKey = 'PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnInvalidApiKey';
-        $message = $this->createErrorMessage($messageKey, $imageUrl);
+        $message = $this->getLanguageService()->sL('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:'.$messageKey);
+        $message = str_replace('###IMAGE_URL###', $imageUrl, $message);
 
-        $this->addCouldNotPurgeImgixCacheMessageInFlashMessageQueue($message);
-        $this->logCouldNotPurgeImgixCacheErrorInSysLog($message, 1530527898);
+        $this->addMessageToFlashMessageQueue($message);
+        $this->logErrorInSysLog($message, 1530527898);
+    }
+
+    /**
+     * When errorHandler is used in a 'extbase-controller-context', than we must use the flashMessageQueue from the extbase-controller
+     * @param FlashMessageQueue $flashMessageQueue
+     */
+    public function overrideFlashMessageQueue(FlashMessageQueue $flashMessageQueue)
+    {
+        $this->flashMessageQueue = $flashMessageQueue;
     }
 
     /**
@@ -97,34 +122,26 @@ class PurgeImgixCacheErrorHandler
 
     /**
      * @param string $message
+     * @return FlashMessage
      */
-    protected function addCouldNotPurgeImgixCacheMessageInFlashMessageQueue($message)
+    protected function createFlashMessage($message)
     {
-        try {
-            /** @var $flashMessage FlashMessage */
-            $flashMessage = GeneralUtility::makeInstance(FlashMessage::class, $message, '', FlashMessage::ERROR, true);
-            /** @var $flashMessageService FlashMessageService */
-            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-
-            /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
-            $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
-            $defaultFlashMessageQueue->enqueue($flashMessage);
-        } catch (\Exception $e) {
-            $errorMessage = 'could not create flash-message ('.$e->getMessage().')';
-            $this->getBackendUser()->writelog(3, 0, 2, $e->getCode(), $errorMessage, []);
-        }
+        /** @var $flashMessage FlashMessage */
+        $flashMessage = GeneralUtility::makeInstance(FlashMessage::class, $message, '', FlashMessage::ERROR, true);
+        return $flashMessage;
     }
 
     /**
-     * @param string $messageKey
-     * @param string $imageUrl
-     * @return string
+     * @param string $message
      */
-    private function createErrorMessage($messageKey, $imageUrl)
+    private function addMessageToFlashMessageQueue($message)
     {
-        $message = $this->getLanguageService()->sL('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:'.$messageKey);
-        $message = str_replace('###IMAGE_URL###', $imageUrl, $message);
-        return $message;
+        try {
+            $this->flashMessageQueue->enqueue($this->createFlashMessage($message));
+        } catch (\Exception $e) {
+            $errorMessage = 'could not create flash-message ('.$e->getMessage().')';
+            $this->logErrorInSysLog($errorMessage, $e->getCode());
+        }
     }
 
     /**
@@ -132,7 +149,7 @@ class PurgeImgixCacheErrorHandler
      * @param integer $errorCode
      * @return void
      */
-    private function logCouldNotPurgeImgixCacheErrorInSysLog($errorMessage, $errorCode)
+    private function logErrorInSysLog($errorMessage, $errorCode)
     {
         $this->getBackendUser()->writelog(3, 0, 2, $errorCode, $errorMessage, []);
     }

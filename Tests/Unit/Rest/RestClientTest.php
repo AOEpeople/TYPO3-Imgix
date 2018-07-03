@@ -74,7 +74,7 @@ class RestClientTest extends UnitTestCase
         $this->errorHandler->expects(self::once())->method('handleCouldNotPurgeImgixCacheOnInvalidApiKey')->with($imageUrl);
         $this->errorHandler->expects(self::never())->method('handleCouldNotPurgeImgixCacheOnFailedRestRequest');
         $this->restClient->expects(self::never())->method('doPostRequest');
-        $this->restClient->purgeImgixCache($imageUrl);
+        $this->assertFalse($this->restClient->purgeImgixCache($imageUrl));
     }
 
     /**
@@ -99,7 +99,7 @@ class RestClientTest extends UnitTestCase
             ->method('handleCouldNotPurgeImgixCacheOnFailedRestRequest')
             ->with($imageUrl, $result['curlErrorMessage'], $result['curlErrorCode'], $result['curlHttpStatusCode']);
         $this->restClient->expects(self::once())->method('doPostRequest')->with($postRequest)->willReturn($result);
-        $this->restClient->purgeImgixCache($imageUrl);
+        $this->assertFalse($this->restClient->purgeImgixCache($imageUrl));
     }
 
     /**
@@ -116,6 +116,6 @@ class RestClientTest extends UnitTestCase
         $this->errorHandler->expects(self::never())->method('handleCouldNotPurgeImgixCacheOnInvalidApiKey');
         $this->errorHandler->expects(self::never())->method('handleCouldNotPurgeImgixCacheOnFailedRestRequest');
         $this->restClient->expects(self::once())->method('doPostRequest')->with($postRequest)->willReturn($result);
-        $this->restClient->purgeImgixCache($imageUrl);
+        $this->assertTrue($this->restClient->purgeImgixCache($imageUrl));
     }
 }

@@ -54,14 +54,22 @@ class RestClient
     }
 
     /**
+     * @return PurgeImgixCacheErrorHandler
+     */
+    public function getErrorHandler()
+    {
+        return $this->errorHandler;
+    }
+
+    /**
      * @param string $imageUrl
-     * @return void
+     * @return boolean
      */
     public function purgeImgixCache($imageUrl)
     {
         if (false === $this->configuration->isApiKeyConfigured()) {
             $this->errorHandler->handleCouldNotPurgeImgixCacheOnInvalidApiKey($imageUrl);
-            return;
+            return false;
         }
 
         $postRequest = new stdClass();
@@ -76,6 +84,8 @@ class RestClient
                 $result['curlHttpStatusCode']
             );
         }
+
+        return $result['isSuccessful'];
     }
 
     /**

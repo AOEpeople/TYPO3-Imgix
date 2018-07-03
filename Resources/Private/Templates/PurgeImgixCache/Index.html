@@ -1,0 +1,31 @@
+<f:be.container>
+    <div class="typo3-fullDoc">
+        <!-- Header: start -->
+        <div class="module-docheader t3js-module-docheader" style="height: auto;">
+            <div class="module-docheader-bar module-docheader-bar-navigation t3js-module-docheader-bar t3js-module-docheader-bar-navigation" style="height: auto;">
+                <div class="module-docheader-bar-column-left">
+                    <div class="form-inline">
+                        <div class="form-group form-group-sm">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Header: end -->
+
+        <div class="module-body t3js-module-body">
+            <f:flashMessages renderMode="div"/>
+
+            <h2>Purge imgix-Cache for an image</h2>
+            <f:form method="post" action="purgeImgixCache">
+                <div class="form-group" style="max-width: 800px;">
+                    <label for="imageUrl">Image-URL (e.g. http://mydomain.imgix.net/fileadmin/myimage.png)</label>
+                    <f:form.textfield id="imageUrl" name="imageUrl" additionalAttributes="{class: 'form-control'}"/>
+                </div>
+                <div class="help-block">
+                    <f:form.submit id="purge-imgix-cache" value="Purge imgix-Cache" additionalAttributes="{class: 'btn btn-default'}"/>
+                </div>
+            </f:form>
+        </div>
+    </div>
+</f:be.container>

@@ -28,6 +28,9 @@ namespace Aoe\Imgix\Tests\TYPO3;
 use Aoe\Imgix\TYPO3\PurgeImgixCacheErrorHandler;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Lang\LanguageService;
 use PHPUnit_Framework_MockObject_MockObject;
 
@@ -39,12 +42,17 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
     private $backendUser;
 
     /**
+     * @var FlashMessageQueue|PHPUnit_Framework_MockObject_MockObject
+     */
+    private $flashMessageQueue;
+
+    /**
      * @var LanguageService|PHPUnit_Framework_MockObject_MockObject
      */
     private $languageService;
 
     /**
-     * @var PurgeImgixCacheErrorHandler
+     * @var PurgeImgixCacheErrorHandler|PHPUnit_Framework_MockObject_MockObject
      */
     private $errorHandler;
 
@@ -54,10 +62,16 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
     public function setUp()
     {
         $this->backendUser = $this->getMockBuilder(BackendUserAuthentication::class)->disableOriginalConstructor()->getMock();
+        $this->flashMessageQueue = $this->getMockBuilder(FlashMessageQueue::class)->disableOriginalConstructor()->getMock();
         $this->languageService = $this->getMockBuilder(LanguageService::class)->disableOriginalConstructor()->getMock();
+
+        $flashMessageService = $this->getMockBuilder(FlashMessageService::class)->disableOriginalConstructor()->getMock();
+        $flashMessageService->expects(self::once())->method('getMessageQueueByIdentifier')->willReturn($this->flashMessageQueue);
+
         $this->errorHandler = $this
             ->getMockBuilder(PurgeImgixCacheErrorHandler::class)
-            ->setMethods(['getBackendUser', 'getLanguageService', 'addCouldNotPurgeImgixCacheMessageInFlashMessageQueue'])
+            ->setConstructorArgs([$flashMessageService])
+            ->setMethods(['getBackendUser', 'getLanguageService', 'createFlashMessage'])
             ->getMock();
         $this->errorHandler->expects(self::any())->method('getBackendUser')->willReturn($this->backendUser);
         $this->errorHandler->expects(self::any())->method('getLanguageService')->willReturn($this->languageService);
@@ -81,7 +95,13 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
             ->willReturn('Could not purge imgix-cache for "###IMAGE_URL###"');
 
         $flashMessage = 'Could not purge imgix-cache for "'.$imageUrl.'"';
-        $this->errorHandler->expects(self::once())->method('addCouldNotPurgeImgixCacheMessageInFlashMessageQueue')->with($flashMessage);
+        $flashMessageObj = $this->getMockBuilder(FlashMessage::class)->disableOriginalConstructor()->getMock();
+        $this->errorHandler
+            ->expects(self::once())
+            ->method('createFlashMessage')
+            ->with($flashMessage)
+            ->willReturn($flashMessageObj);
+        $this->flashMessageQueue->expects(self::once())->method('enqueue')->with($flashMessageObj);
 
         $sysLogMessage = 'Could not purge imgix-cache for "'.$imageUrl.'"';
         $sysLogMessage .= ' (curlHttpStatusCode: 401, curlErrorMessage: curl-error, curlErrorCode: 28)!';
@@ -105,7 +125,13 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
             ->willReturn('Could not purge imgix-cache for "###IMAGE_URL###"');
 
         $expectedMessage = 'Could not purge imgix-cache for "'.$imageUrl.'"';
-        $this->errorHandler->expects(self::once())->method('addCouldNotPurgeImgixCacheMessageInFlashMessageQueue')->with($expectedMessage);
+        $flashMessageObj = $this->getMockBuilder(FlashMessage::class)->disableOriginalConstructor()->getMock();
+        $this->errorHandler
+            ->expects(self::once())
+            ->method('createFlashMessage')
+            ->with($expectedMessage)
+            ->willReturn($flashMessageObj);
+        $this->flashMessageQueue->expects(self::once())->method('enqueue')->with($flashMessageObj);
         $this->backendUser->expects(self::once())->method('writelog')->with(3, 0, 2, 1530527898, $expectedMessage, []);
 
         $this->errorHandler->handleCouldNotPurgeImgixCacheOnInvalidApiKey($imageUrl);
