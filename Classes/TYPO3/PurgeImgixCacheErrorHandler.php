@@ -25,6 +25,7 @@ namespace Aoe\Imgix\TYPO3;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Aoe\Imgix\Domain\Model\ImagePurgeResult;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
@@ -49,22 +50,20 @@ class PurgeImgixCacheErrorHandler
 
     /**
      * @param string $imageUrl
-     * @param string $curlErrorMessage
-     * @param integer $curlErrorCode
-     * @param integer $curlHttpStatusCode
+     * @param ImagePurgeResult $result
      * @return void
      */
-    public function handleCouldNotPurgeImgixCacheOnFailedRestRequest($imageUrl, $curlErrorMessage, $curlErrorCode, $curlHttpStatusCode)
+    public function handleCouldNotPurgeImgixCacheOnFailedRestRequest($imageUrl, ImagePurgeResult $result)
     {
         if (false === is_object($this->getBackendUser())) {
             // do nothing, wenn BE-user is not logged in
             return;
         }
 
-        $errorMessageDetails = ['curlHttpStatusCode: ' . $curlHttpStatusCode];
-        if (false === empty($curlErrorMessage) && false === empty($curlErrorCode)) {
-            $errorMessageDetails[] = ' curlErrorMessage: ' . $curlErrorMessage;
-            $errorMessageDetails[] = ' curlErrorCode: ' . $curlErrorCode;
+        $errorMessageDetails = ['curlHttpStatusCode: ' . $result->getCurlHttpStatusCode()];
+        if ($result->hasCurlErrorMessage() && $result->hasCurlErrorCode()) {
+            $errorMessageDetails[] = ' curlErrorMessage: ' . $result->getCurlErrorMessage();
+            $errorMessageDetails[] = ' curlErrorCode: ' . $result->getCurlErrorCode();
         }
         $messageKey = 'PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnFailedRestRequest';
         $message = $this->getLanguageService()->sL('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:'.$messageKey);

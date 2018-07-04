@@ -25,6 +25,7 @@ namespace Aoe\Imgix\Tests\TYPO3;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Aoe\Imgix\Domain\Model\ImagePurgeResult;
 use Aoe\Imgix\TYPO3\PurgeImgixCacheErrorHandler;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
@@ -83,9 +84,8 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
     public function shouldHandleCouldNotPurgeImgixCacheOnFailedRestRequest()
     {
         $imageUrl = 'http://congstar.imgix.com/directory/image.png';
-        $curlMessage = 'curl-error';
-        $curlCode = 28;
-        $curlHttpStatusCode = 401;
+        $result = new ImagePurgeResult();
+        $result->markImagePurgeAsFailed('curl-error', 28, 401);
 
         $this->languageService
             ->expects(self::once())
@@ -104,7 +104,7 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
         $this->flashMessageQueue->expects(self::once())->method('enqueue')->with($flashMessageObj);
         $this->backendUser->expects(self::once())->method('writelog')->with(3, 0, 2, 1530527897, $expectedMessage, []);
 
-        $this->errorHandler->handleCouldNotPurgeImgixCacheOnFailedRestRequest($imageUrl, $curlMessage, $curlCode, $curlHttpStatusCode);
+        $this->errorHandler->handleCouldNotPurgeImgixCacheOnFailedRestRequest($imageUrl, $result);
     }
 
     /**

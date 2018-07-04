@@ -60,10 +60,10 @@ class PurgeImgixCacheController extends ActionController
     public function purgeImgixCacheAction($imageUrl)
     {
         // Override flashMessageQueue in errorHandler:
-        // When REST-call fails, than the errorHandler will automatically send a flashMessage with details about the failure
+        // When image-purge fails, than the errorHandler will automatically send a flashMessage with details about the failure
         $this->imagePurgeService->getErrorHandler()->overrideFlashMessageQueue($this->getControllerContext()->getFlashMessageQueue());
 
-        if (true === $this->imagePurgeService->purgeImgixCache($imageUrl)) {
+        if ($this->imagePurgeService->purgeImgixCache($imageUrl)->isSuccessful()) {
             $messageKey = 'PurgeImgixCacheController.purgeImgixCacheWasSuccessful';
             $message = $this->getLanguageService()->sL('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:'.$messageKey);
             $message = str_replace('###IMAGE_URL###', $imageUrl, $message);

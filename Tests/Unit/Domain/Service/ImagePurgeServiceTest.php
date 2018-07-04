@@ -25,6 +25,7 @@ namespace Aoe\Imgix\Tests\Domain\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Aoe\Imgix\Domain\Model\ImagePurgeResult;
 use Aoe\Imgix\Domain\Service\ImagePurgeService;
 use Aoe\Imgix\TYPO3\Configuration;
 use Aoe\Imgix\TYPO3\PurgeImgixCacheErrorHandler;
@@ -74,7 +75,7 @@ class ImagePurgeServiceTest extends UnitTestCase
         $this->errorHandler->expects(self::once())->method('handleCouldNotPurgeImgixCacheOnInvalidApiKey')->with($imageUrl);
         $this->errorHandler->expects(self::never())->method('handleCouldNotPurgeImgixCacheOnFailedRestRequest');
         $this->imagePurgeService->expects(self::never())->method('doPostRequest');
-        $this->assertFalse($this->imagePurgeService->purgeImgixCache($imageUrl));
+        $this->assertFalse($this->imagePurgeService->purgeImgixCache($imageUrl)->isSuccessful());
     }
 
     /**
@@ -85,21 +86,14 @@ class ImagePurgeServiceTest extends UnitTestCase
         $imageUrl = 'http://congstar.imgix.com/directory/image.png';
         $postRequest = new stdClass();
         $postRequest->url = $imageUrl;
-        $result = [
-            'isSuccessful' => false,
-            'curlErrorMessage' => 'curlError',
-            'curlErrorCode' => 28,
-            'curlHttpStatusCode' => 503
-        ];
+        $result = new ImagePurgeResult();
+        $result->markImagePurgeAsFailed('curlError', 28, 503);
 
         $this->configuration->expects(self::once())->method('isApiKeyConfigured')->willReturn(true);
         $this->errorHandler->expects(self::never())->method('handleCouldNotPurgeImgixCacheOnInvalidApiKey');
-        $this->errorHandler
-            ->expects(self::once())
-            ->method('handleCouldNotPurgeImgixCacheOnFailedRestRequest')
-            ->with($imageUrl, $result['curlErrorMessage'], $result['curlErrorCode'], $result['curlHttpStatusCode']);
+        $this->errorHandler->expects(self::once())->method('handleCouldNotPurgeImgixCacheOnFailedRestRequest')->with($imageUrl, $result);
         $this->imagePurgeService->expects(self::once())->method('doPostRequest')->with($postRequest)->willReturn($result);
-        $this->assertFalse($this->imagePurgeService->purgeImgixCache($imageUrl));
+        $this->assertFalse($this->imagePurgeService->purgeImgixCache($imageUrl)->isSuccessful());
     }
 
     /**
@@ -110,12 +104,13 @@ class ImagePurgeServiceTest extends UnitTestCase
         $imageUrl = 'http://congstar.imgix.com/directory/image.png';
         $postRequest = new stdClass();
         $postRequest->url = $imageUrl;
-        $result = ['isSuccessful' => true];
+        $result = new ImagePurgeResult();
+        $result->markImagePurgeAsSuccessful();
 
         $this->configuration->expects(self::once())->method('isApiKeyConfigured')->willReturn(true);
         $this->errorHandler->expects(self::never())->method('handleCouldNotPurgeImgixCacheOnInvalidApiKey');
         $this->errorHandler->expects(self::never())->method('handleCouldNotPurgeImgixCacheOnFailedRestRequest');
         $this->imagePurgeService->expects(self::once())->method('doPostRequest')->with($postRequest)->willReturn($result);
-        $this->assertTrue($this->imagePurgeService->purgeImgixCache($imageUrl));
+        $this->assertTrue($this->imagePurgeService->purgeImgixCache($imageUrl)->isSuccessful());
     }
 }

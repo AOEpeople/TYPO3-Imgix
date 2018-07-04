@@ -25,6 +25,7 @@ namespace Aoe\Imgix\Domain\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Aoe\Imgix\Domain\Model\ImagePurgeResult;
 use Aoe\Imgix\TYPO3\Configuration;
 use Aoe\Imgix\TYPO3\PurgeImgixCacheErrorHandler;
 use stdClass;
@@ -63,34 +64,31 @@ class ImagePurgeService
 
     /**
      * @param string $imageUrl
-     * @return boolean
+     * @return ImagePurgeResult
      */
     public function purgeImgixCache($imageUrl)
     {
         if (false === $this->configuration->isApiKeyConfigured()) {
             $this->errorHandler->handleCouldNotPurgeImgixCacheOnInvalidApiKey($imageUrl);
-            return false;
+            $result = new ImagePurgeResult();
+            $result->markImagePurgeAsFailed();
+            return $result;
         }
 
         $postRequest = new stdClass();
         $postRequest->url = $imageUrl;
 
         $result = $this->doPostRequest($postRequest);
-        if ($result['isSuccessful'] === false) {
-            $this->errorHandler->handleCouldNotPurgeImgixCacheOnFailedRestRequest(
-                $imageUrl,
-                $result['curlErrorMessage'],
-                $result['curlErrorCode'],
-                $result['curlHttpStatusCode']
-            );
+        if (false === $result->isSuccessful()) {
+            $this->errorHandler->handleCouldNotPurgeImgixCacheOnFailedRestRequest($imageUrl, $result);
         }
 
-        return $result['isSuccessful'];
+        return $result;
     }
 
     /**
      * @param stdClass $postRequest
-     * @return array
+     * @return ImagePurgeResult
      */
     protected function doPostRequest(stdClass $postRequest)
     {
@@ -108,17 +106,11 @@ class ImagePurgeService
         $response = curl_exec($ch);
         $responseInfo = curl_getinfo($ch);
 
+        $result = new ImagePurgeResult();
         if ($response === false || $responseInfo['http_code'] !== 200) {
-            $result = [
-                'isSuccessful' => false,
-                'curlErrorMessage' => curl_error($ch),
-                'curlErrorCode' => curl_errno($ch),
-                'curlHttpStatusCode' => $responseInfo['http_code']
-            ];
+            $result->markImagePurgeAsFailed(curl_error($ch), curl_errno($ch), $responseInfo['http_code']);
         } else {
-            $result = [
-                'isSuccessful' => true
-            ];
+            $result->markImagePurgeAsSuccessful();
         }
 
         curl_close($ch);
