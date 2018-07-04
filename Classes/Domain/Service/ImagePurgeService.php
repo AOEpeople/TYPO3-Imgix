@@ -1,5 +1,5 @@
 <?php
-namespace Aoe\Imgix\Rest;
+namespace Aoe\Imgix\Domain\Service;
 
 /***************************************************************
  *  Copyright notice
@@ -29,7 +29,7 @@ use Aoe\Imgix\TYPO3\Configuration;
 use Aoe\Imgix\TYPO3\PurgeImgixCacheErrorHandler;
 use stdClass;
 
-class RestClient
+class ImagePurgeService
 {
     const IMG_PURGE_REQUEST_URL = 'https://api.imgix.com/v2/image/purger';
 

@@ -25,7 +25,7 @@ namespace Aoe\Imgix\TYPO3;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Aoe\Imgix\Rest\RestClient;
+use Aoe\Imgix\Domain\Service\ImagePurgeService;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\File\ExtendedFileUtility;
 use TYPO3\CMS\Core\Utility\File\ExtendedFileUtilityProcessDataHookInterface;
@@ -40,24 +40,24 @@ class FileUtilityProcessDataHook implements ExtendedFileUtilityProcessDataHookIn
     private $configuration;
 
     /**
-     * @var RestClient
+     * @var ImagePurgeService
      */
-    private $restClient;
+    private $imagePurgeService;
 
     /**
-     * @param Configuration $configuration
-     * @param RestClient $restClient
+     * @param Configuration     $configuration
+     * @param ImagePurgeService $imagePurgeService
      */
-    public function __construct(Configuration $configuration = null, RestClient $restClient = null)
+    public function __construct(Configuration $configuration = null, ImagePurgeService $imagePurgeService = null)
     {
-        if ($configuration === null || $restClient === null) {
+        if ($configuration === null || $imagePurgeService === null) {
             // TYPO3 doesn't support Dependency-Injection in Hooks - so we must create the objects manually
             $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
             $configuration = $objectManager->get(Configuration::class);
-            $restClient = $objectManager->get(RestClient::class);
+            $imagePurgeService = $objectManager->get(ImagePurgeService::class);
         }
         $this->configuration = $configuration;
-        $this->restClient = $restClient;
+        $this->imagePurgeService = $imagePurgeService;
     }
 
     /**
@@ -72,7 +72,7 @@ class FileUtilityProcessDataHook implements ExtendedFileUtilityProcessDataHookIn
     {
         $file = $this->getFile($result);
         if ($this->isPurgingOfImgixCacheRequired($action, $file)) {
-            $this->restClient->purgeImgixCache($this->buildImgUrl($file));
+            $this->imagePurgeService->purgeImgixCache($this->buildImgUrl($file));
         }
     }
 

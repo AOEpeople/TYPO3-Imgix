@@ -1,5 +1,5 @@
 <?php
-namespace Aoe\Imgix\Tests\Rest;
+namespace Aoe\Imgix\Tests\Domain\Service;
 
 /***************************************************************
  *  Copyright notice
@@ -25,14 +25,14 @@ namespace Aoe\Imgix\Tests\Rest;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Aoe\Imgix\Rest\RestClient;
+use Aoe\Imgix\Domain\Service\ImagePurgeService;
 use Aoe\Imgix\TYPO3\Configuration;
 use Aoe\Imgix\TYPO3\PurgeImgixCacheErrorHandler;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use stdClass;
 
-class RestClientTest extends UnitTestCase
+class ImagePurgeServiceTest extends UnitTestCase
 {
     /**
      * @var Configuration|PHPUnit_Framework_MockObject_MockObject
@@ -45,9 +45,9 @@ class RestClientTest extends UnitTestCase
     private $errorHandler;
 
     /**
-     * @var RestClient
+     * @var ImagePurgeService
      */
-    private $restClient;
+    private $imagePurgeService;
 
     /**
      * set up the test
@@ -56,8 +56,8 @@ class RestClientTest extends UnitTestCase
     {
         $this->configuration = $this->getMockBuilder(Configuration::class)->disableOriginalConstructor()->getMock();
         $this->errorHandler = $this->getMockBuilder(PurgeImgixCacheErrorHandler::class)->disableOriginalConstructor()->getMock();
-        $this->restClient = $this
-            ->getMockBuilder(RestClient::class)
+        $this->imagePurgeService = $this
+            ->getMockBuilder(ImagePurgeService::class)
             ->setConstructorArgs([$this->configuration, $this->errorHandler])
             ->setMethods(['doPostRequest'])
             ->getMock();
@@ -73,8 +73,8 @@ class RestClientTest extends UnitTestCase
         $this->configuration->expects(self::once())->method('isApiKeyConfigured')->willReturn(false);
         $this->errorHandler->expects(self::once())->method('handleCouldNotPurgeImgixCacheOnInvalidApiKey')->with($imageUrl);
         $this->errorHandler->expects(self::never())->method('handleCouldNotPurgeImgixCacheOnFailedRestRequest');
-        $this->restClient->expects(self::never())->method('doPostRequest');
-        $this->assertFalse($this->restClient->purgeImgixCache($imageUrl));
+        $this->imagePurgeService->expects(self::never())->method('doPostRequest');
+        $this->assertFalse($this->imagePurgeService->purgeImgixCache($imageUrl));
     }
 
     /**
@@ -98,8 +98,8 @@ class RestClientTest extends UnitTestCase
             ->expects(self::once())
             ->method('handleCouldNotPurgeImgixCacheOnFailedRestRequest')
             ->with($imageUrl, $result['curlErrorMessage'], $result['curlErrorCode'], $result['curlHttpStatusCode']);
-        $this->restClient->expects(self::once())->method('doPostRequest')->with($postRequest)->willReturn($result);
-        $this->assertFalse($this->restClient->purgeImgixCache($imageUrl));
+        $this->imagePurgeService->expects(self::once())->method('doPostRequest')->with($postRequest)->willReturn($result);
+        $this->assertFalse($this->imagePurgeService->purgeImgixCache($imageUrl));
     }
 
     /**
@@ -115,7 +115,7 @@ class RestClientTest extends UnitTestCase
         $this->configuration->expects(self::once())->method('isApiKeyConfigured')->willReturn(true);
         $this->errorHandler->expects(self::never())->method('handleCouldNotPurgeImgixCacheOnInvalidApiKey');
         $this->errorHandler->expects(self::never())->method('handleCouldNotPurgeImgixCacheOnFailedRestRequest');
-        $this->restClient->expects(self::once())->method('doPostRequest')->with($postRequest)->willReturn($result);
-        $this->assertTrue($this->restClient->purgeImgixCache($imageUrl));
+        $this->imagePurgeService->expects(self::once())->method('doPostRequest')->with($postRequest)->willReturn($result);
+        $this->assertTrue($this->imagePurgeService->purgeImgixCache($imageUrl));
     }
 }

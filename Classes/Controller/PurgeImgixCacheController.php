@@ -25,23 +25,23 @@ namespace Aoe\Imgix\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Aoe\Imgix\Rest\RestClient;
+use Aoe\Imgix\Domain\Service\ImagePurgeService;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Lang\LanguageService;
 
 class PurgeImgixCacheController extends ActionController
 {
     /**
-     * @var RestClient
+     * @var ImagePurgeService
      */
-    private $restClient;
+    private $imagePurgeService;
 
     /**
-     * @param RestClient $restClient
+     * @param ImagePurgeService $imagePurgeService
      */
-    public function __construct(RestClient $restClient)
+    public function __construct(ImagePurgeService $imagePurgeService)
     {
-        $this->restClient = $restClient;
+        $this->imagePurgeService = $imagePurgeService;
         parent::__construct();
     }
 
@@ -61,9 +61,9 @@ class PurgeImgixCacheController extends ActionController
     {
         // Override flashMessageQueue in errorHandler:
         // When REST-call fails, than the errorHandler will automatically send a flashMessage with details about the failure
-        $this->restClient->getErrorHandler()->overrideFlashMessageQueue($this->getControllerContext()->getFlashMessageQueue());
+        $this->imagePurgeService->getErrorHandler()->overrideFlashMessageQueue($this->getControllerContext()->getFlashMessageQueue());
 
-        if (true === $this->restClient->purgeImgixCache($imageUrl)) {
+        if (true === $this->imagePurgeService->purgeImgixCache($imageUrl)) {
             $messageKey = 'PurgeImgixCacheController.purgeImgixCacheWasSuccessful';
             $message = $this->getLanguageService()->sL('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:'.$messageKey);
             $message = str_replace('###IMAGE_URL###', $imageUrl, $message);

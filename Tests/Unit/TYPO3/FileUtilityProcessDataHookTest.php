@@ -25,7 +25,7 @@ namespace Aoe\Imgix\Tests\TYPO3;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Aoe\Imgix\Rest\RestClient;
+use Aoe\Imgix\Domain\Service\ImagePurgeService;
 use Aoe\Imgix\TYPO3\Configuration;
 use Aoe\Imgix\TYPO3\FileUtilityProcessDataHook;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
@@ -46,9 +46,9 @@ class FileUtilityProcessDataHookTest extends UnitTestCase
     private $fileHook;
 
     /**
-     * @var RestClient|PHPUnit_Framework_MockObject_MockObject
+     * @var ImagePurgeService|PHPUnit_Framework_MockObject_MockObject
      */
-    private $restClient;
+    private $imagePurgeService;
 
     /**
      * set up the test
@@ -56,8 +56,8 @@ class FileUtilityProcessDataHookTest extends UnitTestCase
     public function setUp()
     {
         $this->configuration = $this->getMockBuilder(Configuration::class)->disableOriginalConstructor()->getMock();
-        $this->restClient = $this->getMockBuilder(RestClient::class)->disableOriginalConstructor()->getMock();
-        $this->fileHook = new FileUtilityProcessDataHook($this->configuration, $this->restClient);
+        $this->imagePurgeService = $this->getMockBuilder(ImagePurgeService::class)->disableOriginalConstructor()->getMock();
+        $this->fileHook = new FileUtilityProcessDataHook($this->configuration, $this->imagePurgeService);
     }
 
     /**
@@ -67,7 +67,7 @@ class FileUtilityProcessDataHookTest extends UnitTestCase
     {
         $this->configuration->expects(self::once())->method('getHost')->willReturn('www.congstar.imgix.de');
         $this->configuration->expects(self::once())->method('isEnabled')->willReturn(true);
-        $this->restClient
+        $this->imagePurgeService
             ->expects(self::once())
             ->method('purgeImgixCache')
             ->with('http://www.congstar.imgix.de/directory/image.png');
@@ -98,11 +98,11 @@ class FileUtilityProcessDataHookTest extends UnitTestCase
         $result[0][0] = $file;
         $parentObject = $this->getMockBuilder(ExtendedFileUtility::class)->disableOriginalConstructor()->getMock();
 
-        $this->restClient->expects(self::never())->method('purgeImgixCache');
+        $this->imagePurgeService->expects(self::never())->method('purgeImgixCache');
 
         $this->fileHook = $this
             ->getMockBuilder(FileUtilityProcessDataHook::class)
-            ->setConstructorArgs([$this->configuration, $this->restClient])
+            ->setConstructorArgs([$this->configuration, $this->imagePurgeService])
             ->setMethods(['buildImgUrl', 'getFile', 'isPurgingOfImgixCacheRequired'])
             ->getMock();
         $this->fileHook->expects(self::never())->method('buildImgUrl');
