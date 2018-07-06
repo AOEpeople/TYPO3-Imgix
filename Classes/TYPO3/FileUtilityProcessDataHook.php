@@ -108,9 +108,6 @@ class FileUtilityProcessDataHook implements ExtendedFileUtilityProcessDataHookIn
      */
     protected function isPurgingOfImgixCacheRequired($action, File $file = null)
     {
-        if (false === $this->configuration->isEnabled()) {
-            return false;
-        }
         if ($file === null || $file->getType() !== File::FILETYPE_IMAGE) {
             return false;
         }

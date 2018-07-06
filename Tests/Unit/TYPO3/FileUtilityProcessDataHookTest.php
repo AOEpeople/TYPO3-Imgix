@@ -66,7 +66,6 @@ class FileUtilityProcessDataHookTest extends UnitTestCase
     public function shouldPurgeImgixCache()
     {
         $this->configuration->expects(self::once())->method('getHost')->willReturn('www.congstar.imgix.de');
-        $this->configuration->expects(self::once())->method('isEnabled')->willReturn(true);
         $this->imagePurgeService
             ->expects(self::once())
             ->method('purgeImgixCache')
@@ -147,23 +146,8 @@ class FileUtilityProcessDataHookTest extends UnitTestCase
     /**
      * @test
      */
-    public function shouldCheckThatPurgingOfImgixCacheIsNotRequiredWhenImgixIsNotEnabled()
-    {
-        $this->configuration->expects(self::once())->method('isEnabled')->willReturn(false);
-
-        $action = 'replace';
-        $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
-
-        $this->assertFalse($this->callInaccessibleMethod($this->fileHook, 'isPurgingOfImgixCacheRequired', $action, $file));
-    }
-
-    /**
-     * @test
-     */
     public function shouldCheckThatPurgingOfImgixCacheIsNotRequiredWhenFileIsNoImage()
     {
-        $this->configuration->expects(self::once())->method('isEnabled')->willReturn(true);
-
         $action = 'replace';
         $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $file->expects(self::once())->method('getType')->willReturn(File::FILETYPE_APPLICATION);
@@ -176,8 +160,6 @@ class FileUtilityProcessDataHookTest extends UnitTestCase
      */
     public function shouldCheckThatPurgingOfImgixCacheIsNotRequiredWhenImageFileIsNewCreated()
     {
-        $this->configuration->expects(self::once())->method('isEnabled')->willReturn(true);
-
         $action = 'upload';
         $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $file->expects(self::once())->method('getType')->willReturn(File::FILETYPE_IMAGE);
@@ -191,8 +173,6 @@ class FileUtilityProcessDataHookTest extends UnitTestCase
      */
     public function shouldCheckThatPurgingOfImgixCacheIsRequiredWhenImageFileIsReplaced()
     {
-        $this->configuration->expects(self::once())->method('isEnabled')->willReturn(true);
-
         $action = 'replace';
         $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $file->expects(self::once())->method('getType')->willReturn(File::FILETYPE_IMAGE);
@@ -205,8 +185,6 @@ class FileUtilityProcessDataHookTest extends UnitTestCase
      */
     public function shouldCheckThatPurgingOfImgixCacheIsRequiredWhenImageFileIsUpdated()
     {
-        $this->configuration->expects(self::once())->method('isEnabled')->willReturn(true);
-
         $action = 'upload';
         $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $file->expects(self::once())->method('getType')->willReturn(File::FILETYPE_IMAGE);
