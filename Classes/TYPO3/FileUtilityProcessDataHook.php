@@ -91,7 +91,7 @@ class FileUtilityProcessDataHook implements ExtendedFileUtilityProcessDataHookIn
      */
     protected function getFile(array $result)
     {
-        if (isset($result[0]) && isset($result[0][0]) && $result[0][0] instanceof File) {
+        if (isset($result[0]) && is_array($result[0]) && isset($result[0][0]) && $result[0][0] instanceof File) {
             return $result[0][0];
         }
         return null;
