@@ -17,15 +17,17 @@
     ],
     "require": {
         "php": "^7.0",
+        "ext-json": "*",
+        "ext-curl": "*",
         "typo3/cms-core": ">=7.6.0"
     },
     "require-dev": {
         "typo3/cms": "^7.6",
-        "nimut/testing-framework": "2.0.*",
-        "phpunit/phpcov": "3.1.*",
-        "squizlabs/php_codesniffer": "3.3.*",
-        "sebastian/phpcpd": "3.0.*",
-        "phpmd/phpmd": "2.6.*"
+        "nimut/testing-framework": "^2.0",
+        "phpunit/phpcov": "^3.1",
+        "squizlabs/php_codesniffer": "^3.4",
+        "sebastian/phpcpd": "^3.0",
+        "phpmd/phpmd": "^2.6"
     },
     "autoload": {
         "psr-4": {
@@ -36,9 +38,6 @@
         "psr-4": {
             "Aoe\\Imgix\\Tests\\": "Tests"
         }
-    },
-    "replace": {
-        "imgix": "self.version"
     },
     "config": {
         "vendor-dir": ".Build/vendor",

@@ -1,6 +1,6 @@
 <?php
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'imgix',
     'description' => 'Simple integration of imgix in TYPO3',
     'category' => 'system',
@@ -11,12 +11,12 @@ $EM_CONF[$_EXTKEY] = array(
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
     'author_company' => '',
-    'version' => '3.0.1',
-    'constraints' => array(
-        'depends' => array(
+    'version' => '3.0.2',
+    'constraints' => [
+        'depends' => [
             'typo3' => '7.6.0-8.7.99',
-        ),
-        'conflicts' => array(),
-        'suggests' => array(),
-    ),
-);
+        ],
+        'conflicts' => [],
+        'suggests' => [],
+    ],
+];
