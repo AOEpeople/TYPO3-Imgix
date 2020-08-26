@@ -14,7 +14,7 @@ if (TYPO3_MODE === 'BE') {
         ],
         [
             'access' => 'user,group',
-            'icon' => 'EXT:imgix/ext_icon.gif',
+            'icon' => 'EXT:imgix/Resources/Public/Icons/Extension.svg',
             'labels' => 'LLL:EXT:imgix/Resources/Private/Language/locallang_mod.xlf'
         ]
     );
