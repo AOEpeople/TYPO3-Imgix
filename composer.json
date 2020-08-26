@@ -23,11 +23,11 @@
     },
     "require-dev": {
         "typo3/cms": "^8.7",
-        "nimut/testing-framework": "^4.1",
-        "phpunit/phpcov": "^4.0",
-        "squizlabs/php_codesniffer": "^3.4",
-        "sebastian/phpcpd": "^3.0",
-        "phpmd/phpmd": "^2.6"
+        "nimut/testing-framework": "^5.1",
+        "phpunit/phpcov": "^5.0",
+        "squizlabs/php_codesniffer": "^3.5",
+        "sebastian/phpcpd": "^4.1",
+        "phpmd/phpmd": "^2.8"
     },
     "autoload": {
         "psr-4": {
@@ -54,9 +54,6 @@
         ]
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "2.0.0-dev"
-        },
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "web-dir": ".Build/Web"
