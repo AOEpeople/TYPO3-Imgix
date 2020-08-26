@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "ext-json": "*",
         "ext-curl": "*",
         "typo3/cms-core": "^8.7"
