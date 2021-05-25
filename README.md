@@ -1,5 +1,5 @@
 # TYPO3-Imgix
-[![Build Status](https://travis-ci.org/AOEpeople/TYPO3-Imgix.svg?branch=master)](https://travis-ci.org/AOEpeople/TYPO3-Imgix)
+[![Build Status](https://github.com/AOEpeople/TYPO3-Imgix/workflows/CI/badge.svg?branch=master)](https://github.com/AOEpeople/TYPO3-Imgix/actions)
 [![Code Coverage](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/?branch=master)
 

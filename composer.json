@@ -22,13 +22,19 @@
         "typo3/cms-core": "^8.7"
     },
     "require-dev": {
-        "typo3/cms": "^8.7",
-        "nimut/testing-framework": "^5.1",
-        "phpunit/phpcov": "^5.0",
-        "squizlabs/php_codesniffer": "^3.5",
-        "sebastian/phpcpd": "^4.1",
-        "phpmd/phpmd": "^2.8"
+        "typo3/cms": "*",
+        "nimut/testing-framework": "*",
+        "phpunit/phpcov": "*",
+        "squizlabs/php_codesniffer": "*",
+        "sebastian/phpcpd": "*",
+        "phpmd/phpmd": "*"
     },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/AOEpeople/TYPO3-Imgix.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Aoe\\Imgix\\": "Classes/"
@@ -50,11 +56,12 @@
         ],
         "test:unit": [
             "[ -e .Build/bin/phpunit ] || composer update",
-            "TYPO3_PATH_ROOT=.Build/Web .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/ --debug --verbose"
+            "TYPO3_PATH_ROOT=.Build/Web .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/"
         ]
     },
     "extra": {
         "typo3/cms": {
+            "extension-key": "imgix",
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "web-dir": ".Build/Web"
         }
