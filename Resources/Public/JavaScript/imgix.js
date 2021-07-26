@@ -1900,7 +1900,7 @@
 
             for (var i = 0; i < passedKeys.length; i++) {
                 if (goodKeys.indexOf(passedKeys[i]) === -1) {
-                    imgix.helpers.warn('\'' + passedKeys[i] + '\' is not a valid imgix.fluid config option. See https://github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid for a list of valid options.');
+                    imgix.helpers.warn('\'' + passedKeys[i] + '\' is not a valid imgix.fluid config option. See https://github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid for a list of valid options.');
                 }
             }
 

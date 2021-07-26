@@ -1,7 +1,7 @@
 # TYPO3-Imgix
-[![Build Status](https://github.com/AOEpeople/TYPO3-Imgix/workflows/CI/badge.svg?branch=master)](https://github.com/AOEpeople/TYPO3-Imgix/actions)
-[![Code Coverage](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/?branch=master)
+[![Build Status](https://github.com/AOEpeople/TYPO3-Imgix/workflows/CI/badge.svg?branch=main)](https://github.com/AOEpeople/TYPO3-Imgix/actions)
+[![Code Coverage](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/?branch=main)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/AOEpeople/TYPO3-Imgix/?branch=main)
 
 The "imgix" TYPO3 extension provides the Auto Responsive Images feature of [imgix][3] called [imgix.fluid()][4].
 This allows you to deliver perferctly custom sized images for the client without using local capaticities. 
@@ -134,6 +134,6 @@ License: GPLv3 or later. See LICENSE.
 [5]: https://github.com/imgix/imgix.js/
 [6]: https://docs.imgix.com/setup/creating-sources#source-web-folder
 [7]: http://caniuse.com/#feat=mutationobserver
-[8]: http://github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+[8]: http://github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 [9]: https://docs.imgix.com/apis/url
 [10]: https://docs.imgix.com/setup/purging-images

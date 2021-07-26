@@ -13,55 +13,55 @@ enableFluid=1
 # cat=basic/enable; type=boolean; label=Enable observation of future images:If your JS will images dynamically enable this feature to also imgixify images in future DOM manipulations.
 enableObservation=1
 
-# cat=imgix; type=string; label=fluidClass:Option for http://github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=string; label=fluidClass:Option for http://github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.fluidClass=imgix-fluid
 
-# cat=imgix; type=options[default=,on=1,off=0]; label=updateOnResize:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=options[default=,on=1,off=0]; label=updateOnResize:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.updateOnResize=
 
-# cat=imgix; type=options[default=,on=1,off=0]; label=updateOnResizeDown:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=options[default=,on=1,off=0]; label=updateOnResizeDown:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.updateOnResizeDown=
 
-# cat=imgix; type=options[default=,on=1,off=0]; label=updateOnPinchZoom:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=options[default=,on=1,off=0]; label=updateOnPinchZoom:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.updateOnPinchZoom=
 
-# cat=imgix; type=options[default=,on=1,off=0]; label=highDPRAutoScaleQuality:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=options[default=,on=1,off=0]; label=highDPRAutoScaleQuality:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.highDPRAutoScaleQuality=
 
-# cat=imgix; type=options[default=,on=1,off=0]; label=autoInsertCSSBestPractices:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=options[default=,on=1,off=0]; label=autoInsertCSSBestPractices:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.autoInsertCSSBestPractices=
 
-# cat=imgix; type=options[default=,on=1,off=0]; label=fitImgTagToContainerWidth:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=options[default=,on=1,off=0]; label=fitImgTagToContainerWidth:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.fitImgTagToContainerWidth=
 
-# cat=imgix; type=options[default=,on=1,off=0]; label=fitImgTagToContainerHeight:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=options[default=,on=1,off=0]; label=fitImgTagToContainerHeight:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.fitImgTagToContainerHeight=
 
-# cat=imgix; type=integer; label=pixelStep:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=integer; label=pixelStep:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.pixelStep=
 
-# cat=imgix; type=options[default=,on=1,off=0]; label=ignoreDPR:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=options[default=,on=1,off=0]; label=ignoreDPR:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.ignoreDPR=
 
-# cat=imgix; type=integer; label=debounce:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=integer; label=debounce:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.debounce=
 
-# cat=imgix; type=options[default=,on=1,off=0]; label=lazyLoad:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=options[default=,on=1,off=0]; label=lazyLoad:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.lazyLoad=
 
-# cat=imgix; type=integer; label=lazyLoadOffsetVertical:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=integer; label=lazyLoadOffsetVertical:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.lazyLoadOffsetVertical=
 
-# cat=imgix; type=integer; label=lazyLoadOffsetHorizontal:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=integer; label=lazyLoadOffsetHorizontal:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.lazyLoadOffsetHorizontal=
 
-# cat=imgix; type=integer; label=throttle:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=integer; label=throttle:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.throttle=
 
-# cat=imgix; type=integer; label=maxWidth:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=integer; label=maxWidth:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.maxWidth=
 
-# cat=imgix; type=integer; label=maxHeight:Option for github.com/imgix/imgix.js/blob/master/docs/api.md#imgix.fluid
+# cat=imgix; type=integer; label=maxHeight:Option for github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 imgix.fluid.maxHeight=
 
 # cat=imgix; type=string; label=Default URL API-Parameters:Example: fit=max&q=75 See https://docs.imgix.com/apis/url
