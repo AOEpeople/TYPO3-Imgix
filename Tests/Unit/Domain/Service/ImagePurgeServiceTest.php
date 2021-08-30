@@ -85,7 +85,10 @@ class ImagePurgeServiceTest extends UnitTestCase
     {
         $imageUrl = 'http://congstar.imgix.com/directory/image.png';
         $postRequest = new stdClass();
-        $postRequest->url = $imageUrl;
+        $postRequest->data = new stdClass();
+        $postRequest->data->attributes = new stdClass();
+        $postRequest->data->attributes->url = $imageUrl;
+        $postRequest->data->type = 'purges';
         $result = new ImagePurgeResult();
         $result->markImagePurgeAsFailed('curlError', 28, 503);
 
@@ -103,7 +106,10 @@ class ImagePurgeServiceTest extends UnitTestCase
     {
         $imageUrl = 'http://congstar.imgix.com/directory/image.png';
         $postRequest = new stdClass();
-        $postRequest->url = $imageUrl;
+        $postRequest->data = new stdClass();
+        $postRequest->data->attributes = new stdClass();
+        $postRequest->data->attributes->url = $imageUrl;
+        $postRequest->data->type = 'purges';
         $result = new ImagePurgeResult();
         $result->markImagePurgeAsSuccessful();
 

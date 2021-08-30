@@ -32,7 +32,7 @@ use stdClass;
 
 class ImagePurgeService
 {
-    const IMG_PURGE_REQUEST_URL = 'https://api.imgix.com/v2/image/purger';
+    const IMG_PURGE_REQUEST_URL = 'https://api.imgix.com/api/v1/purge';
 
     /**
      * @var Configuration
@@ -76,7 +76,10 @@ class ImagePurgeService
         }
 
         $postRequest = new stdClass();
-        $postRequest->url = $imageUrl;
+        $postRequest->data = new stdClass();
+        $postRequest->data->attributes = new stdClass();
+        $postRequest->data->attributes->url = $imageUrl;
+        $postRequest->data->type = 'purges';
 
         $result = $this->doPostRequest($postRequest);
         if (false === $result->isSuccessful()) {
@@ -95,11 +98,15 @@ class ImagePurgeService
         $postJsonData = json_encode($postRequest);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, self::IMG_PURGE_REQUEST_URL);
-        curl_setopt($ch, CURLOPT_USERNAME, $this->configuration->getApiKey());
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postJsonData);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Content-Length: ' . strlen($postJsonData)]);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer '.$this->configuration->getApiKey(),
+            'Content-Type: application/vnd.api+json',
+            'Accept: application/vnd.api+json',
+            'Content-Length: ' . strlen($postJsonData)
+        ]);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
