@@ -29,38 +29,38 @@ use Aoe\Imgix\Domain\Model\ImagePurgeResult;
 use Aoe\Imgix\TYPO3\PurgeImgixCacheErrorHandler;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
-use TYPO3\CMS\Lang\LanguageService;
-use PHPUnit_Framework_MockObject_MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
 {
     /**
-     * @var BackendUserAuthentication|PHPUnit_Framework_MockObject_MockObject
+     * @var BackendUserAuthentication|MockObject
      */
     private $backendUser;
 
     /**
-     * @var FlashMessageQueue|PHPUnit_Framework_MockObject_MockObject
+     * @var FlashMessageQueue|MockObject
      */
     private $flashMessageQueue;
 
     /**
-     * @var LanguageService|PHPUnit_Framework_MockObject_MockObject
+     * @var LanguageService|MockObject
      */
     private $languageService;
 
     /**
-     * @var PurgeImgixCacheErrorHandler|PHPUnit_Framework_MockObject_MockObject
+     * @var PurgeImgixCacheErrorHandler|MockObject
      */
     private $errorHandler;
 
     /**
      * set up the test
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->backendUser = $this->getMockBuilder(BackendUserAuthentication::class)->disableOriginalConstructor()->getMock();
         $this->flashMessageQueue = $this->getMockBuilder(FlashMessageQueue::class)->disableOriginalConstructor()->getMock();
@@ -72,7 +72,7 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
         $this->errorHandler = $this
             ->getMockBuilder(PurgeImgixCacheErrorHandler::class)
             ->setConstructorArgs([$flashMessageService])
-            ->setMethods(['getBackendUser', 'getLanguageService', 'createFlashMessage'])
+            ->onlyMethods(['getBackendUser', 'getLanguageService', 'createFlashMessage'])
             ->getMock();
         $this->errorHandler->expects(self::any())->method('getBackendUser')->willReturn($this->backendUser);
         $this->errorHandler->expects(self::any())->method('getLanguageService')->willReturn($this->languageService);

@@ -1,23 +1,17 @@
 <?php
+use Aoe\Imgix\Controller\LoadController;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'Aoe.' . $_EXTKEY,
+defined('TYPO3') or die();
+
+ExtensionUtility::configurePlugin(
+    'imgix',
     'AngularLoader',
-    array(
-        'Load' => 'angular',
-    ),
-    array()
+    [LoadController::class => 'angular']
 );
 
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'Aoe.' . $_EXTKEY,
+ExtensionUtility::configurePlugin(
+    'imgix',
     'JQueryLoader',
-    array(
-        'Load' => 'jquery',
-    ),
-    array()
+    [LoadController::class => 'angular']
 );
-
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_extfilefunc.php']['processData'][] =
-    \Aoe\Imgix\TYPO3\FileUtilityProcessDataHook::class;

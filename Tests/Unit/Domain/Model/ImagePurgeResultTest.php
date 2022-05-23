@@ -38,7 +38,7 @@ class ImagePurgeResultTest extends UnitTestCase
     /**
      * set up the test
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->imagePurgeResult = new ImagePurgeResult();
     }

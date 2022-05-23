@@ -27,6 +27,7 @@ namespace Aoe\Imgix\TYPO3;
 
 use Aoe\Imgix\Utils\ArrayUtils;
 use Aoe\Imgix\Utils\TypeUtils;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 class Configuration
@@ -57,7 +58,7 @@ class Configuration
     /**
      * @var array
      */
-    private $configuration = array();
+    private $configuration;
 
     /**
      * @var array
@@ -66,14 +67,15 @@ class Configuration
 
     /**
      * @param ConfigurationManagerInterface $configurationManager
+     * @param ExtensionConfiguration $extensionConfiguration
      */
-    public function __construct(ConfigurationManagerInterface $configurationManager)
+    public function __construct(ConfigurationManagerInterface $configurationManager, ExtensionConfiguration $extensionConfiguration)
     {
         $this->settings = $configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
             'imgix'
         );
-        $this->configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['imgix']);
+        $this->configuration = $extensionConfiguration->get('imgix');
     }
 
     /**
@@ -145,8 +147,8 @@ class Configuration
      */
     public function getImgixFluidOptions()
     {
-        if (isset($this->configuration['imgix.']['fluid.'])) {
-            $options = ArrayUtils::filterEmptyValues($this->configuration['imgix.']['fluid.']);
+        if (isset($this->configuration['imgix']['fluid'])) {
+            $options = ArrayUtils::filterEmptyValues($this->configuration['imgix']['fluid']);
             $options = TypeUtils::castTypesByMap(self::$imgixFluidOptionsTypeMap, $options);
             return $options;
         }
@@ -158,8 +160,8 @@ class Configuration
      */
     public function getImgixDefaultUrlParameters()
     {
-        if (isset($this->configuration['imgix.']['defaultUrlParameters'])) {
-            parse_str($this->configuration['imgix.']['defaultUrlParameters'], $defaultUrlParameters);
+        if (isset($this->configuration['imgix']['defaultUrlParameters'])) {
+            parse_str($this->configuration['imgix']['defaultUrlParameters'], $defaultUrlParameters);
             return $defaultUrlParameters;
         }
         return [];

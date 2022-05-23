@@ -27,11 +27,11 @@ namespace Aoe\Imgix\TYPO3;
 
 use Aoe\Imgix\Domain\Model\ImagePurgeResult;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Lang\LanguageService;
 
 class PurgeImgixCacheErrorHandler
 {

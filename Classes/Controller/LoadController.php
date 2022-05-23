@@ -26,6 +26,7 @@ namespace Aoe\Imgix\Controller;
  ***************************************************************/
 
 use Aoe\Imgix\TYPO3\Configuration;
+use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 class LoadController extends ActionController
@@ -41,19 +42,26 @@ class LoadController extends ActionController
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
-        parent::__construct();
     }
 
-    public function jqueryAction()
+    /**
+     * @return ResponseInterface
+     */
+    public function jqueryAction(): ResponseInterface
     {
         $this->view->assign('enabled', $this->configuration->isEnabled());
         $this->view->assign('options', $this->getOptionsAsJson());
+        return $this->htmlResponse($this->view->render());
     }
 
-    public function angularAction()
+    /**
+     * @return ResponseInterface
+     */
+    public function angularAction(): ResponseInterface
     {
         $this->view->assign('enabled', $this->configuration->isEnabled());
         $this->view->assign('options', $this->getOptionsAsJson());
+        return $this->htmlResponse($this->view->render());
     }
 
     /**

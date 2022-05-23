@@ -26,7 +26,7 @@ namespace Aoe\Imgix\ViewHelpers;
  ***************************************************************/
 
 use Aoe\Imgix\TYPO3\Configuration;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class ImgixUrlViewHelper extends AbstractViewHelper
 {

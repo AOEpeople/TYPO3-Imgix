@@ -1,0 +1,16 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Aoe\Imgix\:
+    resource: '../Classes/*'
+
+  # EventListener
+  Aoe\Imgix\TYPO3\AfterFileCommandProcessedEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'imgix/after-file-command-processed-event-listener'
+        method: '__invoke'
+        event: TYPO3\CMS\Core\Resource\Event\AfterFileCommandProcessedEvent

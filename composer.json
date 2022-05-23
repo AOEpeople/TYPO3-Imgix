@@ -16,14 +16,15 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.4",
         "ext-json": "*",
         "ext-curl": "*",
-        "typo3/cms-core": "^8.7"
+        "typo3/cms-core": "^11.5",
+        "typo3/cms-fluid": "^11.5",
+        "typo3/cms-extbase": "^11.5"
     },
     "require-dev": {
-        "typo3/cms": "*",
-        "nimut/testing-framework": "*",
+        "nimut/testing-framework": "^6.0",
         "phpunit/phpcov": "*",
         "squizlabs/php_codesniffer": "*",
         "sebastian/phpcpd": "*",
@@ -46,6 +47,12 @@
         }
     },
     "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "cweagans/composer-patches": true,
+            "typo3/class-alias-loader": true,
+            "typo3/cms-composer-installers": true
+        },
         "vendor-dir": ".Build/vendor",
         "bin-dir": ".Build/bin"
     },
@@ -57,7 +64,20 @@
         "test:unit": [
             "[ -e .Build/bin/phpunit ] || composer update",
             "TYPO3_PATH_ROOT=.Build/Web .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/"
+        ],
+        "test:functional": [
+            "[ -e .Build/bin/phpunit ] || composer update",
+            "TYPO3_PATH_ROOT=.Build/Web .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional/"
+        ],
+        "test:functional-devbox": [
+            "[ -e .Build/bin/phpunit ] || composer update",
+            "TYPO3_PATH_WEB=.Build/Web typo3DatabaseName=\"t3_congo_dev\" typo3DatabaseHost=\"localhost\" typo3DatabaseUsername=\"root\" typo3DatabasePassword=\"root\" .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional/"
         ]
+    },
+    "scripts-descriptions": {
+        "test:unit": "Run unit-tests - example to run only SOME unit-tests: composer test:unit -- --filter ConfigurationTest",
+        "test:functional": "Run functional-tests (use this command on github)",
+        "test:functional-devbox": "Run functional-tests (use this command on devbox) - example to run only SOME functional-tests: composer test:functional-devbox -- --filter PurgeImgixCacheControllerTest"
     },
     "extra": {
         "typo3/cms": {

@@ -26,8 +26,10 @@ namespace Aoe\Imgix\Controller;
  ***************************************************************/
 
 use Aoe\Imgix\Domain\Service\ImagePurgeService;
+use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Lang\LanguageService;
 
 class PurgeImgixCacheController extends ActionController
 {
@@ -42,26 +44,26 @@ class PurgeImgixCacheController extends ActionController
     public function __construct(ImagePurgeService $imagePurgeService)
     {
         $this->imagePurgeService = $imagePurgeService;
-        parent::__construct();
     }
 
     /**
      * render form
+     * @return ResponseInterface
      */
-    public function indexAction()
+    public function indexAction(): ResponseInterface
     {
+        return $this->htmlResponse($this->view->render());
     }
 
     /**
      * @param string $imageUrl
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     * @return ForwardResponse
      */
-    public function purgeImgixCacheAction($imageUrl)
+    public function purgeImgixCacheAction($imageUrl): ForwardResponse
     {
         // Override flashMessageQueue in errorHandler:
         // When image-purge fails, than the errorHandler will automatically send a flashMessage with details about the failure
-        $this->imagePurgeService->getErrorHandler()->overrideFlashMessageQueue($this->getControllerContext()->getFlashMessageQueue());
+        $this->imagePurgeService->getErrorHandler()->overrideFlashMessageQueue($this->getFlashMessageQueue());
 
         if ($this->imagePurgeService->purgeImgixCache($imageUrl)->isSuccessful()) {
             $messageKey = 'PurgeImgixCacheController.purgeImgixCacheWasSuccessful';
@@ -70,7 +72,7 @@ class PurgeImgixCacheController extends ActionController
             $this->addFlashMessage($message);
         }
 
-        $this->redirect('index');
+        return new ForwardResponse('index');
     }
 
     /**

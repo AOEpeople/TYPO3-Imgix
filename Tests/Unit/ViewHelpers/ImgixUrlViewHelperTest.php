@@ -44,7 +44,7 @@ class ImgixUrlViewHelperTest extends UnitTestCase
     /**
      * setUp
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->configuration = $this->getMockBuilder(Configuration::class)
             ->disableOriginalConstructor()

@@ -1,4 +1,5 @@
 <?php
+
 namespace Aoe\Imgix\Tests\TYPO3;
 
 /***************************************************************
@@ -27,22 +28,18 @@ namespace Aoe\Imgix\Tests\TYPO3;
 
 use Aoe\Imgix\TYPO3\Configuration;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ConfigurationTest extends UnitTestCase
 {
-    public function tearDown()
-    {
-        unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['imgix']);
-    }
-
     /**
      * @test
      */
     public function shouldCheckThatApiKeyIsNotConfigured()
     {
-        $configurationManager = $this->getMockedConfigurationManager([]);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject([], []);
         $this->assertFalse($configuration->isApiKeyConfigured());
     }
 
@@ -51,9 +48,7 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldCheckThatApiKeyIsConfigured()
     {
-        $configurationManager = $this->getMockedConfigurationManager([]);
-        $this->fakeConfiguration(['apiKey' => 'myApiKey']);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject([], ['apiKey' => 'myApiKey']);
         $this->assertTrue($configuration->isApiKeyConfigured());
     }
 
@@ -62,9 +57,7 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetApiKey()
     {
-        $configurationManager = $this->getMockedConfigurationManager([]);
-        $this->fakeConfiguration(['apiKey' => 'myApiKey']);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject([], ['apiKey' => 'myApiKey']);
         $this->assertSame('myApiKey', $configuration->getApiKey());
     }
 
@@ -73,9 +66,7 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetOverwrittenApiKeyBySettings()
     {
-        $configurationManager = $this->getMockedConfigurationManager(['apiKey' => 'myApiKey2']);
-        $this->fakeConfiguration(['apiKey' => 'myApiKey']);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject(['apiKey' => 'myApiKey2'], ['apiKey' => 'myApiKey']);
         $this->assertSame('myApiKey2', $configuration->getApiKey());
     }
 
@@ -84,9 +75,7 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetHost()
     {
-        $configurationManager = $this->getMockedConfigurationManager([]);
-        $this->fakeConfiguration(['host' => 'mysubdomain.imgix.net']);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject([], ['host' => 'mysubdomain.imgix.net']);
         $this->assertSame('mysubdomain.imgix.net', $configuration->getHost());
     }
 
@@ -95,9 +84,7 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetOverwrittenHostBySettings()
     {
-        $configurationManager = $this->getMockedConfigurationManager(['host' => 'mysubdomain2.imgix.net']);
-        $this->fakeConfiguration(['host' => 'mysubdomain.imgix.net']);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject(['host' => 'mysubdomain2.imgix.net'], ['host' => 'mysubdomain.imgix.net']);
         $this->assertSame('mysubdomain2.imgix.net', $configuration->getHost());
     }
 
@@ -106,9 +93,7 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetEnabled()
     {
-        $configurationManager = $this->getMockedConfigurationManager([]);
-        $this->fakeConfiguration(['enabled' => '1']);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject([], ['enabled' => '1']);
         $this->assertTrue($configuration->isEnabled());
     }
 
@@ -117,9 +102,7 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetEnabledOverwrittenBySettings()
     {
-        $configurationManager = $this->getMockedConfigurationManager(['enabled' => '0']);
-        $this->fakeConfiguration(['enabled' => '1']);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject(['enabled' => '0'], ['enabled' => '1']);
         $this->assertFalse($configuration->isEnabled());
     }
 
@@ -128,9 +111,7 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetEnableFluid()
     {
-        $configurationManager = $this->getMockedConfigurationManager([]);
-        $this->fakeConfiguration(['enableFluid' => '0']);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject([], ['enableFluid' => '0']);
         $this->assertFalse($configuration->isFluidEnabled());
     }
 
@@ -139,9 +120,7 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetEnableFluidOverwrittenBySettings()
     {
-        $configurationManager = $this->getMockedConfigurationManager(['enableFluid' => '1']);
-        $this->fakeConfiguration(['enableFluid' => '0']);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject(['enableFluid' => '1'], ['enableFluid' => '0']);
         $this->assertTrue($configuration->isFluidEnabled());
     }
 
@@ -150,9 +129,7 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetEnableObservation()
     {
-        $configurationManager = $this->getMockedConfigurationManager([]);
-        $this->fakeConfiguration(['enableObservation' => '0']);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject([], ['enableObservation' => '0']);
         $this->assertFalse($configuration->isObservationEnabled());
     }
 
@@ -161,9 +138,7 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetEnableObservationOverwrittenBySettings()
     {
-        $configurationManager = $this->getMockedConfigurationManager(['enableObservation' => '1']);
-        $this->fakeConfiguration(['enableObservation' => '0']);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject(['enableObservation' => '1'], ['enableObservation' => '0']);
         $this->assertTrue($configuration->isObservationEnabled());
     }
 
@@ -172,9 +147,7 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetEmptyImgixFluidOptions()
     {
-        $configurationManager = $this->getMockedConfigurationManager([]);
-        $this->fakeConfiguration([]);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject([], []);
         $this->assertSame([], $configuration->getImgixFluidOptions());
     }
 
@@ -183,27 +156,32 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetImgixFluidOptions()
     {
-        $configurationManager = $this->getMockedConfigurationManager([]);
-        $this->fakeConfiguration(['imgix.' => ['fluid.' => [
-            'fluidClass' => 'my-class',
-            'updateOnResize' => '1',
-            'updateOnResizeDown' => '0',
-            'updateOnPinchZoom' => '1',
-            'highDPRAutoScaleQuality' => '0',
-            'autoInsertCSSBestPractices' => '1',
-            'fitImgTagToContainerWidth' => '0',
-            'fitImgTagToContainerHeight' => '1',
-            'pixelStep' => '100',
-            'ignoreDPR' => '0',
-            'debounce' => '500',
-            'lazyLoad' => '1',
-            'lazyLoadOffsetVertical' => '167',
-            'lazyLoadOffsetHorizontal' => '767',
-            'throttle' => '4711',
-            'maxWidth' => '111',
-            'maxHeight' => '222',
-        ]]]);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject(
+            [],
+            ['imgix' =>
+                [
+                    'fluid' => [
+                        'fluidClass' => 'my-class',
+                        'updateOnResize' => '1',
+                        'updateOnResizeDown' => '0',
+                        'updateOnPinchZoom' => '1',
+                        'highDPRAutoScaleQuality' => '0',
+                        'autoInsertCSSBestPractices' => '1',
+                        'fitImgTagToContainerWidth' => '0',
+                        'fitImgTagToContainerHeight' => '1',
+                        'pixelStep' => '100',
+                        'ignoreDPR' => '0',
+                        'debounce' => '500',
+                        'lazyLoad' => '1',
+                        'lazyLoadOffsetVertical' => '167',
+                        'lazyLoadOffsetHorizontal' => '767',
+                        'throttle' => '4711',
+                        'maxWidth' => '111',
+                        'maxHeight' => '222'
+                    ]
+                ]
+            ]
+        );
         $this->assertSame(
             [
                 'fluidClass' => 'my-class',
@@ -233,9 +211,7 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetEmptyImgixDefaultUrlParameters()
     {
-        $configurationManager = $this->getMockedConfigurationManager([]);
-        $this->fakeConfiguration([]);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject([], []);
         $this->assertSame([], $configuration->getImgixDefaultUrlParameters());
     }
 
@@ -244,9 +220,10 @@ class ConfigurationTest extends UnitTestCase
      */
     public function shouldGetImgixDefaultUrlParameters()
     {
-        $configurationManager = $this->getMockedConfigurationManager([]);
-        $this->fakeConfiguration(['imgix.' => ['defaultUrlParameters' => 'q=75&auto=format']]);
-        $configuration = new Configuration($configurationManager);
+        $configuration = $this->createConfigurationObject(
+            [],
+            ['imgix' => ['defaultUrlParameters' => 'q=75&auto=format']]
+        );
         $this->assertSame(
             [
                 'q' => '75',
@@ -256,31 +233,25 @@ class ConfigurationTest extends UnitTestCase
         );
     }
 
-    private function fakeConfiguration(array $configuration)
-    {
-        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['imgix'] = serialize($configuration);
-    }
-
     /**
-     * @param array $configuration
-     * @return \PHPUnit_Framework_MockObject_MockObject|ConfigurationManagerInterface
+     * @param array $settings
+     * @param array $extensionConfig
+     * @return Configuration
      */
-    private function getMockedConfigurationManager(array $configuration)
+    private function createConfigurationObject(array $settings, array $extensionConfig): Configuration
     {
-        /** @var ConfigurationManagerInterface|\PHPUnit_Framework_MockObject_MockObject $configurationManager */
+        /** @var ExtensionConfiguration|MockObject $extensionConfiguration */
+        $extensionConfiguration = $this->getMockBuilder(ExtensionConfiguration::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $extensionConfiguration->expects(self::once())->method('get')->with('imgix')->willReturn($extensionConfig);
+
+        /** @var ConfigurationManagerInterface|MockObject $configurationManager */
         $configurationManager = $this->getMockBuilder(ConfigurationManagerInterface::class)
             ->disableOriginalConstructor()
-            ->setMethods([
-                'setContentObject',
-                'getContentObject',
-                'getConfiguration',
-                'setConfiguration',
-                'isFeatureEnabled'
-            ])
             ->getMock();
-        $configurationManager->expects($this->once())->method('getConfiguration')->will(
-            $this->returnValue($configuration)
-        );
-        return $configurationManager;
+        $configurationManager->expects(self::once())->method('getConfiguration')->willReturn($settings);
+
+        return new Configuration($configurationManager, $extensionConfiguration);
     }
 }

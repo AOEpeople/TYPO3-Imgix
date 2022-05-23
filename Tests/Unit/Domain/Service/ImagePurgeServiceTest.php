@@ -30,18 +30,18 @@ use Aoe\Imgix\Domain\Service\ImagePurgeService;
 use Aoe\Imgix\TYPO3\Configuration;
 use Aoe\Imgix\TYPO3\PurgeImgixCacheErrorHandler;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use PHPUnit_Framework_MockObject_MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 
 class ImagePurgeServiceTest extends UnitTestCase
 {
     /**
-     * @var Configuration|PHPUnit_Framework_MockObject_MockObject
+     * @var Configuration|MockObject
      */
     private $configuration;
 
     /**
-     * @var PurgeImgixCacheErrorHandler|PHPUnit_Framework_MockObject_MockObject
+     * @var PurgeImgixCacheErrorHandler|MockObject
      */
     private $errorHandler;
 
@@ -53,14 +53,14 @@ class ImagePurgeServiceTest extends UnitTestCase
     /**
      * set up the test
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->configuration = $this->getMockBuilder(Configuration::class)->disableOriginalConstructor()->getMock();
         $this->errorHandler = $this->getMockBuilder(PurgeImgixCacheErrorHandler::class)->disableOriginalConstructor()->getMock();
         $this->imagePurgeService = $this
             ->getMockBuilder(ImagePurgeService::class)
             ->setConstructorArgs([$this->configuration, $this->errorHandler])
-            ->setMethods(['doPostRequest'])
+            ->onlyMethods(['doPostRequest'])
             ->getMock();
     }
 
