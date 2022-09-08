@@ -30,28 +30,19 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 class ArrayUtilsTest extends UnitTestCase
 {
-    /**
-     * @test
-     */
-    public function shouldFilterNullValue()
+    public function testShouldFilterNullValue(): void
     {
         $actual = ArrayUtils::filterEmptyValues(['foo' => null, 'bar' => 'baz']);
         $this->assertSame(['bar' => 'baz'], $actual);
     }
 
-    /**
-     * @test
-     */
-    public function shouldFilterEmptyStringValue()
+    public function testShouldFilterEmptyStringValue(): void
     {
         $actual = ArrayUtils::filterEmptyValues(['foo' => '', 'bar' => 'baz']);
         $this->assertSame(['bar' => 'baz'], $actual);
     }
 
-    /**
-     * @test
-     */
-    public function shouldNotFilterZeroNumbers()
+    public function testShouldNotFilterZeroNumbers(): void
     {
         $actual = ArrayUtils::filterEmptyValues(['foo' => 0, 'bar' => 'baz']);
         $this->assertSame($actual, $actual);

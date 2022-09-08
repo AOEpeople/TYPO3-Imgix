@@ -1,4 +1,5 @@
 <?php
+
 namespace Aoe\Imgix\ViewHelpers;
 
 /***************************************************************
@@ -30,36 +31,23 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class ImgixUrlViewHelper extends AbstractViewHelper
 {
+    private Configuration $configuration;
 
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @param Configuration $configuration
-     */
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
     }
 
-    /**
-     * @return void
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('imageUrl', 'string', 'URL to image file', true);
         $this->registerArgument('urlParameters', 'array', 'API Parameters to be appended to URL', false);
     }
 
-    /**
-     * @return string
-     */
-    public function render()
+    public function render(): string
     {
-        if (false === $this->configuration->isEnabled()) {
+        if (!$this->configuration->isEnabled()) {
             return $this->arguments['imageUrl'];
         }
 
@@ -72,23 +60,18 @@ class ImgixUrlViewHelper extends AbstractViewHelper
         return $url;
     }
 
-    /**
-     * @return array
-     */
-    private function getUrlParameters()
+    private function getUrlParameters(): array
     {
         $parameters = $this->configuration->getImgixDefaultUrlParameters();
         if ($this->hasArgument('urlParameters')) {
             $parameters = array_merge($parameters, $this->arguments['urlParameters']);
         }
+
         return $parameters;
     }
 
-    /**
-     * @return boolean
-     */
-    private function hasUrlParameters()
+    private function hasUrlParameters(): bool
     {
-        return sizeof($this->getUrlParameters()) > 0;
+        return $this->getUrlParameters() !== [];
     }
 }

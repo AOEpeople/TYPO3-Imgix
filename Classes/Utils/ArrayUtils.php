@@ -1,4 +1,5 @@
 <?php
+
 namespace Aoe\Imgix\Utils;
 
 /***************************************************************
@@ -24,22 +25,21 @@ namespace Aoe\Imgix\Utils;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 class ArrayUtils
 {
-    /**
-     * @param array $array
-     * @return array
-     */
-    public static function filterEmptyValues(array $array)
+    public static function filterEmptyValues(array $array): array
     {
-        $filtered = array();
+        $filtered = [];
         foreach ($array as $name => $value) {
-            if ('' === $value || null === $value) {
+            if ($value === '') {
+                continue;
+            }
+            if ($value === null) {
                 continue;
             }
             $filtered[$name] = $value;
         }
+
         return $filtered;
     }
 }

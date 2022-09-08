@@ -52,10 +52,7 @@ class ImgixUrlViewHelperTest extends UnitTestCase
         $this->viewHelper = new ImgixUrlViewHelper($this->configuration);
     }
 
-    /**
-     * @test
-     */
-    public function shouldRenderImageUrlWithoutImgixHostWhenImgixIsNotEnabled()
+    public function testShouldRenderImageUrlWithoutImgixHostWhenImgixIsNotEnabled(): void
     {
         $this->configuration->expects($this->once())->method('isEnabled')->will(
             $this->returnValue(false)
@@ -67,10 +64,9 @@ class ImgixUrlViewHelperTest extends UnitTestCase
     }
 
     /**
-     * @test
      * @dataProvider
      */
-    public function shouldRenderImageUrlWithImgixHostWhenImgixIsEnabled()
+    public function testShouldRenderImageUrlWithImgixHostWhenImgixIsEnabled(): void
     {
         $this->configuration->expects($this->once())->method('isEnabled')->will(
             $this->returnValue(true)
@@ -88,10 +84,9 @@ class ImgixUrlViewHelperTest extends UnitTestCase
     }
 
     /**
-     * @test
      * @dataProvider parameterProvider
      */
-    public function shouldRenderImageUrlWithParameters($defaultParameters, $givenParameters, $expectedParameterString)
+    public function testShouldRenderImageUrlWithParameters($defaultParameters, $givenParameters, $expectedParameterString): void
     {
         $this->configuration->expects($this->once())->method('isEnabled')->will(
             $this->returnValue(true)

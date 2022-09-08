@@ -78,10 +78,7 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
         $this->errorHandler->expects(self::any())->method('getLanguageService')->willReturn($this->languageService);
     }
 
-    /**
-     * @test
-     */
-    public function shouldHandleCouldNotPurgeImgixCacheOnFailedRestRequest()
+    public function testShouldHandleCouldNotPurgeImgixCacheOnFailedRestRequest(): void
     {
         $imageUrl = 'http://congstar.imgix.com/directory/image.png';
         $result = new ImagePurgeResult();
@@ -107,10 +104,7 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
         $this->errorHandler->handleCouldNotPurgeImgixCacheOnFailedRestRequest($imageUrl, $result);
     }
 
-    /**
-     * @test
-     */
-    public function shouldHandleCouldNotPurgeImgixCacheOnInvalidApiKey()
+    public function testShouldHandleCouldNotPurgeImgixCacheOnInvalidApiKey(): void
     {
         $imageUrl = 'http://congstar.imgix.com/directory/image.png';
 

@@ -51,9 +51,6 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
      */
     private $imagePurgeService;
 
-    /**
-     * set up the test
-     */
     public function setUp(): void
     {
         $this->configuration = $this->getMockBuilder(Configuration::class)->disableOriginalConstructor()->getMock();
@@ -61,10 +58,7 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $this->eventListener = new AfterFileCommandProcessedEventListener($this->configuration, $this->imagePurgeService);
     }
 
-    /**
-     * @test
-     */
-    public function shouldPurgeImgixCacheWhenExistingImageFileIsUpdated()
+    public function testShouldPurgeImgixCacheWhenExistingImageFileIsUpdated(): void
     {
         $this->configuration->expects(self::once())->method('getHost')->willReturn('www.congstar.imgix.de');
         $this->imagePurgeService
@@ -87,10 +81,7 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $this->eventListener->__invoke($event);
     }
 
-    /**
-     * @test
-     */
-    public function shouldPurgeImgixCacheWhenExistingImageFileIsReplaced()
+    public function testShouldPurgeImgixCacheWhenExistingImageFileIsReplaced(): void
     {
         $this->configuration->expects(self::once())->method('getHost')->willReturn('www.congstar.imgix.de');
         $this->imagePurgeService
@@ -113,10 +104,7 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $this->eventListener->__invoke($event);
     }
 
-    /**
-     * @test
-     */
-    public function shouldNotPurgeImgixCacheWhenItIsNotRequired()
+    public function testShouldNotPurgeImgixCacheWhenItIsNotRequired(): void
     {
         $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
 
@@ -145,10 +133,7 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $this->eventListener->__invoke($event);
     }
 
-    /**
-     * @test
-     */
-    public function shouldBuildImgUrl()
+    public function testShouldBuildImgUrl(): void
     {
         $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $file->expects(self::once())->method('getPublicUrl')->willReturn('/directory/image.png');
@@ -158,29 +143,20 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $this->assertEquals('http://www.congstar.imgix.de/directory/image.png', $imgUrl);
     }
 
-    /**
-     * @test
-     */
-    public function shouldNotGetFile()
+    public function testShouldNotGetFile(): void
     {
         $result = [];
         $this->assertSame(null, $this->callInaccessibleMethod($this->eventListener, 'getFile', $result));
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetFile()
+    public function testShouldGetFile(): void
     {
         $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $result = [$file];
         $this->assertSame($file, $this->callInaccessibleMethod($this->eventListener, 'getFile', $result));
     }
 
-    /**
-     * @test
-     */
-    public function shouldCheckThatPurgingOfImgixCacheIsNotRequiredWhenFileIsNoImage()
+    public function testShouldCheckThatPurgingOfImgixCacheIsNotRequiredWhenFileIsNoImage(): void
     {
         $command = ['upload' => ['mockedKey' => ['mockedData']]];
         $conflictMode = DuplicationBehavior::REPLACE;
@@ -191,10 +167,7 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $this->assertFalse($result);
     }
 
-    /**
-     * @test
-     */
-    public function shouldCheckThatPurgingOfImgixCacheIsNotRequiredWhenImageFileIsNewCreated()
+    public function testShouldCheckThatPurgingOfImgixCacheIsNotRequiredWhenImageFileIsNewCreated(): void
     {
         $command = ['upload' => ['mockedKey' => ['mockedData']]];
         $conflictMode = DuplicationBehavior::CANCEL;
@@ -205,10 +178,7 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $this->assertFalse($result);
     }
 
-    /**
-     * @test
-     */
-    public function shouldCheckThatPurgingOfImgixCacheIsRequiredWhenImageFileIsReplaced()
+    public function testShouldCheckThatPurgingOfImgixCacheIsRequiredWhenImageFileIsReplaced(): void
     {
         $command = ['replace' => ['mockedKey' => ['mockedData'], 'keepFilename' => '1']];
         $conflictMode = DuplicationBehavior::REPLACE;
@@ -219,10 +189,7 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $this->assertTrue($result);
     }
 
-    /**
-     * @test
-     */
-    public function shouldCheckThatPurgingOfImgixCacheIsRequiredWhenImageFileIsUpdated()
+    public function testShouldCheckThatPurgingOfImgixCacheIsRequiredWhenImageFileIsUpdated(): void
     {
         $command = ['upload' => ['mockedKey' => ['mockedData']]];
         $conflictMode = DuplicationBehavior::REPLACE;

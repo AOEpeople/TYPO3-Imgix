@@ -50,9 +50,6 @@ class ImagePurgeServiceTest extends UnitTestCase
      */
     private $imagePurgeService;
 
-    /**
-     * set up the test
-     */
     public function setUp(): void
     {
         $this->configuration = $this->getMockBuilder(Configuration::class)->disableOriginalConstructor()->getMock();
@@ -64,10 +61,7 @@ class ImagePurgeServiceTest extends UnitTestCase
             ->getMock();
     }
 
-    /**
-     * @test
-     */
-    public function shouldNotPurgeImgixCacheOnInvalidApiKey()
+    public function testShouldNotPurgeImgixCacheOnInvalidApiKey(): void
     {
         $imageUrl = 'http://congstar.imgix.com/directory/image.png';
 
@@ -78,10 +72,7 @@ class ImagePurgeServiceTest extends UnitTestCase
         $this->assertFalse($this->imagePurgeService->purgeImgixCache($imageUrl)->isSuccessful());
     }
 
-    /**
-     * @test
-     */
-    public function shouldNotPurgeImgixCacheOnFailedRestRequest()
+    public function testShouldNotPurgeImgixCacheOnFailedRestRequest(): void
     {
         $imageUrl = 'http://congstar.imgix.com/directory/image.png';
         $postRequest = new stdClass();
@@ -99,10 +90,7 @@ class ImagePurgeServiceTest extends UnitTestCase
         $this->assertFalse($this->imagePurgeService->purgeImgixCache($imageUrl)->isSuccessful());
     }
 
-    /**
-     * @test
-     */
-    public function shouldPurgeImgixCache()
+    public function testShouldPurgeImgixCache(): void
     {
         $imageUrl = 'http://congstar.imgix.com/directory/image.png';
         $postRequest = new stdClass();

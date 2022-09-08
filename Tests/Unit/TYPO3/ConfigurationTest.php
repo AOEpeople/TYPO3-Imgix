@@ -34,127 +34,85 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ConfigurationTest extends UnitTestCase
 {
-    /**
-     * @test
-     */
-    public function shouldCheckThatApiKeyIsNotConfigured()
+    public function testShouldCheckThatApiKeyIsNotConfigured(): void
     {
         $configuration = $this->createConfigurationObject([], []);
         $this->assertFalse($configuration->isApiKeyConfigured());
     }
 
-    /**
-     * @test
-     */
-    public function shouldCheckThatApiKeyIsConfigured()
+    public function testShouldCheckThatApiKeyIsConfigured(): void
     {
         $configuration = $this->createConfigurationObject([], ['apiKey' => 'myApiKey']);
         $this->assertTrue($configuration->isApiKeyConfigured());
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetApiKey()
+    public function testShouldGetApiKey(): void
     {
         $configuration = $this->createConfigurationObject([], ['apiKey' => 'myApiKey']);
         $this->assertSame('myApiKey', $configuration->getApiKey());
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetOverwrittenApiKeyBySettings()
+    public function testShouldGetOverwrittenApiKeyBySettings(): void
     {
         $configuration = $this->createConfigurationObject(['apiKey' => 'myApiKey2'], ['apiKey' => 'myApiKey']);
         $this->assertSame('myApiKey2', $configuration->getApiKey());
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetHost()
+    public function testShouldGetHost(): void
     {
         $configuration = $this->createConfigurationObject([], ['host' => 'mysubdomain.imgix.net']);
         $this->assertSame('mysubdomain.imgix.net', $configuration->getHost());
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetOverwrittenHostBySettings()
+    public function testShouldGetOverwrittenHostBySettings(): void
     {
         $configuration = $this->createConfigurationObject(['host' => 'mysubdomain2.imgix.net'], ['host' => 'mysubdomain.imgix.net']);
         $this->assertSame('mysubdomain2.imgix.net', $configuration->getHost());
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetEnabled()
+    public function testShouldGetEnabled(): void
     {
         $configuration = $this->createConfigurationObject([], ['enabled' => '1']);
         $this->assertTrue($configuration->isEnabled());
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetEnabledOverwrittenBySettings()
+    public function testShouldGetEnabledOverwrittenBySettings(): void
     {
         $configuration = $this->createConfigurationObject(['enabled' => '0'], ['enabled' => '1']);
         $this->assertFalse($configuration->isEnabled());
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetEnableFluid()
+    public function testShouldGetEnableFluid(): void
     {
         $configuration = $this->createConfigurationObject([], ['enableFluid' => '0']);
         $this->assertFalse($configuration->isFluidEnabled());
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetEnableFluidOverwrittenBySettings()
+    public function testShouldGetEnableFluidOverwrittenBySettings(): void
     {
         $configuration = $this->createConfigurationObject(['enableFluid' => '1'], ['enableFluid' => '0']);
         $this->assertTrue($configuration->isFluidEnabled());
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetEnableObservation()
+    public function testShouldGetEnableObservation(): void
     {
         $configuration = $this->createConfigurationObject([], ['enableObservation' => '0']);
         $this->assertFalse($configuration->isObservationEnabled());
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetEnableObservationOverwrittenBySettings()
+    public function testShouldGetEnableObservationOverwrittenBySettings(): void
     {
         $configuration = $this->createConfigurationObject(['enableObservation' => '1'], ['enableObservation' => '0']);
         $this->assertTrue($configuration->isObservationEnabled());
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetEmptyImgixFluidOptions()
+    public function testShouldGetEmptyImgixFluidOptions(): void
     {
         $configuration = $this->createConfigurationObject([], []);
         $this->assertSame([], $configuration->getImgixFluidOptions());
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetImgixFluidOptions()
+    public function testShouldGetImgixFluidOptions(): void
     {
         $configuration = $this->createConfigurationObject(
             [],
@@ -206,19 +164,13 @@ class ConfigurationTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetEmptyImgixDefaultUrlParameters()
+    public function testShouldGetEmptyImgixDefaultUrlParameters(): void
     {
         $configuration = $this->createConfigurationObject([], []);
         $this->assertSame([], $configuration->getImgixDefaultUrlParameters());
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetImgixDefaultUrlParameters()
+    public function testShouldGetImgixDefaultUrlParameters(): void
     {
         $configuration = $this->createConfigurationObject(
             [],

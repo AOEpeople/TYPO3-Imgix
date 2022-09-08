@@ -30,10 +30,7 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 class TypeUtilsTest extends UnitTestCase
 {
-    /**
-     * @test
-     */
-    public function shouldMapTypeString()
+    public function testShouldMapTypeString(): void
     {
         $actual = TypeUtils::castTypesByMap(
             ['foo' => TypeUtils::TYPE_STRING, 'bar' => TypeUtils::TYPE_STRING],
@@ -42,10 +39,7 @@ class TypeUtilsTest extends UnitTestCase
         $this->assertSame(['foo' => '0', 'bar' => ''], $actual);
     }
 
-    /**
-     * @test
-     */
-    public function shouldMapTypeInteger()
+    public function testShouldMapTypeInteger(): void
     {
         $actual = TypeUtils::castTypesByMap(
             ['foo' => TypeUtils::TYPE_INTEGER, 'bar' => TypeUtils::TYPE_INTEGER],
@@ -54,10 +48,7 @@ class TypeUtilsTest extends UnitTestCase
         $this->assertSame(['foo' => 0, 'bar' => 0], $actual);
     }
 
-    /**
-     * @test
-     */
-    public function shouldMapTypeBoolean()
+    public function testShouldMapTypeBoolean(): void
     {
         $actual = TypeUtils::castTypesByMap(
             ['foo' => TypeUtils::TYPE_BOOLEAN, 'bar' => TypeUtils::TYPE_BOOLEAN, 'baz' => TypeUtils::TYPE_BOOLEAN],
@@ -66,10 +57,7 @@ class TypeUtilsTest extends UnitTestCase
         $this->assertSame(['foo' => false, 'bar' => false, 'baz' => true], $actual);
     }
 
-    /**
-     * @test
-     */
-    public function shouldDoNothingOnMissingMap()
+    public function testShouldDoNothingOnMissingMap(): void
     {
         $actual = TypeUtils::castTypesByMap(
             [],

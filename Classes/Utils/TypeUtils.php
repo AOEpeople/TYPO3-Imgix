@@ -1,4 +1,5 @@
 <?php
+
 namespace Aoe\Imgix\Utils;
 
 /***************************************************************
@@ -24,38 +25,33 @@ namespace Aoe\Imgix\Utils;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 class TypeUtils
 {
     /**
      * @var string
      */
-    const TYPE_STRING = 'string';
+    public const TYPE_STRING = 'string';
 
     /**
      * @var string
      */
-    const TYPE_INTEGER = 'integer';
+    public const TYPE_INTEGER = 'integer';
 
     /**
      * @var string
      */
-    const TYPE_BOOLEAN = 'boolean';
+    public const TYPE_BOOLEAN = 'boolean';
 
-    /**
-     * @param array $map
-     * @param array $target
-     * @return array
-     */
-    public static function castTypesByMap(array $map, array $target)
+    public static function castTypesByMap(array $map, array $target): array
     {
-        $casted = array();
+        $casted = [];
         foreach ($target as $key => $value) {
             if (isset($map[$key])) {
                 settype($value, $map[$key]);
             }
             $casted[$key] = $value;
         }
+
         return $casted;
     }
 }

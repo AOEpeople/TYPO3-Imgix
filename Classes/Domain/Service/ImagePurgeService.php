@@ -1,4 +1,5 @@
 <?php
+
 namespace Aoe\Imgix\Domain\Service;
 
 /***************************************************************
@@ -32,46 +33,38 @@ use stdClass;
 
 class ImagePurgeService
 {
-    const IMG_PURGE_REQUEST_URL = 'https://api.imgix.com/api/v1/purge';
-
     /**
-     * @var Configuration
+     * @var string
      */
-    private $configuration;
+    public const IMG_PURGE_REQUEST_URL = 'https://api.imgix.com/api/v1/purge';
 
-    /**
-     * @var PurgeImgixCacheErrorHandler
-     */
-    private $errorHandler;
+    private Configuration $configuration;
 
-    /**
-     * @param Configuration $configuration
-     * @param PurgeImgixCacheErrorHandler $errorHandler
-     */
+    private PurgeImgixCacheErrorHandler $errorHandler;
+
     public function __construct(Configuration $configuration, PurgeImgixCacheErrorHandler $errorHandler)
     {
         $this->configuration = $configuration;
         $this->errorHandler = $errorHandler;
     }
 
-    /**
-     * @return PurgeImgixCacheErrorHandler
-     */
-    public function getErrorHandler()
+    public function getErrorHandler(): PurgeImgixCacheErrorHandler
     {
         return $this->errorHandler;
     }
 
     /**
      * @param string $imageUrl
+     *
      * @return ImagePurgeResult
      */
     public function purgeImgixCache($imageUrl)
     {
-        if (false === $this->configuration->isApiKeyConfigured()) {
+        if (!$this->configuration->isApiKeyConfigured()) {
             $this->errorHandler->handleCouldNotPurgeImgixCacheOnInvalidApiKey($imageUrl);
             $result = new ImagePurgeResult();
             $result->markImagePurgeAsFailed();
+
             return $result;
         }
 
@@ -82,7 +75,7 @@ class ImagePurgeService
         $postRequest->data->type = 'purges';
 
         $result = $this->doPostRequest($postRequest);
-        if (false === $result->isSuccessful()) {
+        if (!$result->isSuccessful()) {
             $this->errorHandler->handleCouldNotPurgeImgixCacheOnFailedRestRequest($imageUrl, $result);
         }
 
@@ -90,22 +83,21 @@ class ImagePurgeService
     }
 
     /**
-     * @param stdClass $postRequest
      * @return ImagePurgeResult
      */
     protected function doPostRequest(stdClass $postRequest)
     {
-        $postJsonData = json_encode($postRequest);
+        $postJsonData = (string) json_encode($postRequest);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, self::IMG_PURGE_REQUEST_URL);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postJsonData);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: Bearer '.$this->configuration->getApiKey(),
+            'Authorization: Bearer ' . $this->configuration->getApiKey(),
             'Content-Type: application/vnd.api+json',
             'Accept: application/vnd.api+json',
-            'Content-Length: ' . strlen($postJsonData)
+            'Content-Length: ' . strlen($postJsonData),
         ]);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
@@ -114,13 +106,14 @@ class ImagePurgeService
         $responseInfo = curl_getinfo($ch);
 
         $result = new ImagePurgeResult();
-        if ($response === false || $responseInfo['http_code'] !== 200) {
+        if (!$response || $responseInfo['http_code'] !== 200) {
             $result->markImagePurgeAsFailed(curl_error($ch), curl_errno($ch), $responseInfo['http_code']);
         } else {
             $result->markImagePurgeAsSuccessful();
         }
 
         curl_close($ch);
+
         return $result;
     }
 }

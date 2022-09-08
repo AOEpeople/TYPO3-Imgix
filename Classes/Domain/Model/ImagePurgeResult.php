@@ -1,4 +1,5 @@
 <?php
+
 namespace Aoe\Imgix\Domain\Model;
 
 /***************************************************************
@@ -24,84 +25,54 @@ namespace Aoe\Imgix\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 class ImagePurgeResult
 {
-    /**
-     * @var boolean
-     */
-    private $isSuccessful;
+    private bool $isSuccessful;
 
-    /**
-     * @var string
-     */
-    private $curlErrorMessage;
+    private string $curlErrorMessage;
 
-    /**
-     * @var integer
-     */
-    private $curlErrorCode;
+    private int $curlErrorCode;
 
-    /**
-     * @var integer
-     */
-    private $curlHttpStatusCode;
+    private int $curlHttpStatusCode;
 
-    /**
-     * @return string
-     */
-    public function getCurlErrorMessage()
+    public function getCurlErrorMessage(): string
     {
         return $this->curlErrorMessage;
     }
 
-    /**
-     * @return integer
-     */
-    public function getCurlErrorCode()
+    public function getCurlErrorCode(): int
     {
         return $this->curlErrorCode;
     }
 
-    /**
-     * @return integer
-     */
-    public function getCurlHttpStatusCode()
+    public function getCurlHttpStatusCode(): int
     {
         return $this->curlHttpStatusCode;
     }
 
-    /**
-     * @return boolean
-     */
-    public function hasCurlErrorMessage()
+    public function hasCurlErrorMessage(): bool
     {
-        return (false === empty($this->curlErrorMessage));
+        return !empty($this->curlErrorMessage);
     }
 
-    /**
-     * @return boolean
-     */
-    public function hasCurlErrorCode()
+    public function hasCurlErrorCode(): bool
     {
-        return (false === empty($this->curlErrorCode));
+        return !empty($this->curlErrorCode);
     }
 
-    /**
-     * @return boolean
-     */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         return $this->isSuccessful;
     }
 
     /**
      * image-purge was not successful
-     * @param string $curlErrorMessage
+     *
+     * @param string  $curlErrorMessage
      * @param integer $curlErrorCode
      * @param integer $curlHttpStatusCode
      */
-    public function markImagePurgeAsFailed($curlErrorMessage = '', $curlErrorCode = 0, $curlHttpStatusCode = 0)
+    public function markImagePurgeAsFailed($curlErrorMessage = '', $curlErrorCode = 0, $curlHttpStatusCode = 0): void
     {
         $this->isSuccessful = false;
         $this->curlErrorMessage = $curlErrorMessage;
@@ -112,8 +83,8 @@ class ImagePurgeResult
     /**
      * image-purge was successful
      */
-    public function markImagePurgeAsSuccessful()
+    public function markImagePurgeAsSuccessful(): void
     {
-       $this->isSuccessful = true;
+        $this->isSuccessful = true;
     }
 }

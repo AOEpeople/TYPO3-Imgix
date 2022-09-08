@@ -1,4 +1,5 @@
 <?php
+
 namespace Aoe\Imgix\TYPO3;
 
 /***************************************************************
@@ -32,10 +33,7 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 class Configuration
 {
-    /**
-     * @var array
-     */
-    protected static $imgixFluidOptionsTypeMap = [
+    protected static array $imgixFluidOptionsTypeMap = [
         'fluidClass' => TypeUtils::TYPE_STRING,
         'updateOnResize' => TypeUtils::TYPE_BOOLEAN,
         'updateOnResizeDown' => TypeUtils::TYPE_BOOLEAN,
@@ -60,15 +58,8 @@ class Configuration
      */
     private $configuration;
 
-    /**
-     * @var array
-     */
-    private $settings;
+    private array $settings;
 
-    /**
-     * @param ConfigurationManagerInterface $configurationManager
-     * @param ExtensionConfiguration $extensionConfiguration
-     */
     public function __construct(ConfigurationManagerInterface $configurationManager, ExtensionConfiguration $extensionConfiguration)
     {
         $this->settings = $configurationManager->getConfiguration(
@@ -78,92 +69,81 @@ class Configuration
         $this->configuration = $extensionConfiguration->get('imgix');
     }
 
-    /**
-     * @return bool
-     */
-    public function isApiKeyConfigured()
+    public function isApiKeyConfigured(): bool
     {
         $apiKey = $this->getApiKey();
-        return (empty($apiKey) === false);
+
+        return !empty($apiKey);
     }
 
-    /**
-     * @return bool
-     */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
-        if (isset($this->settings['enabled']) && '' !== $this->settings['enabled']) {
-            return (boolean)$this->settings['enabled'];
+        if (isset($this->settings['enabled']) && $this->settings['enabled'] !== '') {
+            return (bool) $this->settings['enabled'];
         }
-        return (boolean)$this->configuration['enabled'];
+
+        return (bool) $this->configuration['enabled'];
     }
 
-    /**
-     * @return bool
-     */
-    public function isFluidEnabled()
+    public function isFluidEnabled(): bool
     {
-        if (isset($this->settings['enableFluid']) && '' !== $this->settings['enableFluid']) {
-            return (boolean)$this->settings['enableFluid'];
+        if (isset($this->settings['enableFluid']) && $this->settings['enableFluid'] !== '') {
+            return (bool) $this->settings['enableFluid'];
         }
-        return (boolean)$this->configuration['enableFluid'];
+
+        return (bool) $this->configuration['enableFluid'];
     }
 
-    /**
-     * @return bool
-     */
-    public function isObservationEnabled()
+    public function isObservationEnabled(): bool
     {
-        if (isset($this->settings['enableObservation']) && '' !== $this->settings['enableObservation']) {
-            return (boolean)$this->settings['enableObservation'];
+        if (isset($this->settings['enableObservation']) && $this->settings['enableObservation'] !== '') {
+            return (bool) $this->settings['enableObservation'];
         }
-        return (boolean)$this->configuration['enableObservation'];
+
+        return (bool) $this->configuration['enableObservation'];
     }
 
-    /**
-     * @return string
-     */
-    public function getApiKey()
+    public function getApiKey(): string
     {
-        if (isset($this->settings['apiKey']) && '' !== $this->settings['apiKey']) {
-            return (string)$this->settings['apiKey'];
+        if (isset($this->settings['apiKey']) && $this->settings['apiKey'] !== '') {
+            return (string) $this->settings['apiKey'];
         }
-        return (string)$this->configuration['apiKey'];
+
+        if (isset($this->configuration['apiKey'])) {
+            return (string) $this->configuration['apiKey'];
+        }
+
+        return '';
     }
 
-    /**
-     * @return string
-     */
-    public function getHost()
+    public function getHost(): string
     {
-        if (isset($this->settings['host']) && '' !== $this->settings['host']) {
-            return (string)$this->settings['host'];
+        if (isset($this->settings['host']) && $this->settings['host'] !== '') {
+            return (string) $this->settings['host'];
         }
-        return (string)$this->configuration['host'];
+
+        return (string) $this->configuration['host'];
     }
 
-    /**
-     * @return array
-     */
-    public function getImgixFluidOptions()
+    public function getImgixFluidOptions(): array
     {
         if (isset($this->configuration['imgix']['fluid'])) {
             $options = ArrayUtils::filterEmptyValues($this->configuration['imgix']['fluid']);
-            $options = TypeUtils::castTypesByMap(self::$imgixFluidOptionsTypeMap, $options);
-            return $options;
+
+            return TypeUtils::castTypesByMap(self::$imgixFluidOptionsTypeMap, $options);
         }
+
         return [];
     }
 
-    /**
-     * @return array
-     */
-    public function getImgixDefaultUrlParameters()
+    public function getImgixDefaultUrlParameters(): array
     {
         if (isset($this->configuration['imgix']['defaultUrlParameters'])) {
             parse_str($this->configuration['imgix']['defaultUrlParameters'], $defaultUrlParameters);
+
             return $defaultUrlParameters;
         }
+
         return [];
     }
 }

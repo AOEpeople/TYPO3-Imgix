@@ -43,18 +43,12 @@ class ImagePurgeResultTest extends UnitTestCase
         $this->imagePurgeResult = new ImagePurgeResult();
     }
 
-    /**
-     * @test
-     */
-    public function shouldCheckThatResultHasNoCurlErrorMessage()
+    public function testShouldCheckThatResultHasNoCurlErrorMessage(): void
     {
         $this->assertFalse($this->imagePurgeResult->hasCurlErrorMessage());
     }
 
-    /**
-     * @test
-     */
-    public function shouldCheckThatResultHasCurlErrorMessage()
+    public function testShouldCheckThatResultHasCurlErrorMessage(): void
     {
         $curlErrorMessage = 'curlErrorMessage';
         $curlErrorCode = 28;
@@ -63,18 +57,12 @@ class ImagePurgeResultTest extends UnitTestCase
         $this->assertTrue($this->imagePurgeResult->hasCurlErrorMessage());
     }
 
-    /**
-     * @test
-     */
-    public function shouldCheckThatResultHasNoCurlErrorCode()
+    public function testShouldCheckThatResultHasNoCurlErrorCode(): void
     {
         $this->assertFalse($this->imagePurgeResult->hasCurlErrorCode());
     }
 
-    /**
-     * @test
-     */
-    public function shouldCheckThatResultHasCurlErrorCode()
+    public function testShouldCheckThatResultHasCurlErrorCode(): void
     {
         $curlErrorMessage = 'curlErrorMessage';
         $curlErrorCode = 28;
@@ -83,10 +71,7 @@ class ImagePurgeResultTest extends UnitTestCase
         $this->assertTrue($this->imagePurgeResult->hasCurlErrorCode());
     }
 
-    /**
-     * @test
-     */
-    public function shouldMarkImagePurgeAsFailed()
+    public function testShouldMarkImagePurgeAsFailed(): void
     {
         $curlErrorMessage = 'curlErrorMessage';
         $curlErrorCode = 28;
@@ -99,10 +84,7 @@ class ImagePurgeResultTest extends UnitTestCase
         $this->assertSame($curlHttpStatusCode, $this->imagePurgeResult->getCurlHttpStatusCode());
     }
 
-    /**
-     * @test
-     */
-    public function shouldMarkImagePurgeAsSuccessful()
+    public function testShouldMarkImagePurgeAsSuccessful(): void
     {
         $this->imagePurgeResult->markImagePurgeAsSuccessful();
         $this->assertTrue($this->imagePurgeResult->isSuccessful());

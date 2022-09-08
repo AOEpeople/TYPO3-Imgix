@@ -1,4 +1,5 @@
 <?php
+
 namespace Aoe\Imgix\TYPO3;
 
 /***************************************************************
@@ -26,26 +27,16 @@ namespace Aoe\Imgix\TYPO3;
  ***************************************************************/
 
 use Aoe\Imgix\Domain\Service\ImagePurgeService;
+use TYPO3\CMS\Core\Resource\DuplicationBehavior;
 use TYPO3\CMS\Core\Resource\Event\AfterFileCommandProcessedEvent;
 use TYPO3\CMS\Core\Resource\File;
-use TYPO3\CMS\Core\Resource\DuplicationBehavior;
 
 class AfterFileCommandProcessedEventListener
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
+    private Configuration $configuration;
 
-    /**
-     * @var ImagePurgeService
-     */
-    private $imagePurgeService;
+    private ImagePurgeService $imagePurgeService;
 
-    /**
-     * @param Configuration     $configuration
-     * @param ImagePurgeService $imagePurgeService
-     */
     public function __construct(Configuration $configuration, ImagePurgeService $imagePurgeService)
     {
         $this->configuration = $configuration;
@@ -60,35 +51,31 @@ class AfterFileCommandProcessedEventListener
         }
     }
 
-    /**
-     * @param File $file
-     * @return string
-     */
-    protected function buildImgUrl(File $file)
+    protected function buildImgUrl(?File $file): string
     {
-        $imagePath = ltrim($file->getPublicUrl(), '/');
+        if ($file === null) {
+            return '';
+        }
+
+        $imagePath = ltrim((string) $file->getPublicUrl(), '/');
         $host = rtrim($this->configuration->getHost(), '/');
+
         return sprintf('http://%s/%s', $host, $imagePath);
     }
 
     /**
      * @param mixed $result
-     * @return File|null
      */
     protected function getFile($result): ?File
     {
         if (is_array($result) && isset($result[0]) && $result[0] instanceof File) {
             return $result[0];
         }
+
         return null;
     }
 
-    /**
-     * @param string $action
-     * @param File|null $file
-     * @return boolean
-     */
-    protected function isPurgingOfImgixCacheRequired(array $command, string $conflictMode, File $file = null)
+    protected function isPurgingOfImgixCacheRequired(array $command, string $conflictMode, ?File $file = null): bool
     {
         if ($file === null || $file->getType() !== File::FILETYPE_IMAGE) {
             return false;
@@ -97,12 +84,11 @@ class AfterFileCommandProcessedEventListener
             // editor has updated an existing image (by uploading and overwriting an existing image)
             return true;
         }
-        if (isset($command['replace']) &&
-            isset($command['replace']['keepFilename']) &&
-            (boolean) $command['replace']['keepFilename'] === true) {
+        if (isset($command['replace'], $command['replace']['keepFilename']) && (bool) $command['replace']['keepFilename'] === true) {
             // editor has replaced an existing image and current image-filename should be kept
             return true;
         }
+
         return false;
     }
 }

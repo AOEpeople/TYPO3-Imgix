@@ -1,4 +1,5 @@
 <?php
+
 namespace Aoe\Imgix\Controller;
 
 /***************************************************************
@@ -33,14 +34,8 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 class PurgeImgixCacheController extends ActionController
 {
-    /**
-     * @var ImagePurgeService
-     */
-    private $imagePurgeService;
+    private ImagePurgeService $imagePurgeService;
 
-    /**
-     * @param ImagePurgeService $imagePurgeService
-     */
     public function __construct(ImagePurgeService $imagePurgeService)
     {
         $this->imagePurgeService = $imagePurgeService;
@@ -48,7 +43,6 @@ class PurgeImgixCacheController extends ActionController
 
     /**
      * render form
-     * @return ResponseInterface
      */
     public function indexAction(): ResponseInterface
     {
@@ -57,17 +51,18 @@ class PurgeImgixCacheController extends ActionController
 
     /**
      * @param string $imageUrl
-     * @return ForwardResponse
      */
     public function purgeImgixCacheAction($imageUrl): ForwardResponse
     {
         // Override flashMessageQueue in errorHandler:
-        // When image-purge fails, than the errorHandler will automatically send a flashMessage with details about the failure
-        $this->imagePurgeService->getErrorHandler()->overrideFlashMessageQueue($this->getFlashMessageQueue());
+        // When image-purge fails, then the errorHandler will automatically send a flashMessage with details about the failure
+        $this->imagePurgeService->getErrorHandler()
+            ->overrideFlashMessageQueue($this->getFlashMessageQueue());
 
         if ($this->imagePurgeService->purgeImgixCache($imageUrl)->isSuccessful()) {
             $messageKey = 'PurgeImgixCacheController.purgeImgixCacheWasSuccessful';
-            $message = $this->getLanguageService()->sL('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:'.$messageKey);
+            $message = $this->getLanguageService()
+                ->sL('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:' . $messageKey);
             $message = str_replace('###IMAGE_URL###', $imageUrl, $message);
             $this->addFlashMessage($message);
         }

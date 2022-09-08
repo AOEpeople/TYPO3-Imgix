@@ -1,4 +1,5 @@
 <?php
+
 namespace Aoe\Imgix\Controller;
 
 /***************************************************************
@@ -31,51 +32,39 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 class LoadController extends ActionController
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
+    private Configuration $configuration;
 
-    /**
-     * @param Configuration $configuration
-     */
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
     }
 
-    /**
-     * @return ResponseInterface
-     */
     public function jqueryAction(): ResponseInterface
     {
         $this->view->assign('enabled', $this->configuration->isEnabled());
         $this->view->assign('options', $this->getOptionsAsJson());
+
         return $this->htmlResponse($this->view->render());
     }
 
-    /**
-     * @return ResponseInterface
-     */
     public function angularAction(): ResponseInterface
     {
         $this->view->assign('enabled', $this->configuration->isEnabled());
         $this->view->assign('options', $this->getOptionsAsJson());
+
         return $this->htmlResponse($this->view->render());
     }
 
-    /**
-     * @return string
-     */
-    private function getOptionsAsJson()
+    private function getOptionsAsJson(): string
     {
         $options = [
             'host' => $this->configuration->getHost(),
             'enableFluid' => $this->configuration->isFluidEnabled(),
             'enableObservation' => $this->configuration->isObservationEnabled(),
             'imgix' => $this->configuration->getImgixFluidOptions(),
-            'imgixUrlParams' => $this->configuration->getImgixDefaultUrlParameters()
+            'imgixUrlParams' => $this->configuration->getImgixDefaultUrlParameters(),
         ];
-        return json_encode($options, JSON_FORCE_OBJECT);
+
+        return (string) json_encode($options, JSON_FORCE_OBJECT);
     }
 }
