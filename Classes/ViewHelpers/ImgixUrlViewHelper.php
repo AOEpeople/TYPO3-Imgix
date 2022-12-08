@@ -26,6 +26,7 @@ namespace Aoe\Imgix\ViewHelpers;
  ***************************************************************/
 
 use Aoe\Imgix\TYPO3\Configuration;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class ImgixUrlViewHelper extends AbstractViewHelper
@@ -63,7 +64,12 @@ class ImgixUrlViewHelper extends AbstractViewHelper
             return $this->arguments['imageUrl'];
         }
 
-        $url = '//' . $this->configuration->getHost() . '/' . $this->arguments['imageUrl'];
+        if (str_starts_with($this->arguments['imageUrl'], 'https')) {
+            $httpHost = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
+            $url = str_replace($httpHost, '//' . $this->configuration->getHost(), $this->arguments['imageUrl']);
+        } else {
+            $url = '//' . $this->configuration->getHost() . '/' . $this->arguments['imageUrl'];
+        }
 
         if ($this->hasUrlParameters()) {
             $url .= '?' . http_build_query($this->getUrlParameters());
