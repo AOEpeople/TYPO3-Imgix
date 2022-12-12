@@ -32,4 +32,5 @@ jobs:
           TAG_MESSAGE=`git log -1 --pretty=%B`
           echo "Tag-Message: ${TAG_MESSAGE}"
           echo "Uploading release ${{ steps.determine-tag.outputs.tag }} to TER"
+          $HOME/.composer/./vendor/bin/tailor set-version ${{ steps.determine-tag.outputs.tag }}
           $HOME/.composer/./vendor/bin/tailor ter:publish ${{ steps.determine-tag.outputs.tag }} imgix --comment "$TAG_MESSAGE"
