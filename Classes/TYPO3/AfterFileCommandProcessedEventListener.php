@@ -57,7 +57,7 @@ class AfterFileCommandProcessedEventListener
             return '';
         }
 
-        $imagePath = ltrim((string) $file->getPublicUrl(), '/');
+        $imagePath = ltrim($this->getImagePath($file), '/');
         $host = rtrim($this->configuration->getHost(), '/');
 
         return sprintf('http://%s/%s', $host, $imagePath);
@@ -90,5 +90,17 @@ class AfterFileCommandProcessedEventListener
         }
 
         return false;
+    }
+
+    private function getImagePath(File $file): string
+    {
+        $url = (string) $file->getPublicUrl();
+
+        if (strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0) {
+            $imagePath = str_replace(['http://', 'https://'], ['', ''], $url);
+            $positionOfFirstTrailingSlash = strpos($imagePath, '/');
+            return substr($imagePath, $positionOfFirstTrailingSlash);
+        }
+        return $url;
     }
 }

@@ -133,14 +133,38 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $this->eventListener->__invoke($event);
     }
 
-    public function testShouldBuildImgUrl(): void
+    /**
+     * @dataProvider shouldBuildImgUrlDataProvider
+     */
+    public function testShouldBuildImgUrl(string $publicUrl, string $host, string $expectedImgUrl): void
     {
         $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
-        $file->expects(self::once())->method('getPublicUrl')->willReturn('/directory/image.png');
-        $this->configuration->expects(self::once())->method('getHost')->willReturn('www.congstar.imgix.de');
+        $file->expects(self::once())->method('getPublicUrl')->willReturn($publicUrl);
+        $this->configuration->expects(self::once())->method('getHost')->willReturn($host);
 
         $imgUrl = $this->callInaccessibleMethod($this->eventListener, 'buildImgUrl', $file);
-        $this->assertEquals('http://www.congstar.imgix.de/directory/image.png', $imgUrl);
+        $this->assertEquals($expectedImgUrl, $imgUrl);
+    }
+
+    public function shouldBuildImgUrlDataProvider(): array
+    {
+        return [
+            [
+                'publicUrl' => '/directory/image.png',
+                'host' => 'www.congstar.imgix.de',
+                'expectedImgUrl' => 'http://www.congstar.imgix.de/directory/image.png'
+            ],
+            [
+                'publicUrl' => 'http://www.congstar.de/directory/image.png',
+                'host' => 'www.congstar.imgix.de',
+                'expectedImgUrl' => 'http://www.congstar.imgix.de/directory/image.png'
+            ],
+            [
+                'publicUrl' => 'https://www.congstar.de/directory/image.png',
+                'host' => 'www.congstar.imgix.de',
+                'expectedImgUrl' => 'http://www.congstar.imgix.de/directory/image.png'
+            ]
+        ];
     }
 
     public function testShouldNotGetFile(): void
