@@ -98,7 +98,7 @@ class AfterFileCommandProcessedEventListener
 
         if (str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) {
             $imagePath = str_replace(['http://', 'https://'], ['', ''], $url);
-            $positionOfFirstTrailingSlash = strpos($imagePath, '/');
+            $positionOfFirstTrailingSlash = (int) strpos($imagePath, '/');
             return substr($imagePath, $positionOfFirstTrailingSlash);
         }
         return $url;
