@@ -96,7 +96,7 @@ class AfterFileCommandProcessedEventListener
     {
         $url = (string) $file->getPublicUrl();
 
-        if (strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0) {
+        if (str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) {
             $imagePath = str_replace(['http://', 'https://'], ['', ''], $url);
             $positionOfFirstTrailingSlash = strpos($imagePath, '/');
             return substr($imagePath, $positionOfFirstTrailingSlash);
