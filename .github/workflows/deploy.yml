@@ -15,10 +15,6 @@ jobs:
         id: "determine-tag"
         run: "echo \"::set-output name=tag::${GITHUB_REF#refs/tags/}\""
 
-      - name: "Determine tag"
-        id: "determine-tag"
-        run: "echo \"::set-output name=tag::${GITHUB_REF#refs/tags/}\""
-
       - name: Install TYPO3 Tailor Extension
         run: composer global require typo3/tailor --prefer-dist --no-progress --no-suggest
 
