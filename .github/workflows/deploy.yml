@@ -15,6 +15,13 @@ jobs:
         id: "determine-tag"
         run: "echo \"::set-output name=tag::${GITHUB_REF#refs/tags/}\""
 
+      - name: "Determine tag"
+        id: "determine-tag"
+        run: "echo \"::set-output name=tag::${GITHUB_REF#refs/tags/}\""
+
+      - name: Install TYPO3 Tailor Extension
+        run: composer global require typo3/tailor --prefer-dist --no-progress --no-suggest
+
       - name: Deploy to TER
         env:
           TYPO3_API_USERNAME: ${{secrets.TYPO3_ORG_USERNAME}}
@@ -23,8 +30,7 @@ jobs:
           echo -e "Preparing upload of release ${{ steps.determine-tag.outputs.tag }} to TER\n";
 
           # Install Tylor client
-          composer req --dev typo3/tailor
-
+          composer global require typo3/tailor
           # Build extension files
           composer extension-release
 
