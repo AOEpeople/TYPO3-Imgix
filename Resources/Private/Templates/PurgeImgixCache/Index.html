@@ -1,46 +1,27 @@
-<f:be.container>
-    <div class="typo3-fullDoc">
-        <!-- Header: start -->
-        <div class="module-docheader t3js-module-docheader" style="height: auto;">
-            <div class="module-docheader-bar module-docheader-bar-navigation t3js-module-docheader-bar t3js-module-docheader-bar-navigation" style="height: auto;">
-                <div class="module-docheader-bar-column-left">
-                    <div class="form-inline">
-                        <div class="form-group form-group-sm">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Header: end -->
+<script type="text/javascript">
+    function controlButtonBehaviour() {
+        if(document.getElementById("imageUrl").value === "") {
+            document.getElementById('purge-button').disabled = true;
+        } else {
+            document.getElementById('purge-button').disabled = false;
+        }
+    }
+</script>
+<f:flashMessages />
 
-        <div class="module-body t3js-module-body">
-            <script type="text/javascript">
-                function controlButtonBehaviour() {
-                    if(document.getElementById("imageUrl").value === "") {
-                        document.getElementById('purge-button').disabled = true;
-                    } else {
-                        document.getElementById('purge-button').disabled = false;
-                    }
-                }
-            </script>
-            <f:flashMessages />
-
-            <h2><f:translate id="PurgeImgixCacheController.headline" extensionName="imgix" /></h2>
-            <f:form method="post" action="purgeImgixCache">
-                <div class="form-group" style="max-width: 800px;">
-                    <label for="imageUrl"><f:translate id="PurgeImgixCacheController.imageUrlLabel" extensionName="imgix" /></label>
-                    <f:form.textfield
-                            id="imageUrl"
-                            name="imageUrl"
-                            additionalAttributes="{class: 'form-control', onchange: 'controlButtonBehaviour()', onkeyup: 'controlButtonBehaviour()'}"/>
-                </div>
-                <div class="help-block">
-                    <f:form.submit
-                            id="purge-button"
-                            value="{f:translate(id:'PurgeImgixCacheController.button',extensionName:'imgix')}"
-                            additionalAttributes="{class: 'btn btn-default', disabled: 'disabled'}"/>
-                </div>
-            </f:form>
-        </div>
+<h2><f:translate id="PurgeImgixCacheController.headline" extensionName="imgix" /></h2>
+<f:form method="post" action="purgeImgixCache">
+    <div class="form-group" style="max-width: 800px;">
+        <label for="imageUrl"><f:translate id="PurgeImgixCacheController.imageUrlLabel" extensionName="imgix" /></label>
+        <f:form.textfield
+                id="imageUrl"
+                name="imageUrl"
+                additionalAttributes="{class: 'form-control', onchange: 'controlButtonBehaviour()', onkeyup: 'controlButtonBehaviour()'}"/>
     </div>
-</f:be.container>
+    <div class="help-block">
+        <f:form.submit
+                id="purge-button"
+                value="{f:translate(id:'PurgeImgixCacheController.button',extensionName:'imgix')}"
+                additionalAttributes="{class: 'btn btn-default', disabled: 'disabled'}"/>
+    </div>
+</f:form>

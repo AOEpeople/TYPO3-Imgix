@@ -19,6 +19,7 @@
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "ext-curl": "*",
+        "typo3/cms-backend": "^11.5",
         "typo3/cms-core": "^11.5",
         "typo3/cms-fluid": "^11.5",
         "typo3/cms-extbase": "^11.5"

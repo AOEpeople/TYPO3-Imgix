@@ -28,6 +28,7 @@ namespace Aoe\Imgix\Controller;
 
 use Aoe\Imgix\Domain\Service\ImagePurgeService;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -35,10 +36,12 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class PurgeImgixCacheController extends ActionController
 {
     private ImagePurgeService $imagePurgeService;
+    private ModuleTemplateFactory $moduleTemplateFactory;
 
-    public function __construct(ImagePurgeService $imagePurgeService)
+    public function __construct(ImagePurgeService $imagePurgeService, ModuleTemplateFactory $moduleTemplateFactory)
     {
         $this->imagePurgeService = $imagePurgeService;
+        $this->moduleTemplateFactory = $moduleTemplateFactory;
     }
 
     /**
@@ -46,7 +49,9 @@ class PurgeImgixCacheController extends ActionController
      */
     public function indexAction(): ResponseInterface
     {
-        return $this->htmlResponse($this->view->render());
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $moduleTemplate->setContent($this->view->render());
+        return $this->htmlResponse($moduleTemplate->renderContent());
     }
 
     /**
