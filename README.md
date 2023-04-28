@@ -137,3 +137,4 @@ License: GPLv3 or later. See LICENSE.
 [8]: http://github.com/imgix/imgix.js/blob/main/docs/api.md#imgix.fluid
 [9]: https://docs.imgix.com/apis/url
 [10]: https://docs.imgix.com/setup/purging-images
+
