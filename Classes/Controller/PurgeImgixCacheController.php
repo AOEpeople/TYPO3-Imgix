@@ -36,6 +36,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class PurgeImgixCacheController extends ActionController
 {
     private ImagePurgeService $imagePurgeService;
+
     private ModuleTemplateFactory $moduleTemplateFactory;
 
     public function __construct(ImagePurgeService $imagePurgeService, ModuleTemplateFactory $moduleTemplateFactory)
