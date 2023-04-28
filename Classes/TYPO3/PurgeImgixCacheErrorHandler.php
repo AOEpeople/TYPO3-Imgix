@@ -66,7 +66,7 @@ class PurgeImgixCacheErrorHandler
         $message = str_replace('###ERROR_DETAILS###', implode(',', $errorMessageDetails), $message);
 
         $this->addMessageToFlashMessageQueue($message);
-        $this->logErrorInSysLog($message, 1530527897);
+        $this->logErrorInSysLog($message, 15305);
     }
 
     /**
@@ -85,7 +85,7 @@ class PurgeImgixCacheErrorHandler
         $message = str_replace('###IMAGE_URL###', $imageUrl, $message);
 
         $this->addMessageToFlashMessageQueue($message);
-        $this->logErrorInSysLog($message, 1530527898);
+        $this->logErrorInSysLog($message, 15306);
     }
 
     /**

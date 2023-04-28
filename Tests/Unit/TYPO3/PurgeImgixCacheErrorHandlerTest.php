@@ -99,7 +99,7 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
             ->with($expectedMessage)
             ->willReturn($flashMessageObj);
         $this->flashMessageQueue->expects(self::once())->method('enqueue')->with($flashMessageObj);
-        $this->backendUser->expects(self::once())->method('writelog')->with(3, 0, 2, 1530527897, $expectedMessage, []);
+        $this->backendUser->expects(self::once())->method('writelog')->with(3, 0, 2, 15305, $expectedMessage, []);
 
         $this->errorHandler->handleCouldNotPurgeImgixCacheOnFailedRestRequest($imageUrl, $result);
     }
@@ -123,7 +123,7 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
             ->with($expectedMessage)
             ->willReturn($flashMessageObj);
         $this->flashMessageQueue->expects(self::once())->method('enqueue')->with($flashMessageObj);
-        $this->backendUser->expects(self::once())->method('writelog')->with(3, 0, 2, 1530527898, $expectedMessage, []);
+        $this->backendUser->expects(self::once())->method('writelog')->with(3, 0, 2, 15306, $expectedMessage, []);
 
         $this->errorHandler->handleCouldNotPurgeImgixCacheOnInvalidApiKey($imageUrl);
     }
