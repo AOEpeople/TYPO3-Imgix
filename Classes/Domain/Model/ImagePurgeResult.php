@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Aoe\Imgix\Domain\Model;
 
 /***************************************************************
@@ -27,13 +29,13 @@ namespace Aoe\Imgix\Domain\Model;
  ***************************************************************/
 class ImagePurgeResult
 {
-    private bool $isSuccessful;
+    private bool $isSuccessful = false;
 
-    private string $curlErrorMessage;
+    private string $curlErrorMessage = '';
 
-    private int $curlErrorCode;
+    private int $curlErrorCode = 0;
 
-    private int $curlHttpStatusCode;
+    private int $curlHttpStatusCode = 0;
 
     public function getCurlErrorMessage(): string
     {
@@ -52,12 +54,12 @@ class ImagePurgeResult
 
     public function hasCurlErrorMessage(): bool
     {
-        return !empty($this->curlErrorMessage);
+        return $this->curlErrorMessage !== '';
     }
 
     public function hasCurlErrorCode(): bool
     {
-        return !empty($this->curlErrorCode);
+        return $this->curlErrorCode !== 0;
     }
 
     public function isSuccessful(): bool
@@ -67,12 +69,8 @@ class ImagePurgeResult
 
     /**
      * image-purge was not successful
-     *
-     * @param string  $curlErrorMessage
-     * @param integer $curlErrorCode
-     * @param integer $curlHttpStatusCode
      */
-    public function markImagePurgeAsFailed($curlErrorMessage = '', $curlErrorCode = 0, $curlHttpStatusCode = 0): void
+    public function markImagePurgeAsFailed(string $curlErrorMessage = '', int $curlErrorCode = 0, int $curlHttpStatusCode = 0): void
     {
         $this->isSuccessful = false;
         $this->curlErrorMessage = $curlErrorMessage;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Aoe\Imgix\ViewHelpers;
 
 /***************************************************************
@@ -70,7 +72,7 @@ class ImgixUrlViewHelper extends AbstractViewHelper
     {
         $parameters = $this->configuration->getImgixDefaultUrlParameters();
         if ($this->hasArgument('urlParameters')) {
-            $parameters = array_merge($parameters, $this->arguments['urlParameters']);
+            return array_merge($parameters, $this->arguments['urlParameters']);
         }
 
         return $parameters;

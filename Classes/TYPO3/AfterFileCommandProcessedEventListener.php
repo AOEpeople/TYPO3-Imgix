@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Aoe\Imgix\TYPO3;
 
 /***************************************************************
@@ -84,12 +86,9 @@ class AfterFileCommandProcessedEventListener
             // editor has updated an existing image (by uploading and overwriting an existing image)
             return true;
         }
-        if (isset($command['replace'], $command['replace']['keepFilename']) && (bool) $command['replace']['keepFilename'] === true) {
-            // editor has replaced an existing image and current image-filename should be kept
-            return true;
-        }
 
-        return false;
+        // editor has replaced an existing image and current image-filename should be kept
+        return isset($command['replace'], $command['replace']['keepFilename']) && (bool) $command['replace']['keepFilename'];
     }
 
     private function getImagePath(File $file): string

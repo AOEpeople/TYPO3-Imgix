@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Aoe\Imgix\Controller;
 
 /***************************************************************
@@ -45,9 +47,6 @@ class PurgeImgixCacheController extends ActionController
         $this->moduleTemplateFactory = $moduleTemplateFactory;
     }
 
-    /**
-     * render form
-     */
     public function indexAction(): ResponseInterface
     {
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
@@ -55,10 +54,7 @@ class PurgeImgixCacheController extends ActionController
         return $this->htmlResponse($moduleTemplate->renderContent());
     }
 
-    /**
-     * @param string $imageUrl
-     */
-    public function purgeImgixCacheAction($imageUrl): ForwardResponse
+    public function purgeImgixCacheAction(string $imageUrl): ForwardResponse
     {
         // Override flashMessageQueue in errorHandler:
         // When image-purge fails, then the errorHandler will automatically send a flashMessage with details about the failure
@@ -76,12 +72,7 @@ class PurgeImgixCacheController extends ActionController
         return new ForwardResponse('index');
     }
 
-    /**
-     * Returns LanguageService
-     *
-     * @return LanguageService
-     */
-    protected function getLanguageService()
+    protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
     }

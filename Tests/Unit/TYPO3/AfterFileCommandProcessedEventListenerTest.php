@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Aoe\Imgix\Tests\TYPO3;
 
 /***************************************************************
@@ -29,29 +32,19 @@ use Aoe\Imgix\Domain\Service\ImagePurgeService;
 use Aoe\Imgix\TYPO3\Configuration;
 use Aoe\Imgix\TYPO3\AfterFileCommandProcessedEventListener;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Resource\DuplicationBehavior;
 use TYPO3\CMS\Core\Resource\Event\AfterFileCommandProcessedEvent;
 use TYPO3\CMS\Core\Resource\File;
 
 class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
 {
-    /**
-     * @var Configuration|MockObject
-     */
-    private $configuration;
+    private Configuration $configuration;
 
-    /**
-     * @var AfterFileCommandProcessedEventListener
-     */
-    private $eventListener;
+    private AfterFileCommandProcessedEventListener $eventListener;
 
-    /**
-     * @var ImagePurgeService|MockObject
-     */
-    private $imagePurgeService;
+    private ImagePurgeService $imagePurgeService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->configuration = $this->getMockBuilder(Configuration::class)->disableOriginalConstructor()->getMock();
         $this->imagePurgeService = $this->getMockBuilder(ImagePurgeService::class)->disableOriginalConstructor()->getMock();
@@ -143,7 +136,7 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $this->configuration->expects(self::once())->method('getHost')->willReturn($host);
 
         $imgUrl = $this->callInaccessibleMethod($this->eventListener, 'buildImgUrl', $file);
-        $this->assertEquals($expectedImgUrl, $imgUrl);
+        $this->assertSame($expectedImgUrl, $imgUrl);
     }
 
     public function shouldBuildImgUrlDataProvider(): array
@@ -152,25 +145,25 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
             [
                 'publicUrl' => '/directory/image.png',
                 'host' => 'www.congstar.imgix.de',
-                'expectedImgUrl' => 'http://www.congstar.imgix.de/directory/image.png'
+                'expectedImgUrl' => 'http://www.congstar.imgix.de/directory/image.png',
             ],
             [
                 'publicUrl' => 'http://www.congstar.de/directory/image.png',
                 'host' => 'www.congstar.imgix.de',
-                'expectedImgUrl' => 'http://www.congstar.imgix.de/directory/image.png'
+                'expectedImgUrl' => 'http://www.congstar.imgix.de/directory/image.png',
             ],
             [
                 'publicUrl' => 'https://www.congstar.de/directory/image.png',
                 'host' => 'www.congstar.imgix.de',
-                'expectedImgUrl' => 'http://www.congstar.imgix.de/directory/image.png'
-            ]
+                'expectedImgUrl' => 'http://www.congstar.imgix.de/directory/image.png',
+            ],
         ];
     }
 
     public function testShouldNotGetFile(): void
     {
         $result = [];
-        $this->assertSame(null, $this->callInaccessibleMethod($this->eventListener, 'getFile', $result));
+        $this->assertNull($this->callInaccessibleMethod($this->eventListener, 'getFile', $result));
     }
 
     public function testShouldGetFile(): void

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Aoe\Imgix\Tests\Functional\Controller;
 
 /***************************************************************
@@ -31,9 +34,6 @@ use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Request;
 
-/**
- * @covers \Aoe\Imgix\Controller\LoadController
- */
 class LoadControllerTest extends FunctionalTestCase
 {
     /**
@@ -42,10 +42,7 @@ class LoadControllerTest extends FunctionalTestCase
      */
     protected $testExtensionsToLoad = ['typo3conf/ext/imgix'];
 
-    /**
-     * @var LoadController
-     */
-    private $controller;
+    private LoadController $controller;
 
     protected function setUp(): void
     {
@@ -54,10 +51,7 @@ class LoadControllerTest extends FunctionalTestCase
         $this->controller = GeneralUtility::makeInstance(LoadController::class);
     }
 
-    /**
-     * @test
-     */
-    public function shouldRenderAngularAction()
+    public function testShouldRenderAngularAction(): void
     {
         /** @var Request $request */
         $request = new Request();
@@ -69,21 +63,18 @@ class LoadControllerTest extends FunctionalTestCase
             ->withPluginName('LoadPluginName');
         $GLOBALS['TYPO3_REQUEST'] = $request;
 
-        $response = $this->controller->processRequest($request);
+        $content = (string) $this->controller->processRequest($request)->getBody();
         $this->assertStringContainsString(
             'var aoe = aoe || {};',
-            $response->getBody()
+            $content
         );
         $this->assertStringContainsString(
             'settings: JSON.parse(\'{"host":"meinesubdomain.imgix.net","enableFluid":true,"enableObservation":true,"imgix":{"fluidClass":"imgix-fluid"},"imgixUrlParams":{}}\')',
-            $response->getBody()
+            $content
         );
     }
 
-    /**
-     * @test
-     */
-    public function shouldRenderJqueryAction()
+    public function testShouldRenderJqueryAction(): void
     {
         /** @var Request $request */
         $request = new Request();
@@ -95,10 +86,10 @@ class LoadControllerTest extends FunctionalTestCase
             ->withPluginName('LoadPluginName');
         $GLOBALS['TYPO3_REQUEST'] = $request;
 
-        $response = $this->controller->processRequest($request);
+        $content = (string) $this->controller->processRequest($request)->getBody();
         $this->assertStringContainsString(
             '{"host":"meinesubdomain.imgix.net","enableFluid":true,"enableObservation":true,"imgix":{"fluidClass":"imgix-fluid"},"imgixUrlParams":{}}',
-            $response->getBody()
+            $content
         );
     }
 }

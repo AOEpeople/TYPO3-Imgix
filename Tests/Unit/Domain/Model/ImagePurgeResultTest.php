@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Aoe\Imgix\Tests\Domain\Model;
 
 /***************************************************************
@@ -30,15 +33,9 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 class ImagePurgeResultTest extends UnitTestCase
 {
-    /**
-     * @var ImagePurgeResult
-     */
-    private $imagePurgeResult;
+    private ImagePurgeResult $imagePurgeResult;
 
-    /**
-     * set up the test
-     */
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->imagePurgeResult = new ImagePurgeResult();
     }

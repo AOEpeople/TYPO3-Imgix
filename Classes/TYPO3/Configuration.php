@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Aoe\Imgix\TYPO3;
 
 /***************************************************************
@@ -73,7 +75,7 @@ class Configuration
     {
         $apiKey = $this->getApiKey();
 
-        return !empty($apiKey);
+        return $apiKey !== '';
     }
 
     public function isEnabled(): bool

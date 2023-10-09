@@ -2,50 +2,64 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer;
-use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer;
-use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer;
-use Symplify\CodingStandard\Fixer\LineLength\DocBlockLineLengthFixer;
-use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
-use Symplify\EasyCodingStandard\ValueObject\Option;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
-    $parameters->set(
-        Option::PATHS,
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->paths(
         [
             __DIR__ . '/../Classes',
-            __DIR__ . '/ecs.php',
+            __DIR__ . '/../Tests',
+            __DIR__ . '/../code-quality',
         ]
     );
 
-    $containerConfigurator->import(SetList::COMMON);
-    $containerConfigurator->import(SetList::CLEAN_CODE);
-    $containerConfigurator->import(SetList::PSR_12);
-    $containerConfigurator->import(SetList::SYMPLIFY);
+    // importDefaultSets
+    $ecsConfig->import(SetList::COMMON);
+    $ecsConfig->import(SetList::CLEAN_CODE);
+    $ecsConfig->import(SetList::PSR_12);
+    $ecsConfig->import(SetList::SYMPLIFY);
 
-    $containerConfigurator->services()
+    // setDefaultConfig
+    $ecsConfig->services()
         ->set(LineLengthFixer::class)
         ->call('configure', [[
             LineLengthFixer::LINE_LENGTH => 140,
             LineLengthFixer::INLINE_SHORT_LINES => false,
         ]]);
+    $ecsConfig->indentation('spaces');
+    $ecsConfig->lineEnding(PHP_EOL);
+    $ecsConfig->cacheDirectory('.cache/ecs/default/');
 
     // Skip Rules and Sniffer
-    $parameters->set(
-        Option::SKIP,
+    $ecsConfig->skip(
         [
-            // Default Skips
-            NotOperatorWithSuccessorSpaceFixer::class => null,
-            DocBlockLineLengthFixer::class => null,
-            ArrayListItemNewlineFixer::class => null,
-            ArrayOpenerAndCloserNewlineFixer::class => null,
+            '*/tests/fixtures/*',
+            Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer::class => null,
+            Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer::class => null,
+            PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer::class => null,
+            PhpCsFixer\Fixer\Import\OrderedImportsFixer::class => null,
+            PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer::class => null,
+            PhpCsFixer\Fixer\StringNotation\ExplicitStringVariableFixer::class => null,
+            PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer::class => null,
+            '\SlevomatCodingStandard\Sniffs\Whitespaces\DuplicateSpacesSniff.DuplicateSpaces' => null,
+            '\SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff.PartialUse' => null,
 
-            // @todo strict php
-            DeclareStrictTypesFixer::class => null,
+            // It's OK, to skip this fixers, because they produce problems, when developing on windows-OS
+            PhpCsFixer\Fixer\Basic\BracesFixer::class,
+            PhpCsFixer\Fixer\Basic\CurlyBracesPositionFixer::class,
+            PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer::class,
+            PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer::class,
+            PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer::class,
+            PhpCsFixer\Fixer\Whitespace\LineEndingFixer::class,
+            PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer::class,
+            PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer::class,
+            Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer::class,
+            Symplify\CodingStandard\Fixer\LineLength\DocBlockLineLengthFixer::class,
+            Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer::class,
+            Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer::class,
+            Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer::class,
         ]
     );
 };

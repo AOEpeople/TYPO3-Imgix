@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         typo3: [ ^11.5 ]
-        php: [ '7.4', '8.0', '8.1' ]
+        php: [ '8.0', '8.1', '8.2' ]
 
     steps:
       - name: Start database server
@@ -50,18 +50,18 @@ jobs:
         run: composer code-check-pipeline
 
       - name: Unit Tests without coverage
-        if: matrix.typo3 != '^11.5' && matrix.php != '7.4'
+        if: matrix.typo3 != '^11.5' && matrix.php != '8.0'
         run: composer test:unit
 
       - name: Unit Tests with coverage
-        if: matrix.typo3 == '^11.5' && matrix.php == '7.4'
+        if: matrix.typo3 == '^11.5' && matrix.php == '8.0'
         run: |
           export "UNIT_XML"=.Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml
           .Build/bin/phpunit --whitelist Classes --coverage-clover=unittest-coverage.clover --colors -c $UNIT_XML Tests/Unit/
 
       - name: Functional Tests without coverage
         run: composer test:functional
-        if: matrix.typo3 != '^11.5' && matrix.php != '7.4'
+        if: matrix.typo3 != '^11.5' && matrix.php != '8.0'
         env:
           typo3DatabaseHost: 127.0.0.1
           typo3DatabaseName: typo3
@@ -72,7 +72,7 @@ jobs:
         run: |
           export "FUNCTIONAL_XML"=.Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml
           .Build/bin/phpunit --whitelist Classes --coverage-clover=functionaltest-coverage.clover --colors -c $FUNCTIONAL_XML Tests/Functional
-        if: matrix.typo3 == '^11.5' && matrix.php == '7.4'
+        if: matrix.typo3 == '^11.5' && matrix.php == '8.0'
         env:
           typo3DatabaseHost: 127.0.0.1
           typo3DatabaseName: typo3
@@ -80,7 +80,7 @@ jobs:
           typo3DatabaseUsername: root
 
       - name: Upload coverage results to Scrutinizer
-        if: matrix.typo3 == '^11.5' && matrix.php == '7.4'
+        if: matrix.typo3 == '^11.5' && matrix.php == '8.0'
         run: |
           wget https://scrutinizer-ci.com/ocular.phar
           php ocular.phar code-coverage:upload --format=php-clover unittest-coverage.clover

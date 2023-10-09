@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Aoe\Imgix\Tests\TYPO3;
 
 /***************************************************************
@@ -135,10 +137,10 @@ class ConfigurationTest extends UnitTestCase
                         'lazyLoadOffsetHorizontal' => '767',
                         'throttle' => '4711',
                         'maxWidth' => '111',
-                        'maxHeight' => '222'
-                    ]
-                ]
-            ]
+                        'maxHeight' => '222',
+                    ],
+                ],
+            ],
         );
         $this->assertSame(
             [
@@ -179,17 +181,12 @@ class ConfigurationTest extends UnitTestCase
         $this->assertSame(
             [
                 'q' => '75',
-                'auto' => 'format'
+                'auto' => 'format',
             ],
             $configuration->getImgixDefaultUrlParameters()
         );
     }
 
-    /**
-     * @param array $settings
-     * @param array $extensionConfig
-     * @return Configuration
-     */
     private function createConfigurationObject(array $settings, array $extensionConfig): Configuration
     {
         /** @var ExtensionConfiguration|MockObject $extensionConfiguration */

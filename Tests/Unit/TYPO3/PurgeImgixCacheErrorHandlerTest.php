@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Aoe\Imgix\Tests\TYPO3;
 
 /***************************************************************
@@ -33,34 +36,18 @@ use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
 {
-    /**
-     * @var BackendUserAuthentication|MockObject
-     */
-    private $backendUser;
+    private BackendUserAuthentication $backendUser;
 
-    /**
-     * @var FlashMessageQueue|MockObject
-     */
-    private $flashMessageQueue;
+    private FlashMessageQueue $flashMessageQueue;
 
-    /**
-     * @var LanguageService|MockObject
-     */
-    private $languageService;
+    private LanguageService $languageService;
 
-    /**
-     * @var PurgeImgixCacheErrorHandler|MockObject
-     */
-    private $errorHandler;
+    private PurgeImgixCacheErrorHandler $errorHandler;
 
-    /**
-     * set up the test
-     */
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->backendUser = $this->getMockBuilder(BackendUserAuthentication::class)->disableOriginalConstructor()->getMock();
         $this->flashMessageQueue = $this->getMockBuilder(FlashMessageQueue::class)->disableOriginalConstructor()->getMock();
@@ -87,11 +74,11 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
         $this->languageService
             ->expects(self::once())
             ->method('sL')
-            ->with('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:'.
+            ->with('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:' .
                 'PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnFailedRestRequest')
             ->willReturn('Could not purge imgix-cache for "###IMAGE_URL###"');
 
-        $expectedMessage = 'Could not purge imgix-cache for "'.$imageUrl.'"';
+        $expectedMessage = 'Could not purge imgix-cache for "' . $imageUrl . '"';
         $flashMessageObj = $this->getMockBuilder(FlashMessage::class)->disableOriginalConstructor()->getMock();
         $this->errorHandler
             ->expects(self::once())
@@ -111,11 +98,11 @@ class PurgeImgixCacheErrorHandlerTest extends UnitTestCase
         $this->languageService
             ->expects(self::once())
             ->method('sL')
-            ->with('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:'.
+            ->with('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:' .
                 'PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnInvalidApiKey')
             ->willReturn('Could not purge imgix-cache for "###IMAGE_URL###"');
 
-        $expectedMessage = 'Could not purge imgix-cache for "'.$imageUrl.'"';
+        $expectedMessage = 'Could not purge imgix-cache for "' . $imageUrl . '"';
         $flashMessageObj = $this->getMockBuilder(FlashMessage::class)->disableOriginalConstructor()->getMock();
         $this->errorHandler
             ->expects(self::once())

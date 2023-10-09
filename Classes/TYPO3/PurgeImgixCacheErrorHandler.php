@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Aoe\Imgix\TYPO3;
 
 /***************************************************************
@@ -44,10 +46,7 @@ class PurgeImgixCacheErrorHandler
         $this->flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
     }
 
-    /**
-     * @param string $imageUrl
-     */
-    public function handleCouldNotPurgeImgixCacheOnFailedRestRequest($imageUrl, ImagePurgeResult $result): void
+    public function handleCouldNotPurgeImgixCacheOnFailedRestRequest(string $imageUrl, ImagePurgeResult $result): void
     {
         if (!is_object($this->getBackendUser())) {
             // do nothing, wenn BE-user is not logged in
@@ -69,10 +68,7 @@ class PurgeImgixCacheErrorHandler
         $this->logErrorInSysLog($message, 15305);
     }
 
-    /**
-     * @param string $imageUrl
-     */
-    public function handleCouldNotPurgeImgixCacheOnInvalidApiKey($imageUrl): void
+    public function handleCouldNotPurgeImgixCacheOnInvalidApiKey(string $imageUrl): void
     {
         if (!is_object($this->getBackendUser())) {
             // do nothing, wenn BE-user is not logged in
@@ -96,30 +92,17 @@ class PurgeImgixCacheErrorHandler
         $this->flashMessageQueue = $flashMessageQueue;
     }
 
-    /**
-     * @return BackendUserAuthentication|null
-     */
-    protected function getBackendUser()
+    protected function getBackendUser(): ?BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'];
     }
 
-    /**
-     * Returns LanguageService
-     *
-     * @return LanguageService
-     */
-    protected function getLanguageService()
+    protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
     }
 
-    /**
-     * @param string $message
-     *
-     * @return FlashMessage
-     */
-    protected function createFlashMessage($message)
+    protected function createFlashMessage(string $message): FlashMessage
     {
         /** @var FlashMessage $flashMessage */
         $flashMessage = GeneralUtility::makeInstance(FlashMessage::class, $message, '', FlashMessage::ERROR, true);
@@ -127,10 +110,7 @@ class PurgeImgixCacheErrorHandler
         return $flashMessage;
     }
 
-    /**
-     * @param string $message
-     */
-    private function addMessageToFlashMessageQueue($message): void
+    private function addMessageToFlashMessageQueue(string $message): void
     {
         try {
             $this->flashMessageQueue->enqueue($this->createFlashMessage($message));
@@ -140,11 +120,7 @@ class PurgeImgixCacheErrorHandler
         }
     }
 
-    /**
-     * @param string  $errorMessage
-     * @param integer $errorCode
-     */
-    private function logErrorInSysLog($errorMessage, $errorCode): void
+    private function logErrorInSysLog(string $errorMessage, int $errorCode): void
     {
         $backendUser = $this->getBackendUser();
 

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Aoe\Imgix\Tests\Functional\Controller;
 
 /***************************************************************
@@ -31,9 +34,6 @@ use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Request;
 
-/**
- * @covers \Aoe\Imgix\Controller\PurgeImgixCacheController
- */
 class PurgeImgixCacheControllerTest extends FunctionalTestCase
 {
     /**
@@ -42,10 +42,7 @@ class PurgeImgixCacheControllerTest extends FunctionalTestCase
      */
     protected $testExtensionsToLoad = ['typo3conf/ext/imgix'];
 
-    /**
-     * @var PurgeImgixCacheController
-     */
-    private $controller;
+    private PurgeImgixCacheController $controller;
 
     protected function setUp(): void
     {
@@ -56,10 +53,7 @@ class PurgeImgixCacheControllerTest extends FunctionalTestCase
         $this->controller = GeneralUtility::makeInstance(PurgeImgixCacheController::class);
     }
 
-    /**
-     * @test
-     */
-    public function shouldRenderIndexAction()
+    public function testShouldRenderIndexAction(): void
     {
         /** @var Request $request */
         $request = new Request();
@@ -71,14 +65,14 @@ class PurgeImgixCacheControllerTest extends FunctionalTestCase
             ->withPluginName('PurgeImgixCachePluginName');
         $GLOBALS['TYPO3_REQUEST'] = $request;
 
-        $response = $this->controller->processRequest($request);
+        $content = (string) $this->controller->processRequest($request)->getBody();
         $this->assertStringContainsString(
             '<h2>Purge imgix-cache for an image</h2>',
-            $response->getBody()
+            $content
         );
         $this->assertStringContainsString(
             '<label for="imageUrl">Image-URL (e.g. &quot;http://mydomain.imgix.net/fileadmin/myimage.png&quot;):</label>',
-            $response->getBody()
+            $content
         );
     }
 }

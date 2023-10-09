@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Aoe\Imgix\Tests\ViewHelpers;
 
 /***************************************************************
@@ -31,20 +34,11 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 class ImgixUrlViewHelperTest extends UnitTestCase
 {
-    /**
-     * @var ImgixUrlViewHelper
-     */
-    private $viewHelper;
+    private ImgixUrlViewHelper $viewHelper;
 
-    /**
-     * @var Configuration
-     */
-    private $configuration;
+    private Configuration $configuration;
 
-    /**
-     * setUp
-     */
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->configuration = $this->getMockBuilder(Configuration::class)
             ->disableOriginalConstructor()
@@ -54,11 +48,9 @@ class ImgixUrlViewHelperTest extends UnitTestCase
 
     public function testShouldRenderImageUrlWithoutImgixHostWhenImgixIsNotEnabled(): void
     {
-        $this->configuration->expects($this->once())->method('isEnabled')->will(
-            $this->returnValue(false)
-        );
+        $this->configuration->expects($this->once())->method('isEnabled')->willReturn(false);
         $this->viewHelper->setArguments([
-            'imageUrl' => 'test-url'
+            'imageUrl' => 'test-url',
         ]);
         $this->assertSame('test-url', $this->viewHelper->render());
     }
@@ -68,17 +60,11 @@ class ImgixUrlViewHelperTest extends UnitTestCase
      */
     public function testShouldRenderImageUrlWithImgixHostWhenImgixIsEnabled(): void
     {
-        $this->configuration->expects($this->once())->method('isEnabled')->will(
-            $this->returnValue(true)
-        );
-        $this->configuration->expects($this->once())->method('getHost')->will(
-            $this->returnValue('aoe.host')
-        );
-        $this->configuration->expects($this->any())->method('getImgixDefaultUrlParameters')->will(
-            $this->returnValue([])
-        );
+        $this->configuration->expects($this->once())->method('isEnabled')->willReturn(true);
+        $this->configuration->expects($this->once())->method('getHost')->willReturn('aoe.host');
+        $this->configuration->method('getImgixDefaultUrlParameters')->willReturn([]);
         $this->viewHelper->setArguments([
-            'imageUrl' => 'test-url'
+            'imageUrl' => 'test-url',
         ]);
         $this->assertSame('//aoe.host/test-url', $this->viewHelper->render());
     }
@@ -86,28 +72,19 @@ class ImgixUrlViewHelperTest extends UnitTestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testShouldRenderImageUrlWithParameters($defaultParameters, $givenParameters, $expectedParameterString): void
+    public function testShouldRenderImageUrlWithParameters(array $defaultParameters, array $givenParameters, string $expectedParameterString): void
     {
-        $this->configuration->expects($this->once())->method('isEnabled')->will(
-            $this->returnValue(true)
-        );
-        $this->configuration->expects($this->once())->method('getHost')->will(
-            $this->returnValue('aoe.host')
-        );
-        $this->configuration->expects($this->any())->method('getImgixDefaultUrlParameters')->will(
-            $this->returnValue($defaultParameters)
-        );
+        $this->configuration->expects($this->once())->method('isEnabled')->willReturn(true);
+        $this->configuration->expects($this->once())->method('getHost')->willReturn('aoe.host');
+        $this->configuration->method('getImgixDefaultUrlParameters')->willReturn($defaultParameters);
         $this->viewHelper->setArguments([
             'imageUrl' => 'test-url',
-            'urlParameters' => $givenParameters
+            'urlParameters' => $givenParameters,
         ]);
         $this->assertSame('//aoe.host/test-url' . $expectedParameterString, $this->viewHelper->render());
     }
 
-    /**
-     * @return array
-     */
-    public function parameterProvider()
+    public function parameterProvider(): array
     {
         return [
             [
@@ -124,7 +101,7 @@ class ImgixUrlViewHelperTest extends UnitTestCase
                 ['foo' => 'bar'],
                 ['foo' => 'baz'],
                 '?foo=baz',
-            ]
+            ],
         ];
     }
 }

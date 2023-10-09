@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Aoe\Imgix\Domain\Service;
 
 /***************************************************************
@@ -53,12 +55,7 @@ class ImagePurgeService
         return $this->errorHandler;
     }
 
-    /**
-     * @param string $imageUrl
-     *
-     * @return ImagePurgeResult
-     */
-    public function purgeImgixCache($imageUrl)
+    public function purgeImgixCache(string $imageUrl): ImagePurgeResult
     {
         if (!$this->configuration->isApiKeyConfigured()) {
             $this->errorHandler->handleCouldNotPurgeImgixCacheOnInvalidApiKey($imageUrl);
@@ -82,10 +79,7 @@ class ImagePurgeService
         return $result;
     }
 
-    /**
-     * @return ImagePurgeResult
-     */
-    protected function doPostRequest(stdClass $postRequest)
+    protected function doPostRequest(stdClass $postRequest): ImagePurgeResult
     {
         $postJsonData = (string) json_encode($postRequest);
         $ch = curl_init();
