@@ -43,13 +43,15 @@ class LoadController extends ActionController
 
     public function jqueryAction(): ResponseInterface
     {
-        $this->view->assign('enabled', $this->configuration->isEnabled());
-        $this->view->assign('options', $this->getOptionsAsJson());
-
-        return $this->htmlResponse($this->view->render());
+        return $this->buildHtmlResponse();
     }
 
     public function angularAction(): ResponseInterface
+    {
+        return $this->buildHtmlResponse();
+    }
+
+    private function buildHtmlResponse(): ResponseInterface
     {
         $this->view->assign('enabled', $this->configuration->isEnabled());
         $this->view->assign('options', $this->getOptionsAsJson());

@@ -13,5 +13,5 @@ ExtensionUtility::configurePlugin(
 ExtensionUtility::configurePlugin(
     'imgix',
     'JQueryLoader',
-    [LoadController::class => 'angular']
+    [LoadController::class => 'jquery']
 );

@@ -6,9 +6,4 @@ lib.tx_imgix_angular_loader {
     pluginName = AngularLoader
     controller = Load
     action = angular
-    switchableControllerActions {
-        Load {
-            1 = angular
-        }
-    }
 }
