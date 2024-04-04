@@ -30,6 +30,7 @@ namespace Aoe\Imgix\Tests\Functional\Controller;
 
 use Aoe\Imgix\Controller\PurgeImgixCacheController;
 use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -63,6 +64,10 @@ class PurgeImgixCacheControllerTest extends FunctionalTestCase
             ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE)
             ->withPluginName('PurgeImgixCachePluginName');
         $GLOBALS['TYPO3_REQUEST'] = $request;
+
+        $languageService = $this->getMockBuilder(LanguageService::class)->disableOriginalConstructor()->getMock();
+        $languageService->init('default');
+        $GLOBALS['LANG'] = $languageService;
 
         $content = (string) $this->controller->processRequest($request)
             ->getBody();
