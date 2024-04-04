@@ -104,7 +104,6 @@
         ],
         "code-check-pipeline": [
             "@composer code-style",
-            "@composer code-style-upgrade",
             "@composer code-analysis",
             "@composer code-compatibility"
         ],

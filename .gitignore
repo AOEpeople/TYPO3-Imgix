@@ -28,4 +28,4 @@ nbproject
 composer.lock
 .php_cs.cache
 
-./phpstan-baseline.neon
+phpstan-baseline.neon
