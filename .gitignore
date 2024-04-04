@@ -29,3 +29,5 @@ composer.lock
 .php_cs.cache
 
 phpstan-baseline.neon
+Tests/Unit/.phpunit.cache/
+unittest-coverage.clover
