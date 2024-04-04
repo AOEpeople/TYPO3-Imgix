@@ -79,7 +79,7 @@ jobs:
           typo3DatabaseUsername: root
 
       - name: Upload coverage results to Scrutinizer
-        if: matrix.typo3 == '^11.5' && matrix.php == '8.3'
+        if: matrix.typo3 == '^11.5' && matrix.php == '8.1'
         run: |
           wget https://scrutinizer-ci.com/ocular.phar
           php ocular.phar code-coverage:upload --format=php-clover unittest-coverage.clover
