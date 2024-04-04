@@ -31,3 +31,5 @@ composer.lock
 phpstan-baseline.neon
 Tests/Unit/.phpunit.cache/
 unittest-coverage.clover
+Tests/Functional/.phpunit.cache/
+functionaltest-coverage.clover
