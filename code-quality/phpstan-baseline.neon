@@ -1,13 +1,2 @@
 parameters:
-	ignoreErrors:
-		-
-			message: "#^Anonymous variable in a `(.*)` method call can lead to false dead methods\\. Make sure the variable type is known$#"
-			paths:
-				- ../Tests/
-		-
-			message: "#^Call to an undefined method (.*)\\:\\:(reveal|willReturn|expects|method|shouldBeCalled)\\(\\)\\.$#"
-			path: ../Tests/
-		-
-			message: "#^Relative file path \"(.*)\" is not allowed, use absolute one with __DIR__$#"
-			paths:
-				- ../Tests/
+	ignoreErrors: []
