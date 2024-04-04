@@ -141,7 +141,7 @@ class Configuration
     public function getImgixDefaultUrlParameters(): array
     {
         if (isset($this->configuration['imgix']['defaultUrlParameters'])) {
-            parse_str($this->configuration['imgix']['defaultUrlParameters'], $defaultUrlParameters);
+            parse_str((string) $this->configuration['imgix']['defaultUrlParameters'], $defaultUrlParameters);
 
             return $defaultUrlParameters;
         }

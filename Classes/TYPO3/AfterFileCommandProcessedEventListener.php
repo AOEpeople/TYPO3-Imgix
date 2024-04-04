@@ -35,14 +35,10 @@ use TYPO3\CMS\Core\Resource\File;
 
 class AfterFileCommandProcessedEventListener
 {
-    private Configuration $configuration;
-
-    private ImagePurgeService $imagePurgeService;
-
-    public function __construct(Configuration $configuration, ImagePurgeService $imagePurgeService)
-    {
-        $this->configuration = $configuration;
-        $this->imagePurgeService = $imagePurgeService;
+    public function __construct(
+        private readonly Configuration $configuration,
+        private readonly ImagePurgeService $imagePurgeService
+    ) {
     }
 
     public function __invoke(AfterFileCommandProcessedEvent $event): void
@@ -65,10 +61,7 @@ class AfterFileCommandProcessedEventListener
         return sprintf('http://%s/%s', $host, $imagePath);
     }
 
-    /**
-     * @param mixed $result
-     */
-    protected function getFile($result): ?File
+    protected function getFile(mixed $result): ?File
     {
         if (is_array($result) && isset($result[0]) && $result[0] instanceof File) {
             return $result[0];
@@ -82,6 +75,7 @@ class AfterFileCommandProcessedEventListener
         if ($file === null || $file->getType() !== File::FILETYPE_IMAGE) {
             return false;
         }
+
         if (isset($command['upload']) && $conflictMode === DuplicationBehavior::REPLACE) {
             // editor has updated an existing image (by uploading and overwriting an existing image)
             return true;
@@ -100,6 +94,7 @@ class AfterFileCommandProcessedEventListener
             $positionOfFirstTrailingSlash = (int) strpos($imagePath, '/');
             return substr($imagePath, $positionOfFirstTrailingSlash);
         }
+
         return $url;
     }
 }

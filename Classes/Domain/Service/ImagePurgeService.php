@@ -40,14 +40,10 @@ class ImagePurgeService
      */
     public const IMG_PURGE_REQUEST_URL = 'https://api.imgix.com/api/v1/purge';
 
-    private Configuration $configuration;
-
-    private PurgeImgixCacheErrorHandler $errorHandler;
-
-    public function __construct(Configuration $configuration, PurgeImgixCacheErrorHandler $errorHandler)
-    {
-        $this->configuration = $configuration;
-        $this->errorHandler = $errorHandler;
+    public function __construct(
+        private readonly Configuration $configuration,
+        private readonly PurgeImgixCacheErrorHandler $errorHandler
+    ) {
     }
 
     public function getErrorHandler(): PurgeImgixCacheErrorHandler
@@ -100,7 +96,7 @@ class ImagePurgeService
         $responseInfo = curl_getinfo($ch);
 
         $result = new ImagePurgeResult();
-        if (!$response || $responseInfo['http_code'] !== 200) {
+        if ($response === false || $responseInfo['http_code'] !== 200) {
             $result->markImagePurgeAsFailed(curl_error($ch), curl_errno($ch), $responseInfo['http_code']);
         } else {
             $result->markImagePurgeAsSuccessful();

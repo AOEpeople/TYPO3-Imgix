@@ -51,6 +51,7 @@ class TypeUtils
             if (isset($map[$key])) {
                 settype($value, $map[$key]);
             }
+
             $casted[$key] = $value;
         }
 

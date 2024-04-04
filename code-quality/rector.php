@@ -7,6 +7,7 @@ use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\Property\RemoveUnusedPrivatePropertyRector;
 use Rector\EarlyReturn\Rector\If_\ChangeAndIfToEarlyReturnRector;
 use Rector\Set\ValueObject\SetList;
+use Rector\PHPUnit\CodeQuality\Rector\Class_\AddSeeTestAnnotationRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\YieldDataProviderRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
@@ -31,7 +32,6 @@ return RectorConfig::configure()
         SetList::PRIVATIZATION,
         SetList::TYPE_DECLARATION,
         SetList::INSTANCEOF,
-        SetList::NAMING,
         PHPUnitSetList::PHPUNIT_CODE_QUALITY
     ])
     ->withSkip([
@@ -41,6 +41,7 @@ return RectorConfig::configure()
         AddMethodCallBasedStrictParamTypeRector::class,
         FlipTypeControlToUseExclusiveTypeRector::class,
         YieldDataProviderRector::class,
+        AddSeeTestAnnotationRector::class,
     ])
     ->withAutoloadPaths([__DIR__ . '/../Classes'])
     ->registerService(RemoveUnusedPrivatePropertyRector::class);
