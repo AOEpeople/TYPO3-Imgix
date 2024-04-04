@@ -9,7 +9,7 @@ jobs:
   TER:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: "Determine tag"
         id: "determine-tag"

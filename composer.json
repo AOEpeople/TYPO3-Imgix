@@ -88,15 +88,11 @@
             "./.Build/bin/ecs check --config code-quality/ecs.php",
             "./.Build/bin/rector process --dry-run --config code-quality/rector.php"
         ],
-        "code-style-upgrade": [
-            "[ -e ./.Build/bin/rector ] || composer install",
-            "./.Build/bin/rector process --dry-run --config code-quality/rector-upgrade.php"
-        ],
         "code-analysis": [
             "./.Build/bin/phpstan analyse -c code-quality/phpstan.neon --memory-limit=1G"
         ],
         "code-analysis--baseline": [
-            "./.Build/bin/phpstan analyse -c code-quality/phpstan.neon --memory-limit=1G --generate-baseline"
+            "./.Build/bin/phpstan analyse -c code-quality/phpstan.neon --memory-limit=1G --generate-baseline --allow-empty-baseline"
         ],
         "code-compatibility": [
             "[ -e ./.Build/vendor/symplify/easy-coding-standard/vendor/squizlabs/php_codesniffer/bin/phpcs ] || composer install",
