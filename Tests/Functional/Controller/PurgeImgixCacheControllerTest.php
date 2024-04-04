@@ -37,10 +37,9 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 class PurgeImgixCacheControllerTest extends FunctionalTestCase
 {
     /**
-     * @var array
      * Load all TYPO3-extensions, which we use in our depencency/constructor-injection
      */
-    protected $testExtensionsToLoad = ['typo3conf/ext/imgix'];
+    protected array $testExtensionsToLoad = ['typo3conf/ext/imgix'];
 
     private PurgeImgixCacheController $controller;
 
