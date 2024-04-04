@@ -63,7 +63,8 @@ class LoadControllerTest extends FunctionalTestCase
             ->withPluginName('LoadPluginName');
         $GLOBALS['TYPO3_REQUEST'] = $request;
 
-        $content = (string) $this->controller->processRequest($request)->getBody();
+        $content = (string) $this->controller->processRequest($request)
+            ->getBody();
         $this->assertStringContainsString(
             'var aoe = aoe || {};',
             $content
@@ -86,7 +87,8 @@ class LoadControllerTest extends FunctionalTestCase
             ->withPluginName('LoadPluginName');
         $GLOBALS['TYPO3_REQUEST'] = $request;
 
-        $content = (string) $this->controller->processRequest($request)->getBody();
+        $content = (string) $this->controller->processRequest($request)
+            ->getBody();
         $this->assertStringContainsString(
             '{"host":"meinesubdomain.imgix.net","enableFluid":true,"enableObservation":true,"imgix":{"fluidClass":"imgix-fluid"},"imgixUrlParams":{}}',
             $content

@@ -48,7 +48,10 @@ class ImgixUrlViewHelperTest extends UnitTestCase
 
     public function testShouldRenderImageUrlWithoutImgixHostWhenImgixIsNotEnabled(): void
     {
-        $this->configuration->expects($this->once())->method('isEnabled')->willReturn(false);
+        $this->configuration
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(false);
         $this->viewHelper->setArguments([
             'imageUrl' => 'test-url',
         ]);
@@ -60,9 +63,17 @@ class ImgixUrlViewHelperTest extends UnitTestCase
      */
     public function testShouldRenderImageUrlWithImgixHostWhenImgixIsEnabled(): void
     {
-        $this->configuration->expects($this->once())->method('isEnabled')->willReturn(true);
-        $this->configuration->expects($this->once())->method('getHost')->willReturn('aoe.host');
-        $this->configuration->method('getImgixDefaultUrlParameters')->willReturn([]);
+        $this->configuration
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(true);
+        $this->configuration
+            ->expects($this->once())
+            ->method('getHost')
+            ->willReturn('aoe.host');
+        $this->configuration
+            ->method('getImgixDefaultUrlParameters')
+            ->willReturn([]);
         $this->viewHelper->setArguments([
             'imageUrl' => 'test-url',
         ]);
@@ -72,11 +83,22 @@ class ImgixUrlViewHelperTest extends UnitTestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testShouldRenderImageUrlWithParameters(array $defaultParameters, array $givenParameters, string $expectedParameterString): void
-    {
-        $this->configuration->expects($this->once())->method('isEnabled')->willReturn(true);
-        $this->configuration->expects($this->once())->method('getHost')->willReturn('aoe.host');
-        $this->configuration->method('getImgixDefaultUrlParameters')->willReturn($defaultParameters);
+    public function testShouldRenderImageUrlWithParameters(
+        array $defaultParameters,
+        array $givenParameters,
+        string $expectedParameterString
+    ): void {
+        $this->configuration
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(true);
+        $this->configuration
+            ->expects($this->once())
+            ->method('getHost')
+            ->willReturn('aoe.host');
+        $this->configuration
+            ->method('getImgixDefaultUrlParameters')
+            ->willReturn($defaultParameters);
         $this->viewHelper->setArguments([
             'imageUrl' => 'test-url',
             'urlParameters' => $givenParameters,

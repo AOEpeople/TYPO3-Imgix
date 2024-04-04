@@ -30,9 +30,9 @@ namespace Aoe\Imgix\Tests\TYPO3;
 
 use Aoe\Imgix\TYPO3\Configuration;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class ConfigurationTest extends UnitTestCase
 {

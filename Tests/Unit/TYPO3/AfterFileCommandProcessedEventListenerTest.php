@@ -29,8 +29,8 @@ namespace Aoe\Imgix\Tests\TYPO3;
  ***************************************************************/
 
 use Aoe\Imgix\Domain\Service\ImagePurgeService;
-use Aoe\Imgix\TYPO3\Configuration;
 use Aoe\Imgix\TYPO3\AfterFileCommandProcessedEventListener;
+use Aoe\Imgix\TYPO3\Configuration;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use TYPO3\CMS\Core\Resource\DuplicationBehavior;
 use TYPO3\CMS\Core\Resource\Event\AfterFileCommandProcessedEvent;
@@ -63,7 +63,11 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $file->expects(self::once())->method('getPublicUrl')->willReturn('/directory/image.png');
         $file->expects(self::once())->method('getType')->willReturn(File::FILETYPE_IMAGE);
 
-        $command = ['upload' => ['mockedKey' => ['mockedData']]];
+        $command = [
+            'upload' => [
+                'mockedKey' => ['mockedData'],
+            ],
+        ];
         $result = [$file];
         $event = new AfterFileCommandProcessedEvent(
             $command,

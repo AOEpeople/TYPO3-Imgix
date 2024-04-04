@@ -35,7 +35,10 @@ class ArrayUtilsTest extends UnitTestCase
 {
     public function testShouldFilterNullValue(): void
     {
-        $actual = ArrayUtils::filterEmptyValues(['foo' => null, 'bar' => 'baz']);
+        $actual = ArrayUtils::filterEmptyValues([
+            'foo' => null,
+            'bar' => 'baz',
+        ]);
         $this->assertSame(['bar' => 'baz'], $actual);
     }
 

@@ -65,7 +65,8 @@ class PurgeImgixCacheControllerTest extends FunctionalTestCase
             ->withPluginName('PurgeImgixCachePluginName');
         $GLOBALS['TYPO3_REQUEST'] = $request;
 
-        $content = (string) $this->controller->processRequest($request)->getBody();
+        $content = (string) $this->controller->processRequest($request)
+            ->getBody();
         $this->assertStringContainsString(
             '<h2>Purge imgix-cache for an image</h2>',
             $content
