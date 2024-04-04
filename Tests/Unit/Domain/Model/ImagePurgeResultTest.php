@@ -29,7 +29,7 @@ namespace Aoe\Imgix\Tests\Domain\Model;
  ***************************************************************/
 
 use Aoe\Imgix\Domain\Model\ImagePurgeResult;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ImagePurgeResultTest extends UnitTestCase
 {

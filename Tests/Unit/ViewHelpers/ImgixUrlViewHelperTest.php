@@ -30,7 +30,7 @@ namespace Aoe\Imgix\Tests\ViewHelpers;
 
 use Aoe\Imgix\TYPO3\Configuration;
 use Aoe\Imgix\ViewHelpers\ImgixUrlViewHelper;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ImgixUrlViewHelperTest extends UnitTestCase
 {
@@ -58,9 +58,6 @@ class ImgixUrlViewHelperTest extends UnitTestCase
         $this->assertSame('test-url', $this->viewHelper->render());
     }
 
-    /**
-     * @dataProvider
-     */
     public function testShouldRenderImageUrlWithImgixHostWhenImgixIsEnabled(): void
     {
         $this->configuration
@@ -106,7 +103,7 @@ class ImgixUrlViewHelperTest extends UnitTestCase
         $this->assertSame('//aoe.host/test-url' . $expectedParameterString, $this->viewHelper->render());
     }
 
-    public function parameterProvider(): array
+    public static function parameterProvider(): array
     {
         return [
             [

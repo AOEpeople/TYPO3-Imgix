@@ -29,7 +29,7 @@ namespace Aoe\Imgix\Tests\Utils;
  ***************************************************************/
 
 use Aoe\Imgix\Utils\ArrayUtils;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ArrayUtilsTest extends UnitTestCase
 {

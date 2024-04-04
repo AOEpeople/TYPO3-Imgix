@@ -29,10 +29,10 @@ namespace Aoe\Imgix\Tests\Functional\Controller;
  ***************************************************************/
 
 use Aoe\Imgix\Controller\LoadController;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Request;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class LoadControllerTest extends FunctionalTestCase
 {
