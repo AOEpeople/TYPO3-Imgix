@@ -51,18 +51,18 @@ jobs:
         run: composer code-check-pipeline
 
       - name: Unit Tests without coverage
-        if: matrix.typo3 == '^11.5' && matrix.php != '8.1'
+        if: matrix.typo3 == '^11.5' && matrix.php != '8.3'
         run: composer test:unit
 
       - name: Unit Tests with coverage
-        if: matrix.typo3 == '^11.5' && matrix.php == '8.1'
+        if: matrix.typo3 == '^11.5' && matrix.php == '8.3'
         run: |
           export "UNIT_XML"=./Tests/Unit/UnitTests.xml
           .Build/bin/phpunit --coverage-clover=unittest-coverage.clover --colors -c $UNIT_XML Tests/Unit/
 
       - name: Functional Tests without coverage
         run: composer test:functional
-        if: matrix.typo3 != '^11.5' && matrix.php != '8.1'
+        if: matrix.typo3 != '^11.5' && matrix.php != '8.3'
         env:
           typo3DatabaseHost: 127.0.0.1
           typo3DatabaseName: typo3
@@ -73,7 +73,7 @@ jobs:
         run: |
           export "FUNCTIONAL_XML"=./Tests/Functional/FunctionalTests.xml
           .Build/bin/phpunit --coverage-clover=functionaltest-coverage.clover --colors -c $FUNCTIONAL_XML Tests/Functional
-        if: matrix.typo3 == '^11.5' && matrix.php == '8.1'
+        if: matrix.typo3 == '^11.5' && matrix.php == '8.3'
         env:
           typo3DatabaseHost: 127.0.0.1
           typo3DatabaseName: typo3
@@ -81,7 +81,7 @@ jobs:
           typo3DatabaseUsername: root
 
       - name: Upload coverage results to Scrutinizer
-        if: matrix.typo3 == '^11.5' && matrix.php == '8.1'
+        if: matrix.typo3 == '^11.5' && matrix.php == '8.3'
         run: |
           composer global require scrutinizer/ocular
           ~/.composer/vendor/bin/ocular code-coverage:upload --format=php-clover unittest-coverage.clover
