@@ -29,13 +29,16 @@ namespace Aoe\Imgix\Tests\Utils;
  ***************************************************************/
 
 use Aoe\Imgix\Utils\ArrayUtils;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ArrayUtilsTest extends UnitTestCase
 {
     public function testShouldFilterNullValue(): void
     {
-        $actual = ArrayUtils::filterEmptyValues(['foo' => null, 'bar' => 'baz']);
+        $actual = ArrayUtils::filterEmptyValues([
+            'foo' => null,
+            'bar' => 'baz',
+        ]);
         $this->assertSame(['bar' => 'baz'], $actual);
     }
 

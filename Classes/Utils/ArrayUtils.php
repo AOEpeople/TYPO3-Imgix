@@ -36,9 +36,11 @@ class ArrayUtils
             if ($value === '') {
                 continue;
             }
+
             if ($value === null) {
                 continue;
             }
+
             $filtered[$name] = $value;
         }
 

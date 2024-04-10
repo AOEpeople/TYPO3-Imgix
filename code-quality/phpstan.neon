@@ -1,30 +1,18 @@
 includes:
+    - ../.Build/vendor/symplify/phpstan-rules/config/services/services.neon
     - phpstan-baseline.neon
     - ../.Build/vendor/symplify/phpstan-rules/config/code-complexity-rules.neon
-
-rules:
-    - Symplify\PHPStanRules\Rules\NoDefaultExceptionRule
 
 parameters:
     level: 6
     paths:
         - "../Classes/"
-        - "../Tests/"
 
     inferPrivatePropertyTypeFromConstructor: true
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
-    checkAlwaysTrueCheckTypeFunctionCall: false
-    checkAlwaysTrueStrictComparison: false
 
 services:
-    - class: Symplify\PHPStanRules\TypeResolver\ClassMethodReturnTypeResolver
-    - class: Symplify\PHPStanRules\Reflection\MethodCallNodeAnalyzer
-    - class: Symplify\PHPStanRules\NodeAnalyzer\MethodCall\MethodCallClassConstFetchPositionResolver
-    - class: Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
-    - class: Symplify\PHPStanRules\Matcher\ArrayStringAndFnMatcher
-    - class: Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter
-
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule
         tags: [phpstan.rules.rule]
@@ -35,4 +23,3 @@ services:
                 - die
                 - dump
                 - compact
-                - var_dump

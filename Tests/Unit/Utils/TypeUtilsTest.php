@@ -29,43 +29,81 @@ namespace Aoe\Imgix\Tests\Utils;
  ***************************************************************/
 
 use Aoe\Imgix\Utils\TypeUtils;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TypeUtilsTest extends UnitTestCase
 {
     public function testShouldMapTypeString(): void
     {
         $actual = TypeUtils::castTypesByMap(
-            ['foo' => TypeUtils::TYPE_STRING, 'bar' => TypeUtils::TYPE_STRING],
-            ['foo' => 0, 'bar' => null]
+            [
+                'foo' => TypeUtils::TYPE_STRING,
+                'bar' => TypeUtils::TYPE_STRING,
+            ],
+            [
+                'foo' => 0,
+                'bar' => null,
+            ]
         );
-        $this->assertSame(['foo' => '0', 'bar' => ''], $actual);
+        $this->assertSame([
+            'foo' => '0',
+            'bar' => '',
+        ], $actual);
     }
 
     public function testShouldMapTypeInteger(): void
     {
         $actual = TypeUtils::castTypesByMap(
-            ['foo' => TypeUtils::TYPE_INTEGER, 'bar' => TypeUtils::TYPE_INTEGER],
-            ['foo' => 0, 'bar' => null]
+            [
+                'foo' => TypeUtils::TYPE_INTEGER,
+                'bar' => TypeUtils::TYPE_INTEGER,
+            ],
+            [
+                'foo' => 0,
+                'bar' => null,
+            ]
         );
-        $this->assertSame(['foo' => 0, 'bar' => 0], $actual);
+        $this->assertSame([
+            'foo' => 0,
+            'bar' => 0,
+        ], $actual);
     }
 
     public function testShouldMapTypeBoolean(): void
     {
         $actual = TypeUtils::castTypesByMap(
-            ['foo' => TypeUtils::TYPE_BOOLEAN, 'bar' => TypeUtils::TYPE_BOOLEAN, 'baz' => TypeUtils::TYPE_BOOLEAN],
-            ['foo' => 0, 'bar' => null, 'baz' => 1]
+            [
+                'foo' => TypeUtils::TYPE_BOOLEAN,
+                'bar' => TypeUtils::TYPE_BOOLEAN,
+                'baz' => TypeUtils::TYPE_BOOLEAN,
+            ],
+            [
+                'foo' => 0,
+                'bar' => null,
+                'baz' => 1,
+            ]
         );
-        $this->assertSame(['foo' => false, 'bar' => false, 'baz' => true], $actual);
+        $this->assertSame([
+            'foo' => false,
+            'bar' => false,
+            'baz' => true,
+        ], $actual);
     }
 
     public function testShouldDoNothingOnMissingMap(): void
     {
         $actual = TypeUtils::castTypesByMap(
             [],
-            ['foo' => 0, 'bar' => null, 'baz' => 1]
+            [
+                'foo' => 0,
+                'bar' => null,
+                'baz' => 1,
+            ]
         );
-        $this->assertSame(['foo' => 0, 'bar' => null, 'baz' => 1], $actual);
+        $this->assertSame([
+            'foo' => 0,
+            'bar' => null,
+            'baz' => 1,
+        ], $actual);
     }
 }

@@ -29,18 +29,17 @@ namespace Aoe\Imgix\Tests\Functional\Controller;
  ***************************************************************/
 
 use Aoe\Imgix\Controller\LoadController;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Request;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class LoadControllerTest extends FunctionalTestCase
 {
     /**
-     * @var array
      * Load all TYPO3-extensions, which we use in our depencency/constructor-injection
      */
-    protected $testExtensionsToLoad = ['typo3conf/ext/imgix'];
+    protected array $testExtensionsToLoad = ['typo3conf/ext/imgix'];
 
     private LoadController $controller;
 
@@ -63,7 +62,8 @@ class LoadControllerTest extends FunctionalTestCase
             ->withPluginName('LoadPluginName');
         $GLOBALS['TYPO3_REQUEST'] = $request;
 
-        $content = (string) $this->controller->processRequest($request)->getBody();
+        $content = (string) $this->controller->processRequest($request)
+            ->getBody();
         $this->assertStringContainsString(
             'var aoe = aoe || {};',
             $content
@@ -86,7 +86,8 @@ class LoadControllerTest extends FunctionalTestCase
             ->withPluginName('LoadPluginName');
         $GLOBALS['TYPO3_REQUEST'] = $request;
 
-        $content = (string) $this->controller->processRequest($request)->getBody();
+        $content = (string) $this->controller->processRequest($request)
+            ->getBody();
         $this->assertStringContainsString(
             '{"host":"meinesubdomain.imgix.net","enableFluid":true,"enableObservation":true,"imgix":{"fluidClass":"imgix-fluid"},"imgixUrlParams":{}}',
             $content

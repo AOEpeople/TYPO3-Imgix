@@ -34,11 +34,9 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 class LoadController extends ActionController
 {
-    private Configuration $configuration;
-
-    public function __construct(Configuration $configuration)
-    {
-        $this->configuration = $configuration;
+    public function __construct(
+        private readonly Configuration $configuration
+    ) {
     }
 
     public function jqueryAction(): ResponseInterface

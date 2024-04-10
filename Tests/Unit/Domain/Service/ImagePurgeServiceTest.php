@@ -32,8 +32,8 @@ use Aoe\Imgix\Domain\Model\ImagePurgeResult;
 use Aoe\Imgix\Domain\Service\ImagePurgeService;
 use Aoe\Imgix\TYPO3\Configuration;
 use Aoe\Imgix\TYPO3\PurgeImgixCacheErrorHandler;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use stdClass;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ImagePurgeServiceTest extends UnitTestCase
 {

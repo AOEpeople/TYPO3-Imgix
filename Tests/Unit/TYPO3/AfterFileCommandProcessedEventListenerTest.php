@@ -29,12 +29,12 @@ namespace Aoe\Imgix\Tests\TYPO3;
  ***************************************************************/
 
 use Aoe\Imgix\Domain\Service\ImagePurgeService;
-use Aoe\Imgix\TYPO3\Configuration;
 use Aoe\Imgix\TYPO3\AfterFileCommandProcessedEventListener;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use Aoe\Imgix\TYPO3\Configuration;
 use TYPO3\CMS\Core\Resource\DuplicationBehavior;
 use TYPO3\CMS\Core\Resource\Event\AfterFileCommandProcessedEvent;
 use TYPO3\CMS\Core\Resource\File;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
 {
@@ -48,7 +48,12 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
     {
         $this->configuration = $this->getMockBuilder(Configuration::class)->disableOriginalConstructor()->getMock();
         $this->imagePurgeService = $this->getMockBuilder(ImagePurgeService::class)->disableOriginalConstructor()->getMock();
-        $this->eventListener = new AfterFileCommandProcessedEventListener($this->configuration, $this->imagePurgeService);
+
+        $this->eventListener = $this->getAccessibleMock(
+            AfterFileCommandProcessedEventListener::class,
+            null,
+            [$this->configuration, $this->imagePurgeService]
+        );
     }
 
     public function testShouldPurgeImgixCacheWhenExistingImageFileIsUpdated(): void
@@ -63,7 +68,11 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $file->expects(self::once())->method('getPublicUrl')->willReturn('/directory/image.png');
         $file->expects(self::once())->method('getType')->willReturn(File::FILETYPE_IMAGE);
 
-        $command = ['upload' => ['mockedKey' => ['mockedData']]];
+        $command = [
+            'upload' => [
+                'mockedKey' => ['mockedData'],
+            ],
+        ];
         $result = [$file];
         $event = new AfterFileCommandProcessedEvent(
             $command,
@@ -135,11 +144,11 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $file->expects(self::once())->method('getPublicUrl')->willReturn($publicUrl);
         $this->configuration->expects(self::once())->method('getHost')->willReturn($host);
 
-        $imgUrl = $this->callInaccessibleMethod($this->eventListener, 'buildImgUrl', $file);
+        $imgUrl = $this->eventListener->_call('buildImgUrl', $file);
         $this->assertSame($expectedImgUrl, $imgUrl);
     }
 
-    public function shouldBuildImgUrlDataProvider(): array
+    public static function shouldBuildImgUrlDataProvider(): array
     {
         return [
             [
@@ -163,14 +172,14 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
     public function testShouldNotGetFile(): void
     {
         $result = [];
-        $this->assertNull($this->callInaccessibleMethod($this->eventListener, 'getFile', $result));
+        $this->assertNull($this->eventListener->_call('getFile', $result));
     }
 
     public function testShouldGetFile(): void
     {
         $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $result = [$file];
-        $this->assertSame($file, $this->callInaccessibleMethod($this->eventListener, 'getFile', $result));
+        $this->assertSame($file, $this->eventListener->_call('getFile', $result));
     }
 
     public function testShouldCheckThatPurgingOfImgixCacheIsNotRequiredWhenFileIsNoImage(): void
@@ -180,7 +189,7 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $file->expects(self::once())->method('getType')->willReturn(File::FILETYPE_APPLICATION);
 
-        $result = $this->callInaccessibleMethod($this->eventListener, 'isPurgingOfImgixCacheRequired', $command, $conflictMode, $file);
+        $result = $this->eventListener->_call('isPurgingOfImgixCacheRequired', $command, $conflictMode, $file);
         $this->assertFalse($result);
     }
 
@@ -191,7 +200,7 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $file->expects(self::once())->method('getType')->willReturn(File::FILETYPE_IMAGE);
 
-        $result = $this->callInaccessibleMethod($this->eventListener, 'isPurgingOfImgixCacheRequired', $command, $conflictMode, $file);
+        $result = $this->eventListener->_call('isPurgingOfImgixCacheRequired', $command, $conflictMode, $file);
         $this->assertFalse($result);
     }
 
@@ -202,7 +211,7 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $file->expects(self::once())->method('getType')->willReturn(File::FILETYPE_IMAGE);
 
-        $result = $this->callInaccessibleMethod($this->eventListener, 'isPurgingOfImgixCacheRequired', $command, $conflictMode, $file);
+        $result = $this->eventListener->_call('isPurgingOfImgixCacheRequired', $command, $conflictMode, $file);
         $this->assertTrue($result);
     }
 
@@ -213,7 +222,7 @@ class AfterFileCommandProcessedEventListenerTest extends UnitTestCase
         $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $file->expects(self::once())->method('getType')->willReturn(File::FILETYPE_IMAGE);
 
-        $result = $this->callInaccessibleMethod($this->eventListener, 'isPurgingOfImgixCacheRequired', $command, $conflictMode, $file);
+        $result = $this->eventListener->_call('isPurgingOfImgixCacheRequired', $command, $conflictMode, $file);
         $this->assertTrue($result);
     }
 }

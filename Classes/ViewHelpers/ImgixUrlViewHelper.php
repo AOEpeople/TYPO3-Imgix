@@ -34,11 +34,9 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class ImgixUrlViewHelper extends AbstractViewHelper
 {
-    private Configuration $configuration;
-
-    public function __construct(Configuration $configuration)
-    {
-        $this->configuration = $configuration;
+    public function __construct(
+        private readonly Configuration $configuration
+    ) {
     }
 
     public function initializeArguments(): void
@@ -54,9 +52,9 @@ class ImgixUrlViewHelper extends AbstractViewHelper
             return $this->arguments['imageUrl'];
         }
 
-        if (str_starts_with($this->arguments['imageUrl'], 'https')) {
+        if (str_starts_with((string) $this->arguments['imageUrl'], 'https')) {
             $httpHost = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
-            $url = str_replace($httpHost, '//' . $this->configuration->getHost(), $this->arguments['imageUrl']);
+            $url = str_replace($httpHost, '//' . $this->configuration->getHost(), (string) $this->arguments['imageUrl']);
         } else {
             $url = '//' . $this->configuration->getHost() . '/' . $this->arguments['imageUrl'];
         }

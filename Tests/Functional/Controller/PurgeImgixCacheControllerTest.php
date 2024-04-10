@@ -29,18 +29,18 @@ namespace Aoe\Imgix\Tests\Functional\Controller;
  ***************************************************************/
 
 use Aoe\Imgix\Controller\PurgeImgixCacheController;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Request;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class PurgeImgixCacheControllerTest extends FunctionalTestCase
 {
     /**
-     * @var array
      * Load all TYPO3-extensions, which we use in our depencency/constructor-injection
      */
-    protected $testExtensionsToLoad = ['typo3conf/ext/imgix'];
+    protected array $testExtensionsToLoad = ['typo3conf/ext/imgix'];
 
     private PurgeImgixCacheController $controller;
 
@@ -65,7 +65,12 @@ class PurgeImgixCacheControllerTest extends FunctionalTestCase
             ->withPluginName('PurgeImgixCachePluginName');
         $GLOBALS['TYPO3_REQUEST'] = $request;
 
-        $content = (string) $this->controller->processRequest($request)->getBody();
+        $languageService = $this->getMockBuilder(LanguageService::class)->disableOriginalConstructor()->getMock();
+        $languageService->init('default');
+        $GLOBALS['LANG'] = $languageService;
+
+        $content = (string) $this->controller->processRequest($request)
+            ->getBody();
         $this->assertStringContainsString(
             '<h2>Purge imgix-cache for an image</h2>',
             $content

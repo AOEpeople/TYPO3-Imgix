@@ -30,7 +30,7 @@ namespace Aoe\Imgix\Tests\ViewHelpers;
 
 use Aoe\Imgix\TYPO3\Configuration;
 use Aoe\Imgix\ViewHelpers\ImgixUrlViewHelper;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ImgixUrlViewHelperTest extends UnitTestCase
 {
@@ -48,21 +48,29 @@ class ImgixUrlViewHelperTest extends UnitTestCase
 
     public function testShouldRenderImageUrlWithoutImgixHostWhenImgixIsNotEnabled(): void
     {
-        $this->configuration->expects($this->once())->method('isEnabled')->willReturn(false);
+        $this->configuration
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(false);
         $this->viewHelper->setArguments([
             'imageUrl' => 'test-url',
         ]);
         $this->assertSame('test-url', $this->viewHelper->render());
     }
 
-    /**
-     * @dataProvider
-     */
     public function testShouldRenderImageUrlWithImgixHostWhenImgixIsEnabled(): void
     {
-        $this->configuration->expects($this->once())->method('isEnabled')->willReturn(true);
-        $this->configuration->expects($this->once())->method('getHost')->willReturn('aoe.host');
-        $this->configuration->method('getImgixDefaultUrlParameters')->willReturn([]);
+        $this->configuration
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(true);
+        $this->configuration
+            ->expects($this->once())
+            ->method('getHost')
+            ->willReturn('aoe.host');
+        $this->configuration
+            ->method('getImgixDefaultUrlParameters')
+            ->willReturn([]);
         $this->viewHelper->setArguments([
             'imageUrl' => 'test-url',
         ]);
@@ -72,11 +80,22 @@ class ImgixUrlViewHelperTest extends UnitTestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testShouldRenderImageUrlWithParameters(array $defaultParameters, array $givenParameters, string $expectedParameterString): void
-    {
-        $this->configuration->expects($this->once())->method('isEnabled')->willReturn(true);
-        $this->configuration->expects($this->once())->method('getHost')->willReturn('aoe.host');
-        $this->configuration->method('getImgixDefaultUrlParameters')->willReturn($defaultParameters);
+    public function testShouldRenderImageUrlWithParameters(
+        array $defaultParameters,
+        array $givenParameters,
+        string $expectedParameterString
+    ): void {
+        $this->configuration
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(true);
+        $this->configuration
+            ->expects($this->once())
+            ->method('getHost')
+            ->willReturn('aoe.host');
+        $this->configuration
+            ->method('getImgixDefaultUrlParameters')
+            ->willReturn($defaultParameters);
         $this->viewHelper->setArguments([
             'imageUrl' => 'test-url',
             'urlParameters' => $givenParameters,
@@ -84,7 +103,7 @@ class ImgixUrlViewHelperTest extends UnitTestCase
         $this->assertSame('//aoe.host/test-url' . $expectedParameterString, $this->viewHelper->render());
     }
 
-    public function parameterProvider(): array
+    public static function parameterProvider(): array
     {
         return [
             [

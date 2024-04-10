@@ -58,6 +58,7 @@ class PurgeImgixCacheErrorHandler
             $errorMessageDetails[] = ' curlErrorMessage: ' . $result->getCurlErrorMessage();
             $errorMessageDetails[] = ' curlErrorCode: ' . $result->getCurlErrorCode();
         }
+
         $messageKey = 'PurgeImgixCacheErrorHandler.couldNotPurgeImgixCacheOnFailedRestRequest';
         $message = $this->getLanguageService()
             ->sL('LLL:EXT:imgix/Resources/Private/Language/locallang.xlf:' . $messageKey);
