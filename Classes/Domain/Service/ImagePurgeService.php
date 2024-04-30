@@ -40,10 +40,14 @@ class ImagePurgeService
      */
     public const IMG_PURGE_REQUEST_URL = 'https://api.imgix.com/api/v1/purge';
 
-    public function __construct(
-        private readonly Configuration $configuration,
-        private readonly PurgeImgixCacheErrorHandler $errorHandler
-    ) {
+    private Configuration $configuration;
+
+    private PurgeImgixCacheErrorHandler $errorHandler;
+
+    public function __construct(Configuration $configuration, PurgeImgixCacheErrorHandler $errorHandler)
+    {
+        $this->configuration = $configuration;
+        $this->errorHandler = $errorHandler;
     }
 
     public function getErrorHandler(): PurgeImgixCacheErrorHandler

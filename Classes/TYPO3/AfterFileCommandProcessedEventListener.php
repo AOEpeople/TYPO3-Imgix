@@ -35,10 +35,14 @@ use TYPO3\CMS\Core\Resource\File;
 
 class AfterFileCommandProcessedEventListener
 {
-    public function __construct(
-        private readonly Configuration $configuration,
-        private readonly ImagePurgeService $imagePurgeService
-    ) {
+    private Configuration $configuration;
+
+    private ImagePurgeService $imagePurgeService;
+
+    public function __construct(Configuration $configuration, ImagePurgeService $imagePurgeService)
+    {
+        $this->configuration = $configuration;
+        $this->imagePurgeService = $imagePurgeService;
     }
 
     public function __invoke(AfterFileCommandProcessedEvent $event): void
