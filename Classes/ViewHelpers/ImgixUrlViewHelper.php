@@ -54,7 +54,7 @@ class ImgixUrlViewHelper extends AbstractViewHelper
             return $this->arguments['imageUrl'];
         }
 
-        if (str_starts_with((string) $this->arguments['imageUrl'], 'https')) {
+        if (isset($this->arguments['imageUrl']) && str_starts_with((string) $this->arguments['imageUrl'], 'https')) {
             $httpHost = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
             $url = str_replace($httpHost, '//' . $this->configuration->getHost(), (string) $this->arguments['imageUrl']);
         } else {
